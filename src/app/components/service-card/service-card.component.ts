@@ -41,6 +41,10 @@ import { Router } from '@angular/router';
     </div>
   `,
   styles: [`
+    :host {
+      display: block;
+    }
+
     .service-card {
       position: relative;
       height: 400px;
@@ -122,10 +126,11 @@ import { Router } from '@angular/router';
       right: 0;
       bottom: 0;
       background: rgba(26, 29, 35, 0.97);
-      padding: 40px;
+      padding: 24px;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      overflow-y: auto;
       opacity: 0;
       visibility: hidden;
       transition: all 0.4s ease;
@@ -143,36 +148,41 @@ import { Router } from '@angular/router';
 
     .hover-title {
       color: var(--primary-gold);
-      font-size: 24px;
+      font-size: 20px;
       font-weight: 800;
-      margin-bottom: 15px;
+      margin-bottom: 8px;
+      flex-shrink: 0;
     }
 
     .hover-description {
       color: rgba(255, 255, 255, 0.9);
-      font-size: 15px;
-      line-height: 1.6;
-      margin-bottom: 20px;
+      font-size: 13px;
+      line-height: 1.5;
+      margin-bottom: 12px;
+      flex-shrink: 0;
     }
 
     .hover-features {
       list-style: none;
-      margin: 0 0 25px 0;
+      margin: 0 0 14px 0;
       padding: 0;
+      flex-shrink: 0;
     }
 
     .hover-features li {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 8px 0;
+      gap: 10px;
+      padding: 4px 0;
       color: rgba(255, 255, 255, 0.85);
-      font-size: 14px;
+      font-size: 13px;
+      line-height: 1.3;
     }
 
     .check {
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
+      min-width: 20px;
       background: var(--primary-gold);
       color: var(--dark-primary);
       border-radius: 50%;
@@ -180,26 +190,27 @@ import { Router } from '@angular/router';
       align-items: center;
       justify-content: center;
       font-weight: 900;
-      font-size: 12px;
+      font-size: 10px;
       flex-shrink: 0;
     }
 
     .btn-primary-hover {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
-      padding: 15px 35px;
+      gap: 10px;
+      padding: 11px 26px;
       background: var(--primary-gold);
       color: var(--dark-primary);
       border: none;
       border-radius: 50px;
       font-weight: 700;
-      font-size: 15px;
+      font-size: 13px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       cursor: pointer;
       transition: all 0.3s ease;
       width: fit-content;
+      flex-shrink: 0;
       box-shadow: 0 4px 20px rgba(229, 198, 67, 0.3);
     }
 
@@ -229,11 +240,26 @@ import { Router } from '@angular/router';
       }
 
       .hover-title {
-        font-size: 20px;
+        font-size: 18px;
+      }
+
+      .hover-description {
+        font-size: 12px;
+        margin-bottom: 10px;
+      }
+
+      .hover-features li {
+        font-size: 12px;
+        padding: 3px 0;
       }
 
       .card-hover-content {
-        padding: 30px 20px;
+        padding: 20px 16px;
+      }
+
+      .btn-primary-hover {
+        padding: 10px 22px;
+        font-size: 12px;
       }
     }
   `]
