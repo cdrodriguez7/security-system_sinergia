@@ -1,0 +1,465 @@
+<app-navbar></app-navbar>
+<app-hero></app-hero>
+
+<!-- CTA BAND -->
+<section class="cta-band">
+  <div class="container">
+    <div class="cta-content">
+      <div class="cta-text">
+        <h3>¿Necesita protección inmediata o consultoría especializada?</h3>
+        <p>Nuestro equipo está disponible 24/7 para atender emergencias y programar evaluaciones de riesgo.</p>
+      </div>
+      <div class="cta-actions">
+        <a href="tel:+593999999999" class="cta-phone">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M3 5a2 2 0 0 1 2-2h3.28a1 1 0 0 1 .948.684l1.498 4.493a1 1 0 0 1-.502 1.21l-2.257 1.13a11.042 11.042 0 0 0 5.516 5.516l1.13-2.257a1 1 0 0 1 1.21-.502l4.493 1.498a1 1 0 0 1 .684.949V19a2 2 0 0 1-2 2h-1C9.716 21 3 14.284 3 6V5z" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <div>
+            <span class="label">Llamar ahora</span>
+            <span class="number">+593-999-999-999</span>
+          </div>
+        </a>
+        <button class="btn btn-dark" (click)="navigateTo('/contacto')">
+          Solicitar Evaluación
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M7 4L13 10L7 16" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS -->
+<section id="services" class="section services-section">
+  <div class="container">
+    <div class="section-title">
+      <span class="section-label">QUÉ HACEMOS</span>
+      <h2>Nuestros Servicios</h2>
+      <p class="section-subtitle">
+        Soluciones integrales de seguridad adaptadas a las necesidades específicas de su empresa u organización
+      </p>
+    </div>
+    
+    <div class="services-grid">
+      <app-service-card
+        *ngFor="let service of services"
+        [title]="service.title"
+        [description]="service.description"
+        [features]="service.features"
+        [imageUrl]="service.imageUrl"
+        [route]="service.route">
+      </app-service-card>
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE NOSOTROS -->
+<section id="about" class="section about-section">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-image">
+        <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&h=600&fit=crop" 
+             alt="Equipo Sinergia Security">
+        <div class="image-overlay">
+          <div class="overlay-badge">
+            <span class="badge-number">{{ aboutData.years }}+</span>
+            <span class="badge-text">Años de Experiencia</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="about-content">
+        <span class="section-label">QUIÉNES SOMOS</span>
+        <h2>14 Años Protegiendo lo que Más Importa</h2>
+        <p class="about-text">
+          Sinergia Security nace en 2012 con la visión de proporcionar servicios de seguridad ejecutiva 
+          y gestión de riesgo crítico de nivel internacional en Ecuador. Fundada por ex-miembros de las 
+          Fuerzas Especiales del Ecuador, combinamos experiencia militar de élite con protocolos civiles 
+          de protección ejecutiva certificados internacionalmente.
+        </p>
+        <p class="about-text">
+          Operamos bajo estrictos estándares de confidencialidad, profesionalismo y efectividad. Nuestro 
+          equipo de 75+ especialistas está certificado en metodologías internacionales de close protection, 
+          gestión de crisis K&R, y respuesta táctica ante amenazas críticas.
+        </p>
+        
+        <div class="about-stats">
+          <div class="stat-box">
+            <div class="stat-number">{{ aboutData.clients }}+</div>
+            <div class="stat-label">Clientes Protegidos</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-number">{{ aboutData.operations | number }}+</div>
+            <div class="stat-label">Operaciones Exitosas</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-number">{{ aboutData.coverage }}</div>
+            <div class="stat-label">Provincias Cubiertas</div>
+          </div>
+        </div>
+        
+        <div class="about-ctas">
+          <button class="btn btn-primary" (click)="navigateTo('/empresa')">
+            Conocer Más
+          </button>
+          <button class="btn btn-secondary" (click)="navigateTo('/equipo')">
+            Nuestro Equipo
+          </button>
+        </div>
+        
+        <div class="certifications">
+          <span class="cert-label">Certificaciones:</span>
+          <div class="cert-badges">
+            <span class="cert-badge">ISO 9001</span>
+            <span class="cert-badge">Close Protection Int.</span>
+            <span class="cert-badge">Crisis Management</span>
+            <span class="cert-badge">K&R Specialist</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COBERTURA NACIONAL -->
+<section id="coverage" class="section coverage-section">
+  <div class="container">
+    <div class="section-title">
+      <span class="section-label">DÓNDE OPERAMOS</span>
+      <h2>Cobertura Nacional</h2>
+      <p class="section-subtitle">
+        Presencia estratégica en las 24 provincias del Ecuador con respuesta rápida garantizada
+      </p>
+    </div>
+    
+    <div class="coverage-grid">
+      <div class="coverage-map">
+        <div class="map-container">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Ecuador_location_map.svg/500px-Ecuador_location_map.svg.png" 
+               alt="Mapa Ecuador"
+               class="ecuador-map">
+          <div class="map-markers">
+            <div class="marker marker-primary" style="top: 45%; left: 35%;" title="Guayaquil - Base Principal">
+              <div class="marker-pulse"></div>
+              <span class="marker-label">Guayaquil</span>
+            </div>
+            <div class="marker marker-secondary" style="top: 85%; left: 65%;" title="Zamora - Operaciones Mineras">
+              <div class="marker-pulse"></div>
+              <span class="marker-label">Zamora</span>
+            </div>
+            <div class="marker marker-tertiary" style="top: 20%; left: 45%;" title="Quito">
+              <div class="marker-pulse"></div>
+              <span class="marker-label">Quito</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="coverage-data">
+        <h3>Distribución de Operaciones 2024</h3>
+        <p class="coverage-intro">
+          Nuestras principales zonas de operación reflejan la concentración de actividad económica 
+          y los requerimientos específicos de seguridad en cada región.
+        </p>
+        
+        <div class="coverage-bars">
+          <div class="coverage-item" *ngFor="let item of coverageData">
+            <div class="coverage-header">
+              <span class="coverage-name">{{ item.province }}</span>
+              <span class="coverage-percentage">{{ item.percentage }}%</span>
+            </div>
+            <div class="coverage-bar">
+              <div class="coverage-fill" [style.width.%]="item.percentage"></div>
+            </div>
+            <div class="coverage-count">{{ item.operations | number }} operaciones</div>
+          </div>
+        </div>
+        
+        <div class="coverage-highlights">
+          <div class="highlight-box">
+            <div class="highlight-icon">🏢</div>
+            <div class="highlight-content">
+              <h4>Oficina Principal</h4>
+              <p>Guayaquil - Centro financiero</p>
+            </div>
+          </div>
+          <div class="highlight-box">
+            <div class="highlight-icon">⛏️</div>
+            <div class="highlight-content">
+              <h4>Base Operativa Minera</h4>
+              <p>Zamora - Zona extractiva</p>
+            </div>
+          </div>
+          <div class="highlight-box">
+            <div class="highlight-icon">🏛️</div>
+            <div class="highlight-content">
+              <h4>Coordinación Institucional</h4>
+              <p>Quito - Sede gubernamental</p>
+            </div>
+          </div>
+        </div>
+        
+        <button class="btn btn-primary" (click)="navigateTo('/cobertura')">
+          Ver Cobertura Completa
+        </button>
+      </div>
+    </div>
+    
+    <div class="response-times">
+      <h3>Tiempos de Respuesta Garantizados</h3>
+      <div class="response-grid">
+        <div class="response-card">
+          <div class="response-time">&lt; 1hr</div>
+          <div class="response-label">Guayaquil, Quito, Cuenca</div>
+        </div>
+        <div class="response-card">
+          <div class="response-time">&lt; 2hrs</div>
+          <div class="response-label">Capitales provinciales</div>
+        </div>
+        <div class="response-card">
+          <div class="response-time">&lt; 4hrs</div>
+          <div class="response-label">Zonas remotas / mineras</div>
+        </div>
+        <div class="response-card">
+          <div class="response-time">24/7</div>
+          <div class="response-label">Monitoreo continuo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASOS DE ÉXITO -->
+<section id="cases" class="section cases-section">
+  <div class="container">
+    <div class="section-title">
+      <span class="section-label">RESULTADOS COMPROBADOS</span>
+      <h2>Lo Que Dicen Nuestros Clientes</h2>
+      <p class="section-subtitle">
+        Testimonios verificados de clientes que han confiado su seguridad a Sinergia
+      </p>
+    </div>
+    
+    <div class="testimonials-grid">
+      <div class="testimonial-card" *ngFor="let testimonial of testimonials">
+        <div class="testimonial-header">
+          <img [src]="testimonial.image" [alt]="testimonial.author" class="testimonial-avatar">
+          <div class="testimonial-author-info">
+            <h4 class="testimonial-author">{{ testimonial.author }}</h4>
+            <p class="testimonial-position">{{ testimonial.position }}</p>
+            <p class="testimonial-company">{{ testimonial.company }}</p>
+          </div>
+          <div class="testimonial-rating">
+            <span class="star" *ngFor="let star of [1,2,3,4,5]">⭐</span>
+          </div>
+        </div>
+        <div class="testimonial-content">
+          <p class="testimonial-text">"{{ testimonial.text }}"</p>
+        </div>
+        <div class="testimonial-badge">Testimonio Verificado ✓</div>
+      </div>
+    </div>
+    
+    <div class="cases-stats">
+      <div class="case-stat">
+        <div class="case-number">100%</div>
+        <div class="case-label">Tasa de éxito en crisis K&R</div>
+      </div>
+      <div class="case-stat">
+        <div class="case-number">0</div>
+        <div class="case-label">Incidentes graves en protección ejecutiva</div>
+      </div>
+      <div class="case-stat">
+        <div class="case-number">12,000+</div>
+        <div class="case-label">Operaciones completadas</div>
+      </div>
+      <div class="case-stat">
+        <div class="case-number">98%</div>
+        <div class="case-label">Satisfacción del cliente</div>
+      </div>
+    </div>
+    
+    <div class="cases-cta">
+      <button class="btn btn-primary btn-lg" (click)="navigateTo('/casos')">
+        Ver Casos de Éxito Completos
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- NUESTRO EQUIPO -->
+<section id="team" class="section team-section">
+  <div class="container">
+    <div class="section-title">
+      <span class="section-label">QUIÉNES PROTEGEN</span>
+      <h2>Nuestro Equipo de Elite</h2>
+      <p class="section-subtitle">
+        75+ especialistas certificados con experiencia en Fuerzas Especiales, GIR, y protección ejecutiva internacional
+      </p>
+    </div>
+    
+    <div class="team-grid">
+      <div class="team-card" *ngFor="let member of teamMembers">
+        <div class="team-image">
+          <img [src]="member.image" [alt]="member.name">
+          <div class="team-overlay">
+            <button class="btn-view-profile" (click)="navigateTo('/equipo')">Ver Perfil</button>
+          </div>
+        </div>
+        <div class="team-content">
+          <h3 class="team-name">{{ member.name }}</h3>
+          <p class="team-position">{{ member.position }}</p>
+          <p class="team-experience">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M8 2L10 6L14 6.5L11 10L12 14L8 12L4 14L5 10L2 6.5L6 6L8 2Z" fill="currentColor"/>
+            </svg>
+            {{ member.experience }}
+          </p>
+          <div class="team-certifications">
+            <span class="cert-tag" *ngFor="let cert of member.certifications">{{ cert }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="team-info">
+      <div class="info-box">
+        <h4>Requisitos de Selección</h4>
+        <ul>
+          <li>Experiencia militar o policial de élite</li>
+          <li>Certificaciones internacionales vigentes</li>
+          <li>Evaluaciones psicológicas aprobadas</li>
+          <li>Entrenamiento continuo obligatorio</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <h4>Capacitación Continua</h4>
+        <ul>
+          <li>200+ horas anuales de entrenamiento</li>
+          <li>Simulacros tácticos mensuales</li>
+          <li>Actualización en protocolos internacionales</li>
+          <li>Certificaciones renovadas anualmente</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="team-cta">
+      <button class="btn btn-primary btn-lg" (click)="navigateTo('/equipo')">
+        Conocer Todo el Equipo
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO CTA -->
+<section class="contact-cta-section">
+  <div class="container">
+    <div class="contact-cta-content">
+      <h2>¿Listo para Proteger lo que Más Importa?</h2>
+      <p>Solicite una evaluación de riesgo gratuita y sin compromiso. Nuestro equipo le contactará en menos de 24 horas.</p>
+      <div class="contact-cta-buttons">
+        <button class="btn btn-primary btn-lg" (click)="navigateTo('/contacto')">
+          Solicitar Evaluación Gratuita
+        </button>
+        <a href="tel:+593999999999" class="btn btn-secondary btn-lg">
+          📞 Llamar Ahora (24/7)
+        </a>
+      </div>
+      <p class="contact-cta-note">
+        Tiempo de respuesta promedio: <strong>2 horas</strong> | 
+        Evaluación sin costo | Confidencialidad garantizada
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-column">
+        <div class="footer-logo">
+          <div class="logo-icon">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+              <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="2"/>
+              <path d="M20 10 L20 30 M10 20 L30 20" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="logo-text">
+            <span class="logo-name">SINERGIA</span>
+            <span class="logo-tagline">Security Solutions</span>
+          </div>
+        </div>
+        <p class="footer-description">
+          Protección ejecutiva y gestión de riesgo crítico con 14 años de experiencia 
+          en Ecuador. Certificados internacionalmente.
+        </p>
+        <div class="footer-emergency">
+          <span class="emergency-label">🚨 Emergencia 24/7</span>
+          <a href="tel:+593999999999" class="emergency-number">+593-999-999-999</a>
+        </div>
+      </div>
+      
+      <div class="footer-column">
+        <h4>Servicios</h4>
+        <ul>
+          <li><a (click)="navigateTo('/servicios/proteccion-ejecutiva')">Protección Ejecutiva</a></li>
+          <li><a (click)="navigateTo('/servicios/seguridad-minera')">Seguridad Minera</a></li>
+          <li><a (click)="navigateTo('/servicios/transporte-valores')">Transporte de Valores</a></li>
+          <li><a (click)="navigateTo('/servicios/crisis-kr')">Gestión Crisis K&R</a></li>
+          <li><a (click)="navigateTo('/servicios/academy')">Sinergia Academy</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h4>Empresa</h4>
+        <ul>
+          <li><a (click)="navigateTo('/empresa')">Sobre Nosotros</a></li>
+          <li><a (click)="navigateTo('/equipo')">Nuestro Equipo</a></li>
+          <li><a (click)="navigateTo('/cobertura')">Cobertura Nacional</a></li>
+          <li><a (click)="navigateTo('/casos')">Casos de Éxito</a></li>
+          <li><a (click)="navigateTo('/contacto')">Contacto</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h4>Certificaciones</h4>
+        <div class="footer-badges">
+          <span class="footer-badge">ISO 9001</span>
+          <span class="footer-badge">Close Protection</span>
+          <span class="footer-badge">K&R Specialist</span>
+          <span class="footer-badge">Crisis Management</span>
+        </div>
+        <h4 style="margin-top: 20px;">Ubicación</h4>
+        <p class="footer-location">
+          📍 Guayaquil, Ecuador<br>
+          📧 info&#64;sinergia-security.com<br>
+          🌐 www.sinergia-security.com
+        </p>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <div class="footer-copyright">
+        © 2026 SINERGIA Security. Todos los derechos reservados.
+      </div>
+      <div class="footer-legal">
+        <a href="#">Política de Privacidad</a>
+        <span>|</span>
+        <a href="#">Términos de Servicio</a>
+        <span>|</span>
+        <a href="#">Licencias Vigentes</a>
+      </div>
+    </div>
+    
+    <div class="footer-disclaimer">
+      <p>
+        <strong>Nota Legal:</strong> Sinergia Security opera bajo licencia de seguridad privada vigente 
+        otorgada por las autoridades ecuatorianas competentes. Todos los servicios se prestan en estricto 
+        cumplimiento de la normativa nacional aplicable. La información sensible de clientes y operaciones 
+        está protegida bajo acuerdos de confidencialidad (NDA).
+      </p>
+    </div>
+  </div>
+</footer>

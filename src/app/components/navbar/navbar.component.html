@@ -1,0 +1,92 @@
+<nav class="navbar" [class.scrolled]="isScrolled">
+  <div class="container">
+    <div class="navbar-content">
+      
+      <!-- Logo -->
+      <div class="logo" (click)="navigateTo('/')">
+        <div class="logo-icon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="2"/>
+            <path d="M20 10 L20 30 M10 20 L30 20" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <span class="logo-name">SINERGIA</span>
+          <span class="logo-tagline">Security Solutions</span>
+        </div>
+      </div>
+
+      <!-- Desktop Menu -->
+      <ul class="nav-menu">
+        <li><a (click)="scrollToSection('hero')">INICIO</a></li>
+        
+        <li class="dropdown" 
+            (mouseenter)="activeDropdown = 'servicios'" 
+            (mouseleave)="closeDropdown()">
+          <a>SERVICIOS <span class="arrow">▼</span></a>
+          <div class="dropdown-menu" *ngIf="activeDropdown === 'servicios'">
+            <a (click)="navigateTo('/servicios/proteccion-ejecutiva')">Protección Ejecutiva</a>
+            <a (click)="navigateTo('/servicios/seguridad-minera')">Seguridad Minera</a>
+            <a (click)="navigateTo('/servicios/transporte-valores')">Transporte de Valores</a>
+            <a (click)="navigateTo('/servicios/crisis-kr')">Gestión Crisis K&R</a>
+            <a (click)="navigateTo('/servicios/academy')">Sinergia Academy</a>
+            <a (click)="navigateTo('/servicios/app')">App Sinergia</a>
+          </div>
+        </li>
+
+        <li><a (click)="navigateTo('/empresa')">EMPRESA</a></li>
+        <li><a (click)="navigateTo('/cobertura')">COBERTURA</a></li>
+        <li><a (click)="navigateTo('/casos')">CASOS</a></li>
+        <li><a (click)="navigateTo('/equipo')">EQUIPO</a></li>
+        <li><a (click)="navigateTo('/contacto')">CONTACTO</a></li>
+      </ul>
+
+      <!-- CTA Buttons -->
+      <div class="nav-actions">
+        <a href="tel:+593999999999" class="btn-phone">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M2 3C2 2.44772 2.44772 2 3 2H5.15287C5.64171 2 6.0589 2.35341 6.13927 2.8356L6.87858 7.27147C6.95075 7.70451 6.73206 8.13397 6.3394 8.3303L4.79126 9.10437C5.90756 11.8783 8.12168 14.0924 10.8956 15.2087L11.6697 13.6606C11.866 13.2679 12.2955 13.0492 12.7285 13.1214L17.1644 13.8607C17.6466 13.9411 18 14.3583 18 14.8471V17C18 17.5523 17.5523 18 17 18H15C7.8203 18 2 12.1797 2 5V3Z" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+          <span>Emergencia 24/7</span>
+        </a>
+        <button class="btn btn-primary" (click)="scrollToSection('contact')">
+          Evaluación Gratuita
+        </button>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <button class="mobile-toggle" (click)="toggleMobileMenu()" [class.active]="isMobileMenuOpen">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" [class.active]="isMobileMenuOpen">
+    <ul>
+      <li><a (click)="scrollToSection('hero')">Inicio</a></li>
+      <li><a (click)="navigateTo('/servicios/proteccion-ejecutiva')">Protección Ejecutiva</a></li>
+      <li><a (click)="navigateTo('/servicios/seguridad-minera')">Seguridad Minera</a></li>
+      <li><a (click)="navigateTo('/servicios/transporte-valores')">Transporte de Valores</a></li>
+      <li><a (click)="navigateTo('/servicios/crisis-kr')">Gestión Crisis K&R</a></li>
+      <li><a (click)="navigateTo('/servicios/academy')">Academy</a></li>
+      <li><a (click)="navigateTo('/empresa')">Empresa</a></li>
+      <li><a (click)="navigateTo('/cobertura')">Cobertura</a></li>
+      <li><a (click)="navigateTo('/casos')">Casos de Éxito</a></li>
+      <li><a (click)="navigateTo('/equipo')">Equipo</a></li>
+      <li><a (click)="navigateTo('/contacto')">Contacto</a></li>
+      <li>
+        <a href="tel:+593999999999" class="mobile-phone">
+          📞 Emergencia 24/7
+        </a>
+      </li>
+      <li>
+        <button class="btn btn-primary btn-block" (click)="navigateTo('/contacto')">
+          Evaluación Gratuita
+        </button>
+      </li>
+    </ul>
+  </div>
+</nav>

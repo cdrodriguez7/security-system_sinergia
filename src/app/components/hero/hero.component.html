@@ -1,0 +1,92 @@
+<section id="hero" class="hero-section">
+  <!-- Slider de Hero -->
+  <div class="hero-slider">
+    <div class="slides-container">
+      <div *ngFor="let slide of slides; let i = index" 
+           class="slide" 
+           [class.active]="currentSlide === i">
+        <div class="slide-background"></div>
+        <div class="dark-overlay"></div>
+        
+        <div class="container">
+          <div class="hero-content">
+            <!-- Texto vertical lateral -->
+            <div class="vertical-text">
+              SOLUCIONES INTEGRALES DE SEGURIDAD
+            </div>
+
+            <!-- Contenido principal -->
+            <div class="main-content">
+              <div class="badge-group">
+                <span class="badge">🛡️ Certificados Internacionalmente</span>
+                <span class="badge">📍 Cobertura Nacional</span>
+              </div>
+
+              <h1 class="hero-title">
+                <span class="text-gold">{{ slide.subtitle }}</span>
+                <br>
+                {{ slide.title }}
+              </h1>
+
+              <p class="hero-description">
+                {{ slide.description }}
+              </p>
+
+              <div class="hero-actions">
+                <button class="btn btn-primary btn-lg" (click)="scrollToSection('contact')">
+                  {{ slide.cta }}
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M7 4L13 10L7 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </button>
+                <button class="btn btn-secondary btn-lg" (click)="scrollToSection('services')">
+                  {{ slide.ctaSecondary }}
+                </button>
+              </div>
+
+              <!-- Estadísticas -->
+              <div class="hero-stats">
+                <div class="stat-item" *ngFor="let stat of stats">
+                  <div class="stat-icon">{{ stat.icon }}</div>
+                  <div class="stat-content">
+                    <div class="stat-number">{{ stat.number }}</div>
+                    <div class="stat-label">{{ stat.label }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controles del slider -->
+    <div class="slider-controls">
+      <button class="control-btn prev" (click)="prevSlide()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <button class="control-btn next" (click)="nextSlide()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Indicadores -->
+    <div class="slider-indicators">
+      <button *ngFor="let slide of slides; let i = index" 
+              class="indicator" 
+              [class.active]="currentSlide === i"
+              (click)="goToSlide(i)">
+      </button>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="scroll-indicator">
+      <div class="scroll-line"></div>
+      <div class="scroll-text">SCROLL</div>
+    </div>
+  </div>
+</section>
