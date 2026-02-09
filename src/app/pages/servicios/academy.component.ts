@@ -18,7 +18,9 @@ import { NavbarComponent } from '../../components/navbar/navbar.component';
     <section class="section">
       <div class="container">
         <h2>Cursos y Capacitación</h2>
-        <p>Contenido en desarrollo...</p>
+        <p>
+        
+        </p>
         <button class="btn btn-primary" (click)="navigateTo('/contacto')">Solicitar Información</button>
       </div>
     </section>

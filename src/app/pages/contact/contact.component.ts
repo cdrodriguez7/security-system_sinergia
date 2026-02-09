@@ -18,7 +18,9 @@ import { NavbarComponent } from '../../components/navbar/navbar.component';
     <section class="section">
       <div class="container">
         <h2>Formulario de Contacto</h2>
-        <p>Contenido en desarrollo...</p>
+        <p>
+        
+        </p>
         <div style="margin-top: 30px;">
           <a href="tel:+593999999999" class="btn btn-primary">📞 Llamar Ahora</a>
         </div>

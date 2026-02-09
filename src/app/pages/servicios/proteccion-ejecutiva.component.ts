@@ -39,22 +39,22 @@ import { NavbarComponent } from '../../components/navbar/navbar.component';
 
         <div class="features-grid">
           <div class="feature-card">
-            <div class="feature-icon">🛡️</div>
+            <div class="feature-icon"></div>
             <h3>Close Protection 24/7</h3>
             <p>Equipo de escolta personal entrenado en metodologías internacionales</p>
           </div>
           <div class="feature-card">
-            <div class="feature-icon">📊</div>
+            <div class="feature-icon"></div>
             <h3>Análisis de Amenazas</h3>
             <p>Evaluación continua de riesgos y vulnerabilidades</p>
           </div>
           <div class="feature-card">
-            <div class="feature-icon">🚗</div>
+            <div class="feature-icon"></div>
             <h3>Movilidad Segura</h3>
             <p>Vehículos blindados y rutas seguras predefinidas</p>
           </div>
           <div class="feature-card">
-            <div class="feature-icon">📡</div>
+            <div class="feature-icon"></div>
             <h3>Monitoreo GPS</h3>
             <p>Rastreo en tiempo real y comunicaciones encriptadas</p>
           </div>

@@ -18,7 +18,9 @@ import { NavbarComponent } from '../../components/navbar/navbar.component';
     <section class="section">
       <div class="container">
         <h2>App Móvil</h2>
-        <p>Contenido en desarrollo...</p>
+        <p>
+        
+        </p>
         <button class="btn btn-primary" (click)="navigateTo('/contacto')">Unirse al Beta</button>
       </div>
     </section>

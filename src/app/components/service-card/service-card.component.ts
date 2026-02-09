@@ -43,7 +43,7 @@ import { Router } from '@angular/router';
   styles: [`
     .service-card {
       position: relative;
-      height: 400px;
+      height: 450px;
       border-radius: 20px;
       overflow: hidden;
       cursor: pointer;
@@ -60,9 +60,9 @@ import { Router } from '@angular/router';
       bottom: 0;
       background: linear-gradient(
         180deg,
-        rgba(26, 29, 35, 0.3) 0%,
-        rgba(26, 29, 35, 0.7) 50%,
-        rgba(26, 29, 35, 0.9) 100%
+        rgba(26, 29, 35, 0.2) 0%,
+        rgba(26, 29, 35, 0.6) 40%,
+        rgba(26, 29, 35, 0.95) 100%
       );
       transition: all 0.4s ease;
     }
@@ -74,17 +74,18 @@ import { Router } from '@angular/router';
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      padding: 30px;
+      padding: 35px;
       transition: all 0.4s ease;
     }
 
     .card-title {
       color: var(--text-light);
-      font-size: 28px;
+      font-size: clamp(24px, 2.5vw, 32px);
       font-weight: 800;
       margin-bottom: 20px;
-      line-height: 1.2;
+      line-height: 1.1;
       transition: all 0.4s ease;
+      max-width: 90%;
     }
 
     .btn-read-more {
@@ -121,11 +122,15 @@ import { Router } from '@angular/router';
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(26, 29, 35, 0.97);
-      padding: 40px;
+      background: linear-gradient(
+        135deg,
+        rgba(26, 29, 35, 0.98) 0%,
+        rgba(42, 47, 54, 0.98) 100%
+      );
+      padding: 35px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: space-between;
       opacity: 0;
       visibility: hidden;
       transition: all 0.4s ease;
@@ -138,41 +143,59 @@ import { Router } from '@angular/router';
     }
 
     .service-card:hover .card-overlay {
-      background: rgba(26, 29, 35, 0.95);
+      background: rgba(26, 29, 35, 0.98);
     }
 
     .hover-title {
       color: var(--primary-gold);
-      font-size: 24px;
+      font-size: clamp(20px, 2vw, 26px);
       font-weight: 800;
       margin-bottom: 15px;
+      line-height: 1.2;
     }
 
     .hover-description {
       color: rgba(255, 255, 255, 0.9);
-      font-size: 15px;
+      font-size: clamp(14px, 1.2vw, 15px);
       line-height: 1.6;
       margin-bottom: 20px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     .hover-features {
       list-style: none;
-      margin: 0 0 25px 0;
+      margin: 0 0 auto 0;
       padding: 0;
+      flex: 1;
+      overflow-y: auto;
+      max-height: calc(100% - 200px);
+    }
+
+    .hover-features::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .hover-features::-webkit-scrollbar-thumb {
+      background: var(--primary-gold);
+      border-radius: 2px;
     }
 
     .hover-features li {
       display: flex;
-      align-items: center;
-      gap: 12px;
+      align-items: flex-start;
+      gap: 10px;
       padding: 8px 0;
       color: rgba(255, 255, 255, 0.85);
-      font-size: 14px;
+      font-size: clamp(13px, 1.1vw, 14px);
+      line-height: 1.4;
     }
 
     .check {
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
       background: var(--primary-gold);
       color: var(--dark-primary);
       border-radius: 50%;
@@ -180,33 +203,36 @@ import { Router } from '@angular/router';
       align-items: center;
       justify-content: center;
       font-weight: 900;
-      font-size: 12px;
+      font-size: 11px;
       flex-shrink: 0;
+      margin-top: 2px;
     }
 
     .btn-primary-hover {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
-      padding: 15px 35px;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 30px;
       background: var(--primary-gold);
       color: var(--dark-primary);
       border: none;
       border-radius: 50px;
       font-weight: 700;
-      font-size: 15px;
+      font-size: 14px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       cursor: pointer;
       transition: all 0.3s ease;
-      width: fit-content;
-      box-shadow: 0 4px 20px rgba(229, 198, 67, 0.3);
+      width: 100%;
+      margin-top: 20px;
+      box-shadow: 0 4px 15px rgba(229, 198, 67, 0.3);
     }
 
     .btn-primary-hover:hover {
       background: var(--primary-gold-dark);
-      transform: translateY(-3px);
-      box-shadow: 0 8px 30px rgba(229, 198, 67, 0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(229, 198, 67, 0.4);
     }
 
     .btn-primary-hover svg {
@@ -219,21 +245,69 @@ import { Router } from '@angular/router';
     }
 
     /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      .service-card {
+        height: 420px;
+      }
+
+      .card-title {
+        font-size: 26px;
+      }
+
+      .hover-title {
+        font-size: 22px;
+      }
+    }
+
     @media (max-width: 768px) {
       .service-card {
-        height: 350px;
+        height: 380px;
+      }
+
+      .card-content {
+        padding: 25px;
       }
 
       .card-title {
         font-size: 22px;
+        margin-bottom: 15px;
       }
 
       .hover-title {
         font-size: 20px;
       }
 
+      .hover-description {
+        font-size: 14px;
+        -webkit-line-clamp: 2;
+      }
+
       .card-hover-content {
-        padding: 30px 20px;
+        padding: 25px;
+      }
+
+      .hover-features li {
+        font-size: 13px;
+        padding: 6px 0;
+      }
+
+      .btn-primary-hover {
+        padding: 10px 25px;
+        font-size: 13px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .service-card {
+        height: 350px;
+      }
+
+      .card-content {
+        padding: 20px;
+      }
+
+      .card-title {
+        font-size: 20px;
       }
     }
   `]
