@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  background: transparent;
+  background: var(--dark-primary);
   transition: all 0.3s ease;
   padding: 20px 0;
 
@@ -104,6 +104,7 @@
     }
 
     &.dropdown:hover .arrow {
+      position: absolute;
       transform: rotate(180deg);
     }
   }
@@ -162,30 +163,7 @@
   gap: 20px;
 }
 
-.btn-phone {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 20px;
-  background: rgba(229, 198, 67, 0.1);
-  border: 2px solid var(--primary-gold);
-  border-radius: 50px;
-  color: var(--primary-gold);
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition-fast);
 
-  svg {
-    stroke: currentColor;
-  }
-
-  &:hover {
-    background: var(--primary-gold);
-    color: var(--dark-primary);
-    transform: translateY(-2px);
-  }
-}
 
 /* MOBILE TOGGLE */
 .mobile-toggle {
