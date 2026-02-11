@@ -18,7 +18,9 @@ import { ServiceCardComponent } from './components/service-card/service-card.com
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-  
+  showCtaBand: boolean = true;
+  isBandMinimized: boolean = false;
+
   services = [
     {
       title: 'Protección Ejecutiva',
@@ -178,7 +180,16 @@ export class HomeComponent {
     }
   ];
 
+  
   constructor(private router: Router) {}
+
+  closeBand(): void {
+    this.showCtaBand = false;
+  }
+
+  toggleBand(): void {
+    this.isBandMinimized = !this.isBandMinimized;
+  }
 
   navigateTo(route: string) {
     this.router.navigate([route]);

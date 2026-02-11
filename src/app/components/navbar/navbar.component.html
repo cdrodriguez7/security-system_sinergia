@@ -20,11 +20,19 @@
       <ul class="nav-menu">
         <li><a (click)="scrollToSection('hero')">INICIO</a></li>
         
-        <li class="dropdown" 
-            (mouseenter)="activeDropdown = 'servicios'" 
-            (mouseleave)="closeDropdown()">
-          <a>SERVICIOS <span class="arrow">▼</span></a>
-          <div class="dropdown-menu" *ngIf="activeDropdown === 'servicios'">
+        <li class="dropdown">
+          <a class="dropdown-trigger" 
+             (click)="toggleDropdown('servicios', $event)"
+             [class.active]="activeDropdown === 'servicios'">
+            SERVICIOS 
+            <svg class="arrow-icon" 
+              [class.rotated]="activeDropdown === 'servicios'"
+              width="12" height="8" viewBox="0 0 12 8" fill="none">
+              <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </a>
+          <div class="dropdown-menu" 
+              *ngIf="activeDropdown === 'servicios'">
             <a (click)="navigateTo('/servicios/proteccion-ejecutiva')">Protección Ejecutiva</a>
             <a (click)="navigateTo('/servicios/seguridad-minera')">Seguridad Minera</a>
             <a (click)="navigateTo('/servicios/transporte-valores')">Transporte de Valores</a>

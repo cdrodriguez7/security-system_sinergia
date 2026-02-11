@@ -4,10 +4,56 @@
 
 /* CTA BAND */
 .cta-band {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2000;
   background: linear-gradient(135deg, var(--primary-gold) 0%, var(--primary-gold-dark) 100%);
-  padding: 50px 0;
-  position: relative;
-  overflow: hidden;
+  padding: 20px 0;
+  box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.2);
+  
+  /* Transición fluida y elástica */
+  transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+  will-change: transform;
+
+  &.is-minimized {
+    /* Esconde la banda bajo el borde de la pantalla */
+    transform: translateY(100%);
+  }
+
+  .toggle-drawer-btn {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    /* Se posiciona justo encima de la banda */
+    transform: translate(-50%, -80%);
+    
+    background: linear-gradient(135deg, var(--primary-gold) 0%, var(--primary-gold-dark) 100%);
+      box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.2);
+
+    border: none;
+    width: 60px;
+    height: 30px;
+    border-radius: 15px 15px 0 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--dark-primary);
+
+
+    .icon-wrapper {
+      transition: transform 0.4s ease;
+      /* Por defecto apunta hacia abajo (para ocultar) */
+      transform: rotate(0deg); 
+      
+      &.rotated {
+        /* Apunta hacia arriba (para mostrar) */
+        transform: rotate(180deg);
+      }
+    }
+  }
 
   &::before {
     content: '';
@@ -21,15 +67,23 @@
     opacity: 0.3;
   }
 
+
   .cta-content {
     position: relative;
     z-index: 2;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 40px;
+    justify-content: center;
+    gap: 10px;
     flex-wrap: wrap;
   }
+
+  .cta-text{
+    position:relative;
+    align-items: center;
+    justify-content: center;
+  }
+
 
   .cta-text h3 {
     color: var(--dark-primary);
@@ -42,13 +96,12 @@
     color: rgba(26, 29, 35, 0.8);
     font-size: 1.1rem;
     margin: 0;
-    max-width: 600px;
   }
 
   .cta-actions {
     display: flex;
-    align-items: center;
-    gap: 20px;
+    align-items: space-between;
+    gap: 80px;
     flex-wrap: wrap;
   }
 
@@ -73,6 +126,18 @@
       stroke: var(--primary-gold);
     }
 
+    .btn.btn-dark{
+      padding: 15px 30px;
+      background: var(--dark-primary);
+      color: var(--text-light);
+      border: none;
+      border-radius: 50px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition-fast);
+
+    }
+
     .label {
       display: block;
       font-size: 12px;
@@ -84,8 +149,8 @@
 
     .number {
       display: block;
-      font-size: 18px;
-      font-weight: 800;
+      font-size: 14px;
+      font-weight: 600;
       color: var(--text-light);
     }
   }

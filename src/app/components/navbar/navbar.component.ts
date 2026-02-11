@@ -21,12 +21,29 @@ export class NavbarComponent {
     this.isScrolled = window.pageYOffset > 50;
   }
 
+  // Cerrar dropdown al hacer clic fuera
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    const clickedInsideDropdown = target.closest('.dropdown');
+    
+    if (!clickedInsideDropdown) {
+      this.activeDropdown = null;
+    }
+  }
+
   toggleMobileMenu() {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
 
-  toggleDropdown(menu: string) {
-    this.activeDropdown = this.activeDropdown === menu ? null : menu;
+  toggleDropdown(menu: string, event: Event) {
+    event.stopPropagation(); // Prevenir que el click se propague al document
+    
+    if (this.activeDropdown === menu) {
+      this.activeDropdown = null; // Cerrar si ya está abierto
+    } else {
+      this.activeDropdown = menu; // Abrir el menú
+    }
   }
 
   closeDropdown() {

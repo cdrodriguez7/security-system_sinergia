@@ -7,6 +7,18 @@
   background: var(--dark-primary);
   transition: all 0.3s ease;
   padding: 20px 0;
+  
+  // Borde inferior amarillo
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--primary-gold);
+    transition: all 0.3s ease;
+  }
 
   &.scrolled {
     background: var(--dark-primary);
@@ -15,6 +27,8 @@
   }
 
   .navbar-content {
+    position: relative;
+    z-index: 10;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -28,6 +42,8 @@
   align-items: center;
   gap: 15px;
   cursor: pointer;
+  position: relative;
+  z-index: 15;
   transition: var(--transition-fast);
 
   &:hover {
@@ -83,15 +99,16 @@
 
     a {
       color: var(--text-light);
+      text-decoration: none;
       font-size: 14px;
       font-weight: 600;
-      text-transform: uppercase;
       letter-spacing: 0.5px;
       cursor: pointer;
-      transition: var(--transition-fast);
+      transition: color 0.3s ease;
+      white-space: nowrap;
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
 
       &:hover {
         color: var(--primary-gold);
@@ -114,34 +131,41 @@
 .dropdown {
   position: relative;
 
-  .dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    margin-top: 20px;
-    background: var(--dark-primary);
-    border: 2px solid var(--primary-gold);
-    border-radius: 10px;
-    padding: 15px 0;
-    min-width: 250px;
-    box-shadow: var(--shadow-lg);
-    animation: fadeInDown 0.3s ease;
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 15px);
+      left: 0;
+      min-width: 250px;
+      background: var(--dark-primary);
+      border: 2px solid var(--primary-gold);
+      border-radius: 8px;
+      padding: 12px 0;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      transition: all 0.3s ease;
+      z-index: 1001; 
+      pointer-events: all; 
 
-    a {
-      display: block;
-      padding: 12px 25px;
-      color: var(--text-light);
-      font-size: 14px;
-      font-weight: 500;
-      transition: var(--transition-fast);
-      text-transform: none;
 
-      &:hover {
-        background: rgba(229, 198, 67, 0.1);
-        color: var(--primary-gold);
-        padding-left: 30px;
+      a {
+        display: block;
+        padding: 12px 24px;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        border-left: 3px solid transparent;
+        white-space: nowrap;
+
+        &:hover {
+          background: rgba(229, 198, 67, 0.1);
+          color: var(--primary-gold);
+          border-left-color: var(--primary-gold);
+          padding-left: 28px;
+        }
       }
-    }
   }
 }
 
