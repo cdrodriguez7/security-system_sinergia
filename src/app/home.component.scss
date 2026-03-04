@@ -169,6 +169,7 @@
   letter-spacing: 2px;
   text-transform: uppercase;
   margin-bottom: 15px;
+  text-align: center;
 }
 
 .services-grid {
@@ -1166,45 +1167,81 @@
   }
 
   .footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+
+  &:hover {
+    opacity: 0.9;
+    transform: translateX(5px);
+  }
+
+  .logo-icon {
     display: flex;
     align-items: center;
-    gap: 15px;
-    margin-bottom: 20px;
+    justify-content: center;
+    width: 60px;  /* Ligeramente más grande que en navbar */
+    height: 60px;
+    
+    .logo-image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 10px;
+      /* Opcional: Filtro para ajustar brillo si el logo es oscuro */
+      /* filter: brightness(1.1); */
+    }
+  }
+
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .logo-name {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--text-light);
+      line-height: 1;
+    }
+
+    .logo-tagline {
+      font-size: 12px;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--primary-blue);  /* Color azul en lugar de gold */
+      line-height: 1;
+    }
+  }
+}
+
+/* RESPONSIVE PARA FOOTER */
+@media (max-width: 768px) {
+  .footer-logo {
+    justify-content: center; /* Centrar en móvil */
+    margin-bottom: 30px;
 
     .logo-icon {
       width: 50px;
       height: 50px;
-      background: var(--primary-gold);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--dark-primary);
     }
 
     .logo-text {
-      display: flex;
-      flex-direction: column;
-
       .logo-name {
-        font-size: 22px;
-        font-weight: 800;
-        color: var(--text-light);
+        font-size: 20px;
       }
 
       .logo-tagline {
         font-size: 11px;
-        color: var(--primary-gold);
-        text-transform: uppercase;
-        letter-spacing: 2px;
       }
     }
   }
-
-  .footer-description {
-    line-height: 1.8;
-    margin-bottom: 20px;
-  }
+}
 
   .footer-emergency {
     padding: 15px;

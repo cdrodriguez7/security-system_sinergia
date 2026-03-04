@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 
 interface VehicleType {
@@ -22,10 +23,15 @@ interface Equipment {
   specs: { label: string; value: string; }[];
 }
 
+interface SelectedVehicle {
+  vehicle: VehicleType;
+  quantity: number;
+}
+
 @Component({
   selector: 'app-proteccion-ejecutiva',
   standalone: true,
-  imports: [CommonModule, NavbarComponent],
+  imports: [CommonModule, NavbarComponent, FormsModule],
   template: `
     <app-navbar></app-navbar>
     
@@ -46,7 +52,7 @@ interface Equipment {
       </div>
     </section>
 
-    <section class="section">
+    <section class="section services-features-section">
       <div class="container">
         <div class="service-intro">
           <h2>¿Qué Incluye Nuestro Servicio?</h2>
@@ -57,25 +63,52 @@ interface Equipment {
         </div>
 
         <div class="features-grid">
+          <!-- SERVICIO 1: Close Protection -->
           <div class="feature-card">
-            <div class="feature-icon"></div>
-            <h3>Close Protection 24/7</h3>
-            <p>Equipo de escolta personal entrenado en metodologías internacionales</p>
+            <div class="feature-background" 
+                style="background-image: url('https://www.grsprotection.com/wp-content/uploads/2024/12/global-risk-solutions-situational-awareness-in-cp-scaled.jpg');">
+            </div>
+            <div class="feature-content">
+              <div class="feature-icon"></div>
+              <h3>Close Protection 24/7</h3>
+              <p>Equipo de escolta personal entrenado en metodologías internacionales</p>
+            </div>
           </div>
+
+          <!-- SERVICIO 2: Análisis de Amenazas -->
           <div class="feature-card">
-            <div class="feature-icon"></div>
-            <h3>Análisis de Amenazas</h3>
-            <p>Evaluación continua de riesgos y vulnerabilidades</p>
+            <div class="feature-background" 
+                style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5OU0GhhYAAg43OpqJs3Y3cFdjI5KuDqz4orthdXON0Q&s');">
+            </div>
+            <div class="feature-content">
+              <div class="feature-icon"></div>
+              <h3>Análisis de Amenazas</h3>
+              <p>Evaluación continua de riesgos y vulnerabilidades</p>
+            </div>
           </div>
+
+          <!-- SERVICIO 3: Movilidad Segura -->
           <div class="feature-card">
-            <div class="feature-icon"></div>
-            <h3>Movilidad Segura</h3>
-            <p>Vehículos blindados y rutas seguras predefinidas</p>
+            <div class="feature-background" 
+                style="background-image: url('https://media.istockphoto.com/id/168961182/photo/bodyguard-protecting-politician-in-backseat-of-car.jpg?s=612x612&w=0&k=20&c=Nab9hpJTOLAEjgBIm_ngDzpQOP7SfhJphbyPSGG4C1Q=');">
+            </div>
+            <div class="feature-content">
+              <div class="feature-icon"></div>
+              <h3>Movilidad Segura</h3>
+              <p>Vehículos blindados y rutas seguras predefinidas</p>
+            </div>
           </div>
+
+          <!-- SERVICIO 4: Monitoreo GPS -->
           <div class="feature-card">
-            <div class="feature-icon"></div>
-            <h3>Monitoreo GPS</h3>
-            <p>Rastreo en tiempo real y comunicaciones encriptadas</p>
+            <div class="feature-background" 
+                style="background-image: url('https://www.instatelcr.com/wp-content/uploads/freshizer/b3bdddb1f74d2cbaf18cb62c55225f77_Como-maximizar-la-seguridad-de-sus-activos-con-monitoreo-y-rastreo-GPS-863-430-c.jpg');">
+            </div>
+            <div class="feature-content">
+              <div class="feature-icon"></div>
+              <h3>Monitoreo GPS</h3>
+              <p>Rastreo en tiempo real y comunicaciones encriptadas</p>
+            </div>
           </div>
         </div>
       </div>
@@ -84,29 +117,55 @@ interface Equipment {
     <section class="section vehicles-section">
       <div class="container">
         <div class="section-header">
-          <h2>Configure Su Vehículo Blindado</h2>
+          <h2>Configure su flota de Vehículos Blindados</h2>
           <p class="section-subtitle">
-            Seleccione el tipo de carrocería que mejor se adapte a sus necesidades de movilidad y seguridad
+            Seleccione los tipos de vehículos y cantidades que necesita para su operación de seguridad
           </p>
         </div>
 
         <div class="vehicle-selector">
-          <h3>1. Seleccione el Tipo de Carrocería</h3>
+          <h3>1. Seleccione Vehículos y Cantidades</h3>
+          <p class="selector-hint">Puede seleccionar múltiples tipos de vehículos</p>
+          
           <div class="vehicle-types-grid">
             <div class="vehicle-type-card" 
                  *ngFor="let vehicle of vehicleTypes"
-                 [class.active]="selectedVehicle?.id === vehicle.id"
-                 (click)="selectVehicle(vehicle)">
+                 [class.selected]="isVehicleSelected(vehicle.id)"
+                 (click)="previewVehicle(vehicle)">
               <div class="vehicle-icon-container">
                 <img [src]="vehicle.images[90]" [alt]="vehicle.name" class="vehicle-image-thumb">
               </div>
               <h4>{{ vehicle.name }}</h4>
               <p class="vehicle-type-label">{{ vehicle.type }}</p>
+              
+              <!-- CONTADOR DE CANTIDAD -->
+              <div class="quantity-controls" (click)="$event.stopPropagation()">
+                <button class="quantity-btn minus" 
+                        (click)="decreaseQuantity(vehicle)"
+                        [disabled]="getVehicleQuantity(vehicle.id) === 0">
+                  −
+                </button>
+                <input type="number" 
+                       class="quantity-input" 
+                       [value]="getVehicleQuantity(vehicle.id)"
+                       (input)="setQuantity(vehicle, $event)"
+                       min="0"
+                       max="99"
+                       (click)="$event.stopPropagation()">
+                <button class="quantity-btn plus" 
+                        (click)="increaseQuantity(vehicle)"
+                        [disabled]="getVehicleQuantity(vehicle.id) >= 99">
+                  +
+                </button>
+              </div>
+              
+              <!-- INDICADOR DE SELECCIÓN -->
             </div>
           </div>
         </div>
 
-        <div class="vehicle-details" *ngIf="selectedVehicle">
+        <!-- VISTA PREVIA DEL VEHÍCULO -->
+        <div class="vehicle-details" *ngIf="previewedVehicle">
           <div class="vehicle-display">
             <div class="vehicle-360">
               <div class="rotation-controls">
@@ -121,7 +180,7 @@ interface Equipment {
               
               <div class="vehicle-view-large">
                 <img [src]="getRotatedImage()" 
-                     [alt]="selectedVehicle.name" 
+                     [alt]="previewedVehicle.name" 
                      class="vehicle-image-xlarge">
               </div>
               
@@ -129,13 +188,13 @@ interface Equipment {
             </div>
 
             <div class="vehicle-info">
-              <h3>{{ selectedVehicle.name }}</h3>
-              <p class="vehicle-description">{{ selectedVehicle.description }}</p>
+              <h3>{{ previewedVehicle.name }}</h3>
+              <p class="vehicle-description">{{ previewedVehicle.description }}</p>
               
               <div class="vehicle-features">
                 <h4>Características Incluidas:</h4>
                 <ul>
-                  <li *ngFor="let feature of selectedVehicle.features">
+                  <li *ngFor="let feature of previewedVehicle.features">
                     <span class="check-icon">✓</span>
                     {{ feature }}
                   </li>
@@ -144,7 +203,7 @@ interface Equipment {
 
               <div class="vehicle-specs">
                 <h4>Especificaciones de Blindaje:</h4>
-                <div class="spec-item" *ngFor="let spec of selectedVehicle.specs">
+                <div class="spec-item" *ngFor="let spec of previewedVehicle.specs">
                   <span class="spec-label">{{ spec.label }}</span>
                   <span class="spec-value">{{ spec.value }}</span>
                 </div>
@@ -153,7 +212,8 @@ interface Equipment {
           </div>
         </div>
 
-        <div class="equipment-selector" *ngIf="selectedVehicle">
+        <!-- EQUIPAMIENTO -->
+        <div class="equipment-selector" *ngIf="selectedVehicles.length > 0">
           <h3>2. Seleccione Equipamiento Adicional</h3>
           <div class="equipment-grid">
             <div class="equipment-card" 
@@ -171,14 +231,27 @@ interface Equipment {
           </div>
         </div>
 
-        <div class="quote-summary" *ngIf="selectedVehicle">
+        <!-- RESUMEN DE COTIZACIÓN -->
+        <div class="quote-summary" *ngIf="selectedVehicles.length > 0">
           <div class="summary-content">
             <h3>Resumen de Configuración</h3>
             <div class="summary-items">
               <div class="summary-item">
-                <span class="summary-label">Tipo de Vehículo:</span>
-                <span class="summary-value">{{ selectedVehicle.name }}</span>
+                <span class="summary-label">Vehículos Seleccionados:</span>
+                <div class="selected-vehicles-list">
+                  <div class="vehicle-summary-item" *ngFor="let sv of selectedVehicles">
+                    <span class="vehicle-quantity-badge">{{ sv.quantity }}x</span>
+                    <span class="vehicle-name">{{ sv.vehicle.name }}</span>
+                    <span class="vehicle-type">({{ sv.vehicle.type }})</span>
+                  </div>
+                </div>
               </div>
+              
+              <div class="summary-item">
+                <span class="summary-label">Total de Vehículos:</span>
+                <span class="summary-value total-vehicles">{{ getTotalVehicles() }} unidades</span>
+              </div>
+              
               <div class="summary-item" *ngIf="selectedEquipment.length > 0">
                 <span class="summary-label">Equipamiento Seleccionado:</span>
                 <div class="selected-equipment-list">
@@ -222,15 +295,19 @@ interface Equipment {
       gap: 10px;
       margin-bottom: 20px;
       font-size: 14px;
-      color: rgba(255, 255, 255, 0.6);
+      color: rgba(255, 255, 255, 0.85);
 
       a {
         cursor: pointer;
         transition: color 0.2s;
 
         &:hover {
-          color: var(--primary-gold);
+          color: var(--primary-blue);
         }
+      }
+
+      span {
+        color: rgba(255, 255, 255, 0.6);
       }
     }
 
@@ -241,8 +318,16 @@ interface Equipment {
 
     .hero-description {
       font-size: 1.2rem;
-      color: rgba(255, 255, 255, 0.8);
+      color: rgba(255, 255, 255, 0.95);
       max-width: 700px;
+    }
+
+    /* ========================================
+       SECCIÓN DE SERVICIOS
+       ======================================== */
+    .services-features-section {
+      padding: 100px 0;
+      background: var(--bg-section-light);
     }
 
     /* SERVICE INTRO */
@@ -257,7 +342,7 @@ interface Equipment {
       }
 
       p {
-        color: var(--text-muted);
+        color: #6B7280;
         font-size: 1.1rem;
         line-height: 1.8;
       }
@@ -266,38 +351,139 @@ interface Equipment {
     /* FEATURES GRID */
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
+      grid-template-columns: repeat(4, 1fr); 
+      gap: 25px;
       margin-top: 50px;
     }
 
+    /* ========================================
+       FEATURE CARD CON IMAGEN DE FONDO
+       ======================================== */
     .feature-card {
-      background: white;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: var(--shadow-md);
-      text-align: center;
+      position: relative;
+      aspect-ratio: 1 / 1; 
+      border-radius: 20px;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      transition: all 0.4s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-15px) scale(1.02);
+      box-shadow: 0 20px 50px rgba(72, 127, 192, 0.4);
+    }
+
+    /* IMAGEN DE FONDO DE CADA TARJETA */
+    .feature-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transition: transform 0.4s ease;
+    }
+
+    .feature-card:hover .feature-background {
+      transform: scale(1.1);
+    }
+
+    /* OVERLAY OSCURO SOBRE LA IMAGEN */
+    .feature-background::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        180deg,
+        rgba(79, 79, 79, 0.5) 0%,
+        rgba(79, 79, 79, 0.85) 100%
+      );
+      transition: background 0.3s ease;
+    }
+
+    .feature-card:hover .feature-background::before {
+      background: linear-gradient(
+        180deg,
+        rgba(72, 127, 192, 0.6) 0%,
+        rgba(72, 127, 192, 0.9) 100%
+      );
+    }
+
+    /* CONTENIDO DE LA TARJETA */
+    .feature-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 35px;
+      color: var(--text-light);
+    }
+
+    .feature-icon {
+      font-size: 56px;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
       transition: transform 0.3s ease;
+    }
 
-      &:hover {
-        transform: translateY(-10px);
-      }
+    .feature-card:hover .feature-icon {
+      transform: scale(1.15) rotate(-5deg);
+    }
 
-      .feature-icon {
-        font-size: 48px;
-        margin-bottom: 20px;
-      }
+    .feature-card h3 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--text-light);
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
 
-      h3 {
-        font-size: 20px;
-        margin-bottom: 15px;
-        color: var(--dark-primary);
-      }
+    .feature-card:hover h3 {
+      transform: translateX(5px);
+    }
 
-      p {
-        color: var(--text-muted);
-        line-height: 1.6;
-      }
+    .feature-card p {
+      color: rgba(255, 255, 255, 0.95);
+      line-height: 1.6;
+      font-size: 15px;
+      text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover p {
+      transform: translateX(5px);
+    }
+
+    /* BARRA DECORATIVA INFERIOR */
+    .feature-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(
+        90deg,
+        var(--primary-blue) 0%,
+        var(--primary-blue-dark) 100%
+      );
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+      z-index: 3;
+    }
+
+    .feature-card:hover::after {
+      transform: scaleX(1);
     }
 
     /* VEHICLES SECTION */
@@ -339,30 +525,39 @@ interface Equipment {
       }
     }
 
+    .selector-hint {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-top: -15px;
+      margin-bottom: 25px;
+    }
+
     .vehicle-types-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 20px;
     }
 
     .vehicle-type-card {
       background: var(--bg-section-light);
-      padding: 25px 15px;
+      padding: 20px 15px;
       border-radius: 15px;
       text-align: center;
       cursor: pointer;
       transition: all 0.3s ease;
       border: 3px solid transparent;
+      position: relative;
 
       &:hover {
         transform: translateY(-5px);
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
       }
 
-      &.active {
-        border-color: var(--primary-gold);
+      &.selected {
+        border-color: var(--primary-blue);
         background: white;
-        box-shadow: 0 8px 25px rgba(229, 198, 67, 0.3);
+        box-shadow: 0 8px 25px rgba(144, 194, 227, 0.4);
       }
 
       .vehicle-icon-container {
@@ -395,7 +590,95 @@ interface Equipment {
       .vehicle-type-label {
         font-size: 13px;
         color: var(--text-muted);
+        margin: 0 0 15px 0;
+      }
+    }
+
+    /* CONTROLES DE CANTIDAD */
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 15px;
+      padding: 10px;
+      background: rgba(144, 194, 227, 0.05);
+      border-radius: 10px;
+    }
+
+    .quantity-btn {
+      width: 35px;
+      height: 35px;
+      border: 2px solid var(--primary-blue);
+      background: white;
+      color: var(--primary-blue);
+      border-radius: 8px;
+      font-size: 20px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      &:hover:not(:disabled) {
+        background: var(--primary-blue);
+        color: white;
+        transform: scale(1.1);
+      }
+
+      &:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
+
+      &:active:not(:disabled) {
+        transform: scale(0.95);
+      }
+    }
+
+    .quantity-input {
+      width: 60px;
+      height: 35px;
+      text-align: center;
+      border: 2px solid var(--primary-blue);
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--dark-primary);
+      background: white;
+      
+      -moz-appearance: textfield;
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
         margin: 0;
+      }
+    }
+
+    /* BADGE DE SELECCIÓN */
+    .selection-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(72, 127, 192, 0.4);
+      animation: slideInRight 0.3s ease;
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
       }
     }
 
@@ -433,11 +716,11 @@ interface Equipment {
       .rotation-btn {
         width: 50px;
         height: 50px;
-        border: 2px solid var(--primary-gold);
+        border: 2px solid var(--primary-blue);
         background: white;
         border-radius: 50%;
         font-size: 24px;
-        color: var(--primary-gold);
+        color: var(--primary-blue);
         cursor: pointer;
         transition: all 0.3s ease;
         display: flex;
@@ -446,7 +729,7 @@ interface Equipment {
         user-select: none;
 
         &:hover {
-          background: var(--primary-gold);
+          background: var(--primary-blue);
           color: white;
           transform: scale(1.1);
         }
@@ -467,8 +750,8 @@ interface Equipment {
 
     .vehicle-view-large {
       width: 100%;
-      max-width: 800px;
-      height: 600px;
+      max-width: 600px;
+      height: 400px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -488,7 +771,7 @@ interface Equipment {
     }
 
     .rotation-hint {
-      font-size: 18px;
+      font-size: 13px;
       color: var(--text-muted);
       margin-top: 20px;
       text-align: center;
@@ -531,7 +814,7 @@ interface Equipment {
             gap: 10px;
 
             .check-icon {
-              color: var(--primary-gold);
+              color: var(--primary-blue);
               font-weight: 700;
               font-size: 18px;
             }
@@ -610,12 +893,12 @@ interface Equipment {
       }
 
       &.selected {
-        border-color: var(--primary-gold);
+        border-color: var(--primary-blue);
         background: white;
-        box-shadow: 0 8px 25px rgba(229, 198, 67, 0.3);
+        box-shadow: 0 8px 25px rgba(144, 194, 227, 0.4);
 
         .equipment-checkbox {
-          background: var(--primary-gold);
+          background: var(--primary-blue);
           color: white;
         }
       }
@@ -626,7 +909,7 @@ interface Equipment {
         right: 15px;
         width: 30px;
         height: 30px;
-        border: 2px solid var(--primary-gold);
+        border: 2px solid var(--primary-blue);
         border-radius: 6px;
         display: flex;
         align-items: center;
@@ -651,7 +934,7 @@ interface Equipment {
 
       .equipment-category {
         font-size: 12px;
-        color: var(--primary-gold);
+        color: var(--primary-blue);
         font-weight: 600;
         text-transform: uppercase;
         margin-bottom: 10px;
@@ -667,7 +950,7 @@ interface Equipment {
 
     /* QUOTE SUMMARY */
     .quote-summary {
-      background: linear-gradient(135deg, var(--primary-gold) 0%, var(--primary-gold-dark) 100%);
+      background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
       border-radius: 20px;
       padding: 50px;
       text-align: center;
@@ -679,7 +962,7 @@ interface Equipment {
 
         h3 {
           font-size: 32px;
-          color: var(--dark-primary);
+          color: white;
           margin-bottom: 30px;
         }
 
@@ -702,29 +985,14 @@ interface Equipment {
               display: block;
               font-weight: 700;
               color: var(--dark-primary);
-              margin-bottom: 8px;
+              margin-bottom: 12px;
+              font-size: 16px;
             }
 
             .summary-value {
               display: block;
               color: var(--text-muted);
               font-size: 18px;
-            }
-
-            .selected-equipment-list {
-              display: flex;
-              flex-wrap: wrap;
-              gap: 10px;
-              margin-top: 10px;
-
-              .equipment-tag {
-                background: var(--bg-section-light);
-                color: var(--dark-primary);
-                padding: 8px 15px;
-                border-radius: 20px;
-                font-size: 14px;
-                font-weight: 600;
-              }
             }
           }
         }
@@ -735,9 +1003,71 @@ interface Equipment {
 
         .quote-note {
           font-size: 13px;
-          color: rgba(26, 29, 35, 0.7);
+          color: rgba(255, 255, 255, 0.9);
           margin: 0;
         }
+      }
+    }
+
+    /* LISTA DE VEHÍCULOS SELECCIONADOS */
+    .selected-vehicles-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .vehicle-summary-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: var(--bg-section-light);
+      border-radius: 10px;
+      border-left: 4px solid var(--primary-blue);
+    }
+
+    .vehicle-quantity-badge {
+      background: var(--primary-blue);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 14px;
+      min-width: 45px;
+      text-align: center;
+    }
+
+    .vehicle-name {
+      font-weight: 700;
+      color: var(--dark-primary);
+      font-size: 16px;
+    }
+
+    .vehicle-type {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .total-vehicles {
+      font-size: 24px !important;
+      font-weight: 700 !important;
+      color: var(--primary-blue-dark) !important;
+    }
+
+    .selected-equipment-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+
+      .equipment-tag {
+        background: var(--bg-section-light);
+        color: var(--dark-primary);
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
       }
     }
 
@@ -777,15 +1107,40 @@ interface Equipment {
         padding: 120px 0 60px;
       }
 
+      .services-features-section {
+        padding: 60px 0;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+      }
+
+      .feature-card {
+        height: 320px;
+      }
+
+      .feature-content {
+        padding: 25px;
+      }
+
+      .feature-icon {
+        font-size: 48px;
+      }
+
+      .feature-card h3 {
+        font-size: 22px;
+      }
+
+      .feature-card p {
+        font-size: 14px;
+      }
+
       .vehicle-types-grid {
         grid-template-columns: repeat(2, 1fr);
       }
 
       .equipment-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .features-grid {
         grid-template-columns: 1fr;
       }
 
@@ -818,6 +1173,19 @@ interface Equipment {
     }
 
     @media (max-width: 480px) {
+      .feature-card {
+        height: 300px;
+      }
+
+      .feature-icon {
+        font-size: 42px;
+        margin-bottom: 15px;
+      }
+
+      .feature-card h3 {
+        font-size: 20px;
+      }
+
       .vehicle-types-grid {
         grid-template-columns: 1fr;
       }
@@ -830,7 +1198,8 @@ interface Equipment {
   `]
 })
 export class ProteccionEjecutivaComponent {
-  selectedVehicle: VehicleType | null = null;
+  previewedVehicle: VehicleType | null = null;
+  selectedVehicles: SelectedVehicle[] = [];
   selectedEquipment: Equipment[] = [];
   currentRotation: number = 0;
 
@@ -973,7 +1342,7 @@ export class ProteccionEjecutivaComponent {
       },
       {
         id: 'todoterreno',
-        name: 'Todoterreno',
+        name: 'Todo Terreno',
         type: 'Extremo',
         description: 'Vehículo todoterreno blindado para operaciones en zonas de difícil acceso. Diseñado para enfrentar terrenos complejos manteniendo la máxima protección.',
         images: {
@@ -1000,7 +1369,7 @@ export class ProteccionEjecutivaComponent {
       },
       {
         id: 'pickup',
-        name: 'Pick-up',
+        name: 'Camioneta',
         type: 'Operativo',
         description: 'Camioneta pick-up blindada para operaciones de logística y transporte de valores. Combina capacidad de carga con protección balística certificada.',
         images: {
@@ -1051,16 +1420,111 @@ export class ProteccionEjecutivaComponent {
           { label: 'Autonomía', value: '550 km' },
           { label: 'Peso adicional', value: '+600 kg' }
         ]
+      },
+      {
+        id: 'motocicleta',
+        name: 'Motocicleta',
+        type: 'Táctica',
+        description: 'Motocicleta táctica blindada para desplazamientos rápidos en zonas urbanas. Ideal para escoltas móviles y operaciones de reconocimiento con máxima agilidad.',
+        images: {
+          0: 'assets/vehicles/motocicleta/0.png',
+          90: 'assets/vehicles/motocicleta/90.png',
+          180: 'assets/vehicles/motocicleta/180.png'
+        },
+        features: [
+          'Chasis reforzado con placas balísticas',
+          'Sistema de comunicación integrado',
+          'GPS de rastreo en tiempo real',
+          'Maletas laterales blindadas',
+          'Neumáticos anti-pinchazo',
+          'Capacidad: 1-2 personas'
+        ],
+        specs: [
+          { label: 'Protección', value: 'Nivel B4' },
+          { label: 'Motor', value: 'Parallel Twin 650cc' },
+          { label: 'Pasajeros', value: '1-2' },
+          { label: 'Autonomía', value: '400 km' },
+          { label: 'Velocidad máx.', value: '180 km/h' }
+        ]
       }
     ];
   }
 
-  selectVehicle(vehicle: VehicleType) {
-    this.selectedVehicle = vehicle;
-    this.currentRotation = 0;
-    this.selectedEquipment = [];
+  // MÉTODOS PARA MANEJO DE CANTIDADES
+  
+  getVehicleQuantity(vehicleId: string): number {
+    const selected = this.selectedVehicles.find(sv => sv.vehicle.id === vehicleId);
+    return selected ? selected.quantity : 0;
   }
 
+  isVehicleSelected(vehicleId: string): boolean {
+    return this.getVehicleQuantity(vehicleId) > 0;
+  }
+
+  increaseQuantity(vehicle: VehicleType) {
+    const existing = this.selectedVehicles.find(sv => sv.vehicle.id === vehicle.id);
+    
+    if (existing) {
+      if (existing.quantity < 99) {
+        existing.quantity++;
+      }
+    } else {
+      this.selectedVehicles.push({ vehicle, quantity: 1 });
+      this.previewedVehicle = vehicle;
+      this.currentRotation = 0;
+    }
+  }
+
+  decreaseQuantity(vehicle: VehicleType) {
+    const existing = this.selectedVehicles.find(sv => sv.vehicle.id === vehicle.id);
+    
+    if (existing) {
+      existing.quantity--;
+      if (existing.quantity === 0) {
+        this.selectedVehicles = this.selectedVehicles.filter(sv => sv.vehicle.id !== vehicle.id);
+        if (this.previewedVehicle?.id === vehicle.id) {
+          this.previewedVehicle = this.selectedVehicles.length > 0 ? this.selectedVehicles[0].vehicle : null;
+        }
+      }
+    }
+  }
+
+  setQuantity(vehicle: VehicleType, event: Event) {
+    const input = event.target as HTMLInputElement;
+    let quantity = parseInt(input.value) || 0;
+    
+    if (quantity < 0) quantity = 0;
+    if (quantity > 99) quantity = 99;
+    
+    const existing = this.selectedVehicles.find(sv => sv.vehicle.id === vehicle.id);
+    
+    if (quantity === 0) {
+      this.selectedVehicles = this.selectedVehicles.filter(sv => sv.vehicle.id !== vehicle.id);
+      if (this.previewedVehicle?.id === vehicle.id) {
+        this.previewedVehicle = this.selectedVehicles.length > 0 ? this.selectedVehicles[0].vehicle : null;
+      }
+    } else if (existing) {
+      existing.quantity = quantity;
+    } else {
+      this.selectedVehicles.push({ vehicle, quantity });
+      this.previewedVehicle = vehicle;
+      this.currentRotation = 0;
+    }
+    
+    input.value = quantity.toString();
+  }
+
+  previewVehicle(vehicle: VehicleType) {
+    this.previewedVehicle = vehicle;
+    this.currentRotation = 0;
+  }
+
+  getTotalVehicles(): number {
+    return this.selectedVehicles.reduce((total, sv) => total + sv.quantity, 0);
+  }
+
+  // MÉTODOS PARA EQUIPAMIENTO
+  
   toggleEquipment(item: Equipment) {
     const index = this.selectedEquipment.findIndex(eq => eq.id === item.id);
     if (index > -1) {
@@ -1074,27 +1538,53 @@ export class ProteccionEjecutivaComponent {
     return this.selectedEquipment.some(eq => eq.id === id);
   }
 
+  // MÉTODOS PARA ROTACIÓN
+  
   rotateVehicle(direction: 'left' | 'right') {
+    if (!this.previewedVehicle) return;
+    
+    const availableAngles = this.previewedVehicle.id === 'motocicleta' 
+      ? [0, 90, 180] 
+      : [0, 90, 180, 270];
+    
+    const currentIndex = availableAngles.indexOf(this.currentRotation);
+    
     if (direction === 'left') {
-      this.currentRotation = (this.currentRotation - 90 + 360) % 360;
+      const newIndex = (currentIndex - 1 + availableAngles.length) % availableAngles.length;
+      this.currentRotation = availableAngles[newIndex];
     } else {
-      this.currentRotation = (this.currentRotation + 90) % 360;
+      const newIndex = (currentIndex + 1) % availableAngles.length;
+      this.currentRotation = availableAngles[newIndex];
     }
   }
 
   getRotatedImage(): string {
-    if (!this.selectedVehicle) return '';
-    return this.selectedVehicle.images[this.currentRotation];
+    if (!this.previewedVehicle) return '';
+    
+    if (this.previewedVehicle.images[this.currentRotation]) {
+      return this.previewedVehicle.images[this.currentRotation];
+    }
+    
+    const availableAngles = this.previewedVehicle.id === 'motocicleta' 
+      ? [0, 90, 180] 
+      : [0, 90, 180, 270];
+    
+    return this.previewedVehicle.images[availableAngles[0]];
   }
 
+  // NAVEGACIÓN
+  
   requestCustomQuote() {
-    const vehicleName = this.selectedVehicle?.name || '';
+    const vehiclesSummary = this.selectedVehicles
+      .map(sv => `${sv.quantity}x ${sv.vehicle.name}`)
+      .join(', ');
     const equipmentNames = this.selectedEquipment.map(eq => eq.name).join(', ');
     
     this.router.navigate(['/contacto'], { 
       queryParams: { 
         service: 'proteccion-ejecutiva',
-        vehicle: vehicleName,
+        vehicles: vehiclesSummary,
+        total: this.getTotalVehicles(),
         equipment: equipmentNames
       } 
     });

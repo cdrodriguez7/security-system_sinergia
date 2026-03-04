@@ -31,7 +31,7 @@ export class HomeComponent {
         'Coordinación con autoridades',
         'Equipos tácticos especializados'
       ],
-      imageUrl: 'https://images.unsplash.com/photo-1542596768-5d1d21f1cf98?w=800&h=600&fit=crop',
+      imageUrl: 'https://spyt.com.mx/wp-content/uploads/2024/09/bodyguard-in-sunglasses-opening-car-door-to-businessman.jpg',
       route: '/servicios/proteccion-ejecutiva'
     },
     {
@@ -43,7 +43,7 @@ export class HomeComponent {
         'Respuesta rápida a emergencias',
         'Protección de instalaciones críticas'
       ],
-      imageUrl: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&h=600&fit=crop',
+      imageUrl: 'https://revistainnovacion.com/uploads/thumb_admin/images/0004/minas.jpg',
       route: '/servicios/seguridad-minera'
     },
     {
@@ -55,7 +55,7 @@ export class HomeComponent {
         'Convoy táctico especializado',
         'Rutas seguras predefinidas'
       ],
-      imageUrl: 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800&h=600&fit=crop',
+      imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKT79t1bMQBNgU7jDnKWiHK2h5u9rl44mJ4w&s',
       route: '/servicios/transporte-valores'
     },
     {
@@ -67,7 +67,7 @@ export class HomeComponent {
         'Sala de crisis operativa 24/7',
         'Coordinación con aseguradoras'
       ],
-      imageUrl: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=600&fit=crop',
+      imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWCAtGQ1nlwQZVRNK191jgPAGDLqftC3t24w&s',
       route: '/servicios/crisis-kr'
     },
     {
@@ -79,7 +79,7 @@ export class HomeComponent {
         'Certificación internacional',
         'Entrenamiento personalizado'
       ],
-      imageUrl: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop',
+      imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQn2Zl8JD8YzEcYgetlKrtDTwn7kZfEpsKYBA&s',
       route: '/servicios/academy'
     },
     {
