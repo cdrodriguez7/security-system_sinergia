@@ -1205,250 +1205,309 @@ export class ProteccionEjecutivaComponent {
 
   vehicleTypes: VehicleType[] = [];
 
-  equipment: Equipment[] = [
-    {
-      id: 'comm',
-      name: 'Sistema de Comunicación Segura',
-      category: 'Comunicaciones',
-      description: 'Radio encriptado AES-256 con alcance de 50km y batería de 24 horas.',
-      icon: '📡',
-      specs: [
-        { label: 'Encriptación', value: 'AES-256' },
-        { label: 'Alcance', value: '50 km' },
-        { label: 'Batería', value: '24 horas' }
-      ]
-    },
-    {
-      id: 'gps',
-      name: 'Rastreo GPS Avanzado',
-      category: 'Monitoreo',
-      description: 'Sistema de rastreo satelital con botón de pánico y geofencing.',
-      icon: '🛰️',
-      specs: [
-        { label: 'Precisión', value: '5 metros' },
-        { label: 'Actualización', value: 'Tiempo real' },
-        { label: 'Backup', value: 'Batería 72h' }
-      ]
-    },
-    {
-      id: 'armor',
-      name: 'Chalecos Balísticos NIJ III',
-      category: 'Protección Personal',
-      description: 'Chalecos antibalas nivel III certificados por NIJ, incluye 4 unidades.',
-      icon: '🛡️',
-      specs: [
-        { label: 'Nivel', value: 'NIJ III' },
-        { label: 'Peso', value: '3.5 kg' },
-        { label: 'Material', value: 'Kevlar' }
-      ]
-    },
-    {
-      id: 'medical',
-      name: 'Kit Médico Táctico',
-      category: 'Emergencias',
-      description: 'Kit completo de primeros auxilios tácticos con torniquetes y vendajes.',
-      icon: '⚕️',
-      specs: [
-        { label: 'Contenido', value: '50+ items' },
-        { label: 'Certificación', value: 'Militar' },
-        { label: 'Validez', value: '3 años' }
-      ]
-    },
-    {
-      id: 'jammer',
-      name: 'Inhibidor de Señales',
-      category: 'Contramedidas',
-      description: 'Bloqueador de frecuencias para prevenir detonaciones remotas.',
-      icon: '📵',
-      specs: [
-        { label: 'Frecuencias', value: '20MHz-6GHz' },
-        { label: 'Radio', value: '50 metros' },
-        { label: 'Batería', value: '8 horas' }
-      ]
-    },
-    {
-      id: 'camera',
-      name: 'Sistema de Cámaras 360°',
-      category: 'Vigilancia',
-      description: 'Cámaras perimetrales con visión nocturna y grabación continua.',
-      icon: '📹',
-      specs: [
-        { label: 'Cámaras', value: '6 unidades' },
-        { label: 'Resolución', value: '4K' },
-        { label: 'Almacenamiento', value: '1TB' }
-      ]
-    }
-  ];
+equipment: Equipment[] = [
+  {
+    id: 'comm',
+    name: 'Sistema de Comunicación Segura',
+    category: 'Comunicaciones',
+    description: 'Radio encriptado AES-256 con alcance de 50km y batería de 24 horas.',
+    icon: '📡',
+    specs: [
+      { label: 'Encriptación', value: 'AES-256' },
+      { label: 'Alcance', value: '50 km' },
+      { label: 'Batería', value: '24 horas' }
+    ]
+  },
+  {
+    id: 'gps',
+    name: 'Rastreo GPS Avanzado',
+    category: 'Monitoreo',
+    description: 'Sistema de rastreo satelital con botón de pánico y geofencing.',
+    icon: '🛰️',
+    specs: [
+      { label: 'Precisión', value: '5 metros' },
+      { label: 'Actualización', value: 'Tiempo real' },
+      { label: 'Backup', value: 'Batería 72h' }
+    ]
+  },
+  {
+    id: 'armor',
+    name: 'Chalecos Balísticos NIJ III',
+    category: 'Protección Personal',
+    description: 'Chalecos antibalas nivel III certificados por NIJ, incluye 4 unidades.',
+    icon: '🛡️',
+    specs: [
+      { label: 'Nivel', value: 'NIJ III' },
+      { label: 'Peso', value: '3.5 kg' },
+      { label: 'Material', value: 'Kevlar' }
+    ]
+  },
+  {
+    id: 'medical',
+    name: 'Kit Médico Táctico',
+    category: 'Emergencias',
+    description: 'Kit completo de primeros auxilios tácticos con torniquetes y vendajes.',
+    icon: '⚕️',
+    specs: [
+      { label: 'Contenido', value: '50+ items' },
+      { label: 'Certificación', value: 'Militar' },
+      { label: 'Validez', value: '3 años' }
+    ]
+  },
+  {
+    id: 'jammer',
+    name: 'Inhibidor de Señales',
+    category: 'Contramedidas',
+    description: 'Bloqueador de frecuencias para prevenir detonaciones remotas.',
+    icon: '📵',
+    specs: [
+      { label: 'Frecuencias', value: '20MHz-6GHz' },
+      { label: 'Radio', value: '50 metros' },
+      { label: 'Batería', value: '8 horas' }
+    ]
+  },
+  {
+    id: 'camera',
+    name: 'Sistema de Cámaras 360°',
+    category: 'Vigilancia',
+    description: 'Cámaras perimetrales con visión nocturna y grabación continua.',
+    icon: '📹',
+    specs: [
+      { label: 'Cámaras', value: '6 unidades' },
+      { label: 'Resolución', value: '4K' },
+      { label: 'Almacenamiento', value: '1TB' }
+    ]
+  },
+
+  {
+    id: 'k9',
+    name: 'Servicio de Canes K-9',
+    category: 'Seguridad Especializada',
+    description: 'Unidad canina especializada en detección de explosivos, narcóticos y rastreo. Incluye manejador certificado.',
+    icon: '🐕',
+    specs: [
+      { label: 'Especialidad', value: 'Detección/Rastreo' },
+      { label: 'Certificación', value: 'K-9 Internacional' },
+      { label: 'Manejador', value: 'Incluido' },
+      { label: 'Entrenamiento', value: '500+ horas' }
+    ]
+  },
+
+  {
+    id: 'drone',
+    name: 'Monitoreo con Drones',
+    category: 'Vigilancia Aérea',
+    description: 'Sistema de vigilancia con drones de reconocimiento equipados con cámaras térmicas y visión nocturna.',
+    icon: '🚁',
+    specs: [
+      { label: 'Cámara', value: 'Térmica 4K' },
+      { label: 'Autonomía', value: '45 minutos' },
+      { label: 'Alcance', value: '5 km' },
+      { label: 'Operador', value: 'Certificado' }
+    ]
+  }
+];
+
 
   constructor(private router: Router) {
     this.initializeVehicles();
   }
 
   initializeVehicles() {
-    this.vehicleTypes = [
-      {
-        id: 'sedan',
-        name: 'Sedán',
-        type: 'Ejecutivo',
-        description: 'Vehículo sedán blindado ideal para desplazamientos ejecutivos discretos. Combina elegancia, confort y máxima seguridad con blindaje nivel B6/B7.',
-        images: {
-          0: 'assets/vehicles/sedan/0.png',
-          90: 'assets/vehicles/sedan/90.png',
-          180: 'assets/vehicles/sedan/180.png',
-          270: 'assets/vehicles/sedan/270.png'
-        },
-        features: [
-          'Blindaje certificado nivel B6/B7',
-          'Vidrios anti-bala de 4 capas',
-          'Sistema de escape a prueba de explosivos',
-          'Neumáticos run-flat',
-          'GPS y comunicación satelital encriptada',
-          'Capacidad: 4-5 pasajeros'
-        ],
-        specs: [
-          { label: 'Blindaje', value: 'Nivel B6/B7' },
-          { label: 'Motor', value: 'V6 3.5L' },
-          { label: 'Pasajeros', value: '4-5' },
-          { label: 'Autonomía', value: '600 km' },
-          { label: 'Peso adicional', value: '+800 kg' }
-        ]
+  this.vehicleTypes = [
+    {
+      id: 'sedan',
+      name: 'Sedán',
+      type: 'Ejecutivo',
+      description: 'Vehículo sedán blindado ideal para desplazamientos ejecutivos discretos. Combina elegancia, confort y máxima seguridad con blindaje nivel B6/B7.',
+      images: {
+        0: 'assets/vehicles/sedan/0.png',
+        90: 'assets/vehicles/sedan/90.png',
+        180: 'assets/vehicles/sedan/180.png',
+        270: 'assets/vehicles/sedan/270.png'
       },
-      {
-        id: 'suv',
-        name: 'SUV',
-        type: 'Versátil',
-        description: 'SUV blindado de alto rendimiento, perfecto para terrenos variados. Ofrece mayor capacidad de pasajeros y espacio interior sin comprometer la protección.',
-        images: {
-          0: 'assets/vehicles/suv/0.png',
-          90: 'assets/vehicles/suv/90.png',
-          180: 'assets/vehicles/suv/180.png',
-          270: 'assets/vehicles/suv/270.png'
-        },
-        features: [
-          'Blindaje certificado nivel B6',
-          'Suspensión reforzada para peso adicional',
-          'Sistema 4x4 con control de tracción',
-          'Vidrios polarizados anti-bala',
-          'Sistema de comunicación avanzado',
-          'Capacidad: 5-7 pasajeros'
-        ],
-        specs: [
-          { label: 'Blindaje', value: 'Nivel B6' },
-          { label: 'Motor', value: 'V8 5.7L' },
-          { label: 'Pasajeros', value: '5-7' },
-          { label: 'Autonomía', value: '700 km' },
-          { label: 'Peso adicional', value: '+1000 kg' }
-        ]
+      features: [
+        'Blindaje certificado nivel B6/B7',
+        'Vidrios anti-bala de 4 capas',
+        'Sistema de escape a prueba de explosivos',
+        'Neumáticos run-flat',
+        'GPS y comunicación satelital encriptada',
+        'Capacidad: 4-5 pasajeros'
+      ],
+      specs: [
+        { label: 'Blindaje', value: 'Nivel B6/B7' },
+        { label: 'Motor', value: 'V6 3.5L' },
+        { label: 'Pasajeros', value: '4-5' },
+        { label: 'Autonomía', value: '600 km' },
+        { label: 'Peso adicional', value: '+800 kg' }
+      ]
+    },
+    {
+      id: 'suv',
+      name: 'SUV',
+      type: 'Versátil',
+      description: 'SUV blindado de alto rendimiento, perfecto para terrenos variados. Ofrece mayor capacidad de pasajeros y espacio interior sin comprometer la protección.',
+      images: {
+        0: 'assets/vehicles/suv/0.png',
+        90: 'assets/vehicles/suv/90.png',
+        180: 'assets/vehicles/suv/180.png',
+        270: 'assets/vehicles/suv/270.png'
       },
-      {
-        id: 'todoterreno',
-        name: 'Todo Terreno',
-        type: 'Extremo',
-        description: 'Vehículo todoterreno blindado para operaciones en zonas de difícil acceso. Diseñado para enfrentar terrenos complejos manteniendo la máxima protección.',
-        images: {
-          0: 'assets/vehicles/todoterreno/0.png',
-          90: 'assets/vehicles/todoterreno/90.png',
-          180: 'assets/vehicles/todoterreno/180.png',
-          270: 'assets/vehicles/todoterreno/270.png'
-        },
-        features: [
-          'Blindaje militar nivel B7',
-          'Suspensión off-road reforzada',
-          'Protección de bajos y tanque de combustible',
-          'Sistema de tracción total permanente',
-          'Neumáticos todoterreno run-flat',
-          'Capacidad: 4-5 pasajeros'
-        ],
-        specs: [
-          { label: 'Blindaje', value: 'Nivel B7' },
-          { label: 'Motor', value: 'V8 5.0L Diesel' },
-          { label: 'Pasajeros', value: '4-5' },
-          { label: 'Autonomía', value: '650 km' },
-          { label: 'Peso adicional', value: '+1200 kg' }
-        ]
+      features: [
+        'Blindaje certificado nivel B6',
+        'Suspensión reforzada para peso adicional',
+        'Sistema 4x4 con control de tracción',
+        'Vidrios polarizados anti-bala',
+        'Sistema de comunicación avanzado',
+        'Capacidad: 5-7 pasajeros'
+      ],
+      specs: [
+        { label: 'Blindaje', value: 'Nivel B6' },
+        { label: 'Motor', value: 'V8 5.7L' },
+        { label: 'Pasajeros', value: '5-7' },
+        { label: 'Autonomía', value: '700 km' },
+        { label: 'Peso adicional', value: '+1000 kg' }
+      ]
+    },
+    {
+      id: 'todoterreno',
+      name: 'Todo Terreno',
+      type: 'Extremo',
+      description: 'Vehículo todoterreno blindado para operaciones en zonas de difícil acceso. Diseñado para enfrentar terrenos complejos manteniendo la máxima protección.',
+      images: {
+        0: 'assets/vehicles/todoterreno/0.png',
+        90: 'assets/vehicles/todoterreno/90.png',
+        180: 'assets/vehicles/todoterreno/180.png',
+        270: 'assets/vehicles/todoterreno/270.png'
       },
-      {
-        id: 'pickup',
-        name: 'Camioneta',
-        type: 'Operativo',
-        description: 'Camioneta pick-up blindada para operaciones de logística y transporte de valores. Combina capacidad de carga con protección balística certificada.',
-        images: {
-          0: 'assets/vehicles/pickup/0.png',
-          90: 'assets/vehicles/pickup/90.png',
-          180: 'assets/vehicles/pickup/180.png',
-          270: 'assets/vehicles/pickup/270.png'
-        },
-        features: [
-          'Blindaje de cabina nivel B6',
-          'Platón reforzado con cobertura opcional',
-          'Sistema de suspensión heavy-duty',
-          'Capacidad de remolque aumentada',
-          'GPS y rastreo satelital',
-          'Capacidad: 4-5 pasajeros'
-        ],
-        specs: [
-          { label: 'Blindaje', value: 'Nivel B6' },
-          { label: 'Motor', value: 'V6 3.5L Turbo' },
-          { label: 'Pasajeros', value: '4-5' },
-          { label: 'Carga', value: '800 kg' },
-          { label: 'Peso adicional', value: '+900 kg' }
-        ]
+      features: [
+        'Blindaje militar nivel B7',
+        'Suspensión off-road reforzada',
+        'Protección de bajos y tanque de combustible',
+        'Sistema de tracción total permanente',
+        'Neumáticos todoterreno run-flat',
+        'Capacidad: 4-5 pasajeros'
+      ],
+      specs: [
+        { label: 'Blindaje', value: 'Nivel B7' },
+        { label: 'Motor', value: 'V8 5.0L Diesel' },
+        { label: 'Pasajeros', value: '4-5' },
+        { label: 'Autonomía', value: '650 km' },
+        { label: 'Peso adicional', value: '+1200 kg' }
+      ]
+    },
+    {
+      id: 'pickup',
+      name: 'Camioneta',
+      type: 'Operativo',
+      description: 'Camioneta pick-up blindada para operaciones de logística y transporte de valores. Combina capacidad de carga con protección balística certificada.',
+      images: {
+        0: 'assets/vehicles/pickup/0.png',
+        90: 'assets/vehicles/pickup/90.png',
+        180: 'assets/vehicles/pickup/180.png',
+        270: 'assets/vehicles/pickup/270.png'
       },
-      {
-        id: 'hatchback',
-        name: 'Hatchback',
-        type: 'Urbano',
-        description: 'Vehículo compacto blindado ideal para desplazamientos urbanos discretos. Ágil en tráfico denso sin sacrificar protección certificada.',
-        images: {
-          0: 'assets/vehicles/hatchback/0.png',
-          90: 'assets/vehicles/hatchback/90.png',
-          180: 'assets/vehicles/hatchback/180.png',
-          270: 'assets/vehicles/hatchback/270.png'
-        },
-        features: [
-          'Blindaje certificado nivel B4/B6',
-          'Diseño compacto para maniobras urbanas',
-          'Bajo consumo de combustible',
-          'Sistema de comunicación integrado',
-          'Vidrios anti-bala',
-          'Capacidad: 4 pasajeros'
-        ],
-        specs: [
-          { label: 'Blindaje', value: 'Nivel B4/B6' },
-          { label: 'Motor', value: 'I4 2.0L' },
-          { label: 'Pasajeros', value: '4' },
-          { label: 'Autonomía', value: '550 km' },
-          { label: 'Peso adicional', value: '+600 kg' }
-        ]
+      features: [
+        'Blindaje de cabina nivel B6',
+        'Platón reforzado con cobertura opcional',
+        'Sistema de suspensión heavy-duty',
+        'Capacidad de remolque aumentada',
+        'GPS y rastreo satelital',
+        'Capacidad: 4-5 pasajeros'
+      ],
+      specs: [
+        { label: 'Blindaje', value: 'Nivel B6' },
+        { label: 'Motor', value: 'V6 3.5L Turbo' },
+        { label: 'Pasajeros', value: '4-5' },
+        { label: 'Carga', value: '800 kg' },
+        { label: 'Peso adicional', value: '+900 kg' }
+      ]
+    },
+    {
+      id: 'hatchback',
+      name: 'Hatchback',
+      type: 'Urbano',
+      description: 'Vehículo compacto blindado ideal para desplazamientos urbanos discretos. Ágil en tráfico denso sin sacrificar protección certificada.',
+      images: {
+        0: 'assets/vehicles/hatchback/0.png',
+        90: 'assets/vehicles/hatchback/90.png',
+        180: 'assets/vehicles/hatchback/180.png',
+        270: 'assets/vehicles/hatchback/270.png'
       },
-      {
-        id: 'motocicleta',
-        name: 'Motocicleta',
-        type: 'Táctica',
-        description: 'Motocicleta táctica blindada para desplazamientos rápidos en zonas urbanas. Ideal para escoltas móviles y operaciones de reconocimiento con máxima agilidad.',
-        images: {
-          0: 'assets/vehicles/motocicleta/0.png',
-          90: 'assets/vehicles/motocicleta/90.png',
-          180: 'assets/vehicles/motocicleta/180.png'
-        },
-        features: [
-          'Chasis reforzado con placas balísticas',
-          'Sistema de comunicación integrado',
-          'GPS de rastreo en tiempo real',
-          'Maletas laterales blindadas',
-          'Neumáticos anti-pinchazo',
-          'Capacidad: 1-2 personas'
-        ],
-        specs: [
-          { label: 'Protección', value: 'Nivel B4' },
-          { label: 'Motor', value: 'Parallel Twin 650cc' },
-          { label: 'Pasajeros', value: '1-2' },
-          { label: 'Autonomía', value: '400 km' },
-          { label: 'Velocidad máx.', value: '180 km/h' }
-        ]
-      }
-    ];
-  }
+      features: [
+        'Blindaje certificado nivel B4/B6',
+        'Diseño compacto para maniobras urbanas',
+        'Bajo consumo de combustible',
+        'Sistema de comunicación integrado',
+        'Vidrios anti-bala',
+        'Capacidad: 4 pasajeros'
+      ],
+      specs: [
+        { label: 'Blindaje', value: 'Nivel B4/B6' },
+        { label: 'Motor', value: 'I4 2.0L' },
+        { label: 'Pasajeros', value: '4' },
+        { label: 'Autonomía', value: '550 km' },
+        { label: 'Peso adicional', value: '+600 kg' }
+      ]
+    },
+    {
+      id: 'motocicleta',
+      name: 'Motocicleta',
+      type: 'Táctica',
+      description: 'Motocicleta táctica blindada para desplazamientos rápidos en zonas urbanas. Ideal para escoltas móviles y operaciones de reconocimiento con máxima agilidad.',
+      images: {
+        0: 'assets/vehicles/motocicleta/0.png',
+        90: 'assets/vehicles/motocicleta/90.png',
+        180: 'assets/vehicles/motocicleta/180.png',
+        270: 'assets/vehicles/motocicleta/270.png'
+      },
+      features: [
+        'Chasis reforzado con placas balísticas',
+        'Sistema de comunicación integrado',
+        'GPS de rastreo en tiempo real',
+        'Maletas laterales blindadas',
+        'Neumáticos anti-pinchazo',
+        'Capacidad: 1-2 personas'
+      ],
+      specs: [
+        { label: 'Protección', value: 'Nivel B4' },
+        { label: 'Motor', value: 'Parallel Twin 650cc' },
+        { label: 'Pasajeros', value: '1-2' },
+        { label: 'Autonomía', value: '400 km' },
+        { label: 'Velocidad máx.', value: '180 km/h' }
+      ]
+    },
+    // ← NUEVO: HELICÓPTERO
+    {
+      id: 'helicoptero',
+      name: 'Helicóptero',
+      type: 'Aéreo',
+      description: 'Helicóptero ejecutivo blindado para desplazamientos aéreos de alta seguridad. Ideal para evacuaciones rápidas, traslados VIP y operaciones en zonas de difícil acceso terrestre.',
+      images: {
+        0: 'assets/vehicles/helicoptero/0.png',
+        90: 'assets/vehicles/helicoptero/90.png',
+        180: 'assets/vehicles/helicoptero/180.png',
+        270: 'assets/vehicles/helicoptero/270.png'
+      },
+      features: [
+        'Cabina blindada con vidrios anti-bala',
+        'Sistema anti-misiles y contramedidas',
+        'Asientos eyectables de emergencia',
+        'Comunicación satelital encriptada',
+        'Sistema de visión nocturna avanzado',
+        'Capacidad: 4-6 pasajeros + 2 pilotos'
+      ],
+      specs: [
+        { label: 'Protección', value: 'Nivel B6 (cabina)' },
+        { label: 'Motor', value: 'Twin Turboshaft' },
+        { label: 'Pasajeros', value: '4-6 + 2 pilotos' },
+        { label: 'Autonomía', value: '650 km' },
+        { label: 'Velocidad máx.', value: '280 km/h' },
+        { label: 'Altitud máx.', value: '6,000 m' }
+      ]
+    }
+  ];
+}
 
   // MÉTODOS PARA MANEJO DE CANTIDADES
   

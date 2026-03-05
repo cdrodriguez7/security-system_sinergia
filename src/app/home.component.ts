@@ -20,7 +20,9 @@ import { ServiceCardComponent } from './components/service-card/service-card.com
 export class HomeComponent {
   showCtaBand: boolean = true;
   isBandMinimized: boolean = false;
+  isFloatExpanded: boolean = false; // ← AGREGADO
 
+  
   services = [
     {
       title: 'Protección Ejecutiva',
@@ -103,31 +105,26 @@ export class HomeComponent {
     { number: '$3M', label: 'Cobertura K&R', icon: '💼' }
   ];
 
-  // Datos temporales para Sobre Nosotros
   aboutData = {
     years: 14,
     clients: 850,
     operations: 12000,
-    coverage: 24
+    coverage: '24/24'
   };
 
-  // Datos temporales de cobertura (simulación)
   coverageData = [
     { province: 'Guayaquil', operations: 4500, percentage: 35 },
     { province: 'Zamora', operations: 3200, percentage: 25 },
     { province: 'Quito', operations: 2800, percentage: 22 },
-    { province: 'Cuenca', operations: 1200, percentage: 9 },
-    { province: 'Otras provincias', operations: 1100, percentage: 9 }
+    { province: 'Cuenca', operations: 1200, percentage: 9 }
   ];
 
-  // Testimonios temporales
   testimonials = [
     {
       text: 'Sinergia Security nos ha brindado tranquilidad absoluta en nuestras operaciones mineras. Su profesionalismo y respuesta rápida ante incidentes críticos ha sido impecable.',
       author: 'Carlos M.',
       position: 'Director de Seguridad',
       company: 'Empresa Minera - Zamora',
-      rating: 5,
       image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop'
     },
     {
@@ -135,7 +132,6 @@ export class HomeComponent {
       author: 'María G.',
       position: 'Ex-Viceministra',
       company: 'Gobierno del Ecuador',
-      rating: 5,
       image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop'
     },
     {
@@ -143,12 +139,10 @@ export class HomeComponent {
       author: 'Roberto P.',
       position: 'CEO',
       company: 'Empresa Importadora',
-      rating: 5,
       image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop'
     }
   ];
 
-  // Equipo temporal
   teamMembers = [
     {
       name: 'Crnl. (r) Eduardo Mora',
@@ -183,6 +177,7 @@ export class HomeComponent {
   
   constructor(private router: Router) {}
 
+  // Métodos para CTA Band
   closeBand(): void {
     this.showCtaBand = false;
   }
@@ -191,8 +186,19 @@ export class HomeComponent {
     this.isBandMinimized = !this.isBandMinimized;
   }
 
+  // Métodos para CTA Float
+  expandFloat(): void {
+    this.isFloatExpanded = true;
+  }
+
+  collapseFloat(): void {
+    this.isFloatExpanded = false;
+  }
+
+  // Navegación
   navigateTo(route: string) {
     this.router.navigate([route]);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   scrollToSection(sectionId: string) {
