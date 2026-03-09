@@ -8,7 +8,8 @@ export const routes: Routes = [
   },
   {
     path: 'servicios/proteccion-ejecutiva',
-    loadComponent: () => import('./pages/servicios/proteccion-ejecutiva.component').then(m => m.ProteccionEjecutivaComponent)
+    loadComponent: () => import('./pages/servicios/proteccion-ejecutiva/proteccion-ejecutiva.component')
+      .then(m => m.ProteccionEjecutivaComponent)
   },
   {
     path: 'servicios/seguridad-minera',

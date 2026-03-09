@@ -6,32 +6,32 @@
 /* PALETA DE COLORES */
 :root {
   /* Colores primarios */
-  --primary-gold: #90C2E3;
-  --primary-gold-dark: #487FC0;
-  --primary-gold-light: #487FC0;
-  
+  --primary-gold: #90C2E3;           /* Azul medio — color principal */
+  --primary-gold-dark: #2F6BA8;      /* Azul oscuro (antes era igual al light) */
+  --primary-gold-light: #BDD9F0;     /* Azul claro (nuevo, para contraste real) */
+
   /* Colores oscuros */
-  --dark-primary: #4f4f4f;
-  --dark-secondary: #2C2F36;
-  --dark-tertiary: #3A3E47;
-  
+  --dark-primary: #4f4f4f;           /* Gris medio */
+  --dark-secondary: #2C2F36;         /* Gris muy oscuro */
+  --dark-tertiary: #3A3E47;          /* Gris oscuro intermedio */
+
   /* Colores de texto */
   --text-light: #FFFFFF;
   --text-dark: #0F1115;
   --text-muted: #A8AAB0;
-  --text-gold: #487FC0;
-  
+  --text-gold: #487FC0;              /* Azul para links/énfasis */
+
   /* Backgrounds */
-  --bg-dark: #4f4f4f;
-  --bg-dark-overlay: rgba(79, 79, 79, 0.95);
+  --bg-dark: #2C2F36;                /* Alineado con dark-secondary (más oscuro, más coherente) */
+  --bg-dark-overlay: rgba(44, 47, 54, 0.95); /* Ajustado al nuevo bg-dark */
   --bg-section-light: #F8F9FA;
-  
+
   /* Bordes y sombras */
-  --border-color: rgba(229, 198, 67, 0.2);
+  --border-color: rgba(144, 194, 227, 0.2);  /* Azul primario en lugar de amarillo */
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.15);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.25);
-  --shadow-gold: 0 4px 20px rgba(229, 198, 67, 0.3);
+  --shadow-gold: 0 4px 20px rgba(72, 127, 192, 0.3); /* Glow azul en lugar de dorado */
   
   /* Transiciones */
   --transition-fast: 0.2s ease;

@@ -1,0 +1,358 @@
+<app-navbar></app-navbar>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb">
+      <a (click)="navigateTo('/')">Inicio</a>
+      <span>/</span>
+      <a (click)="navigateTo('/')">Servicios</a>
+      <span>/</span>
+      <span>Protección Ejecutiva</span>
+    </div>
+    <h1>Protección Ejecutiva de Alto Nivel</h1>
+    <p class="hero-description">
+      Seguridad personalizada 24/7 para autoridades, funcionarios públicos y ejecutivos 
+      con protocolos certificados internacionalmente
+    </p>
+  </div>
+</section>
+
+<section class="section services-features-section">
+  <div class="container">
+    <div class="service-intro">
+      <h2>¿Qué Incluye Nuestro Servicio?</h2>
+      <p>
+        Protección ejecutiva discreta y profesional diseñada específicamente para su perfil de riesgo. 
+        Nuestro equipo de especialistas certificados garantiza su seguridad en todo momento.
+      </p>
+    </div>
+
+    <div class="features-grid">
+      <!-- SERVICIO 1: Close Protection -->
+      <div class="feature-card">
+        <div class="feature-background" 
+            style="background-image: url('https://www.grsprotection.com/wp-content/uploads/2024/12/global-risk-solutions-situational-awareness-in-cp-scaled.jpg');">
+        </div>
+        <div class="feature-content">
+          <div class="feature-icon"></div>
+          <h3>Close Protection 24/7</h3>
+          <p>Equipo de escolta personal entrenado en metodologías internacionales</p>
+        </div>
+      </div>
+
+      <!-- SERVICIO 2: Análisis de Amenazas -->
+      <div class="feature-card">
+        <div class="feature-background" 
+            style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5OU0GhhYAAg43OpqJs3Y3cFdjI5KuDqz4orthdXON0Q&s');">
+        </div>
+        <div class="feature-content">
+          <div class="feature-icon"></div>
+          <h3>Análisis de Amenazas</h3>
+          <p>Evaluación continua de riesgos y vulnerabilidades</p>
+        </div>
+      </div>
+
+      <!-- SERVICIO 3: Movilidad Segura -->
+      <div class="feature-card">
+        <div class="feature-background" 
+            style="background-image: url('https://media.istockphoto.com/id/168961182/photo/bodyguard-protecting-politician-in-backseat-of-car.jpg?s=612x612&w=0&k=20&c=Nab9hpJTOLAEjgBIm_ngDzpQOP7SfhJphbyPSGG4C1Q=');">
+        </div>
+        <div class="feature-content">
+          <div class="feature-icon"></div>
+          <h3>Movilidad Segura</h3>
+          <p>Vehículos blindados y rutas seguras predefinidas</p>
+        </div>
+      </div>
+
+      <!-- SERVICIO 4: Monitoreo GPS -->
+      <div class="feature-card">
+        <div class="feature-background" 
+            style="background-image: url('https://www.instatelcr.com/wp-content/uploads/freshizer/b3bdddb1f74d2cbaf18cb62c55225f77_Como-maximizar-la-seguridad-de-sus-activos-con-monitoreo-y-rastreo-GPS-863-430-c.jpg');">
+        </div>
+        <div class="feature-content">
+          <div class="feature-icon"></div>
+          <h3>Monitoreo GPS</h3>
+          <p>Rastreo en tiempo real y comunicaciones encriptadas</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section vehicles-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Configure su flota de Vehículos Blindados</h2>
+      <p class="section-subtitle">
+        Seleccione los tipos de vehículos y cantidades que necesita para su operación de seguridad
+      </p>
+    </div>
+
+    <div class="vehicle-selector">
+      <h3>1. Seleccione Vehículos y Cantidades</h3>
+      <p class="selector-hint">Puede seleccionar múltiples tipos de vehículos</p>
+      
+      <div class="vehicle-types-grid">
+        <div class="vehicle-type-card" 
+             *ngFor="let vehicle of vehicleTypes"
+             [class.selected]="isVehicleSelected(vehicle.id)"
+             (click)="previewVehicle(vehicle)">
+          <div class="vehicle-icon-container">
+            <img [src]="vehicle.images[90]" [alt]="vehicle.name" class="vehicle-image-thumb">
+          </div>
+          <h4>{{ vehicle.name }}</h4>
+          <p class="vehicle-type-label">{{ vehicle.type }}</p>
+          
+          <!-- CONTADOR DE CANTIDAD -->
+          <div class="quantity-controls" (click)="$event.stopPropagation()">
+            <button class="quantity-btn minus" 
+                    (click)="decreaseQuantity(vehicle)"
+                    [disabled]="getVehicleQuantity(vehicle.id) === 0">
+              −
+            </button>
+            <input type="number" 
+                   class="quantity-input" 
+                   [value]="getVehicleQuantity(vehicle.id)"
+                   (input)="setQuantity(vehicle, $event)"
+                   min="0"
+                   max="99"
+                   (click)="$event.stopPropagation()">
+            <button class="quantity-btn plus" 
+                    (click)="increaseQuantity(vehicle)"
+                    [disabled]="getVehicleQuantity(vehicle.id) >= 99">
+              +
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL DE SELECCIÓN DE UNIFORMES -->
+    <div class="uniform-modal-overlay" *ngIf="uniformSelectionStep === 'uniform'">
+      <div class="uniform-modal">
+        <div class="uniform-modal-header">
+          <h2>Asignar Uniforme a la Tripulación</h2>
+          <p class="uniform-modal-subtitle" *ngIf="pendingVehicleForUniform">
+            {{ pendingVehicleForUniform.vehicle.name }} {{ pendingVehicleForUniform.uniformAssignments.length + 1 }} 
+            de {{ pendingVehicleForUniform.quantity }}
+          </p>
+          <button class="modal-close-btn" (click)="cancelUniformSelection()">✕</button>
+        </div>
+
+        <div class="uniform-modal-body">
+          <!-- SELECTOR DE UNIFORMES -->
+          <div class="uniform-selector-grid">
+            <div class="uniform-type-card" 
+                *ngFor="let uniform of uniformTypes"
+                [class.selected]="previewedUniform?.id === uniform.id"
+                (click)="previewUniform(uniform)">
+                <!-- <div class="uniform-icon-large">{{ getUniformIcon(uniform.id) }}</div> -->
+                <h4>{{ uniform.name }}</h4>
+                <p class="uniform-category">{{ uniform.category }}</p>
+            </div>
+            </div>
+
+          <!-- VISTA PREVIA DEL UNIFORME -->
+          <div class="uniform-preview" *ngIf="previewedUniform">
+            <div class="uniform-display-grid">
+              <div class="uniform-360">
+                <div class="rotation-controls">
+                  <button class="rotation-btn" (click)="rotateUniform('left')">←</button>
+                  <span class="rotation-indicator"></span>
+                  <button class="rotation-btn" (click)="rotateUniform('right')">→</button>
+                </div>
+                
+                <div class="uniform-view-large">
+                  <img [src]="getRotatedUniformImage()" 
+                       [alt]="previewedUniform.name" 
+                       class="uniform-image-xlarge">
+                </div>
+                
+                <p class="rotation-hint">← Usa las flechas para rotar la vista →</p>
+              </div>
+
+              <div class="uniform-info">
+                <h3>{{ previewedUniform.name }}</h3>
+                <p class="uniform-description">{{ previewedUniform.description }}</p>
+                
+                <div class="uniform-features">
+                  <h4>Características:</h4>
+                  <ul>
+                    <li *ngFor="let feature of previewedUniform.features">
+                      <span class="check-icon">✓</span>
+                      {{ feature }}
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="uniform-situations">
+                  <h4>Recomendado para:</h4>
+                  <div class="situation-tags">
+                    <span class="situation-tag" *ngFor="let situation of previewedUniform.situations">
+                      {{ situation }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- OPCIÓN: MISMO UNIFORME PARA TODOS -->
+          <div class="uniform-assignment-option" *ngIf="pendingVehicleForUniform && pendingVehicleForUniform.quantity > 0">
+            <label class="checkbox-label">
+              <input type="checkbox" 
+                     [(ngModel)]="assignSameUniformToAll">
+              <span>
+                Asignar este uniforme automáticamente a todos los próximos vehículos {{ pendingVehicleForUniform.vehicle.name }} 
+              que agregues.
+              </span>
+            </label>
+          </div>
+
+          <!-- BOTONES DE ACCIÓN -->
+          <div class="uniform-modal-actions">
+            <button class="btn btn-secondary" (click)="cancelUniformSelection()">
+              Cancelar
+            </button>
+            <button class="btn btn-primary" 
+                    (click)="confirmUniformSelection(previewedUniform!)"
+                    [disabled]="!previewedUniform">
+              Confirmar Uniforme
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VISTA PREVIA DEL VEHÍCULO -->
+    <div class="vehicle-details" *ngIf="previewedVehicle">
+      <div class="vehicle-display">
+        <div class="vehicle-360">
+          <div class="rotation-controls">
+            <button class="rotation-btn" (click)="rotateVehicle('left')">
+              ←
+            </button>
+            <span class="rotation-indicator">Vista {{ currentRotation }}°</span>
+            <button class="rotation-btn" (click)="rotateVehicle('right')">
+              →
+            </button>
+          </div>
+          
+          <div class="vehicle-view-large">
+            <img [src]="getRotatedImage()" 
+                 [alt]="previewedVehicle.name" 
+                 class="vehicle-image-xlarge">
+          </div>
+          
+          <p class="rotation-hint">← Usa las flechas para rotar la vista →</p>
+        </div>
+
+        <div class="vehicle-info">
+          <h3>{{ previewedVehicle.name }}</h3>
+          <p class="vehicle-description">{{ previewedVehicle.description }}</p>
+          
+          <div class="vehicle-features">
+            <h4>Características Incluidas:</h4>
+            <ul>
+              <li *ngFor="let feature of previewedVehicle.features">
+                <span class="check-icon">✓</span>
+                {{ feature }}
+              </li>
+            </ul>
+          </div>
+
+          <div class="vehicle-specs">
+            <h4>Especificaciones de Blindaje:</h4>
+            <div class="spec-item" *ngFor="let spec of previewedVehicle.specs">
+              <span class="spec-label">{{ spec.label }}</span>
+              <span class="spec-value">{{ spec.value }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EQUIPAMIENTO -->
+    <div class="equipment-selector" *ngIf="selectedVehicles.length > 0">
+      <h3>2. Seleccione Equipamiento Adicional</h3>
+      <div class="equipment-grid">
+        <div class="equipment-card" 
+             *ngFor="let item of equipment"
+             [class.selected]="isEquipmentSelected(item.id)"
+             (click)="toggleEquipment(item)">
+          <div class="equipment-checkbox">
+            <span *ngIf="isEquipmentSelected(item.id)">✓</span>
+          </div>
+          <div class="equipment-icon">{{ item.icon }}</div>
+          <h4>{{ item.name }}</h4>
+          <p class="equipment-category">{{ item.category }}</p>
+          <p class="equipment-description">{{ item.description }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESUMEN DE COTIZACIÓN -->
+    <div class="quote-summary" *ngIf="selectedVehicles.length > 0">
+      <div class="summary-content">
+        <h3>Resumen de Configuración</h3>
+        <div class="summary-items">
+          <div class="summary-item">
+            <span class="summary-label">Vehículos y Uniformes:</span>
+            <div class="selected-vehicles-list">
+              <div class="vehicle-summary-item" *ngFor="let sv of selectedVehicles">
+                <div class="vehicle-summary-header">
+                  <span class="vehicle-quantity-badge">{{ sv.quantity }}x</span>
+                  <span class="vehicle-name">{{ sv.vehicle.name }}</span>
+                  <span class="vehicle-type">({{ sv.vehicle.type }})</span>
+                </div>
+                
+                <!-- LISTA DE UNIFORMES ASIGNADOS -->
+                <div class="uniform-assignments-list" *ngIf="sv.uniformAssignments.length > 0">
+                  <div class="uniform-assignment-item" 
+                       *ngFor="let assignment of sv.uniformAssignments; let i = index">
+                    <span class="uniform-badge">
+                      {{ getUniformIcon(assignment.uniformId) }}
+                    </span>
+                    <span class="assignment-text">
+                      Unidad #{{ assignment.vehicleIndex }}: {{ getUniformNameById(assignment.uniformId) }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="summary-item">
+            <span class="summary-label">Total de Vehículos:</span>
+            <span class="summary-value total-vehicles">{{ getTotalVehicles() }} unidades</span>
+          </div>
+          
+          <div class="summary-item" *ngIf="selectedEquipment.length > 0">
+            <span class="summary-label">Equipamiento Seleccionado:</span>
+            <div class="selected-equipment-list">
+              <span *ngFor="let eq of selectedEquipment" class="equipment-tag">
+                {{ eq.name }}
+              </span>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-lg" (click)="requestCustomQuote()">
+          Solicitar Cotización Personalizada
+        </button>
+        <p class="quote-note">
+          * Un asesor de seguridad se pondrá en contacto en menos de 24 horas
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section cta-section">
+  <div class="container">
+    <h2>¿Listo para una Protección de Nivel Internacional?</h2>
+    <p>Solicite una evaluación de riesgo personalizada</p>
+    <button class="btn btn-primary btn-lg" (click)="navigateTo('/contacto')">
+      Agendar Reunión Confidencial
+    </button>
+  </div>
+</section>
