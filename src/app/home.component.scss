@@ -974,44 +974,79 @@
 }
 
 /* EQUIPO */
+/* ========================================
+   EQUIPO - CARRUSEL INFINITO SIN DUPLICADOS
+   ======================================== */
+
 .team-section {
   background: var(--bg-section-light);
+  padding: 100px 0;
+  overflow: hidden;
 }
 
-.team-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+.carousel-wrapper {
+  position: relative;
+  width: 100%;
+  padding: 40px 0;
+  margin-bottom: 60px;
+}
+
+/* WRAPPER CON OVERFLOW HIDDEN */
+.carousel-track-wrapper {
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+  padding: 0 100px;
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+/* TRACK QUE SE MUEVE CON TRANSFORM */
+.carousel-track-single {
+  display: flex;
   gap: 30px;
-  margin-top: 50px;
+  will-change: transform;
+  transition: none; /* Sin transición para movimiento suave manual */
 }
 
-.team-card {
+/* TARJETAS */
+.team-card-carousel {
+  flex: 0 0 350px;
   background: white;
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: var(--shadow-md);
-  transition: var(--transition-fast);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s ease;
 
   &:hover {
     transform: translateY(-10px);
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 20px 50px rgba(72, 127, 192, 0.25);
 
     .team-overlay {
       opacity: 1;
       visibility: visible;
     }
+
+    img {
+      transform: scale(1.1);
+    }
   }
 
   .team-image {
     position: relative;
-    height: 350px;
+    height: 400px;
     overflow: hidden;
+    background: linear-gradient(135deg, var(--dark-primary) 0%, var(--dark-secondary) 100%);
 
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       transition: transform 0.5s ease;
+      user-select: none;
+      pointer-events: none;
     }
 
     .team-overlay {
@@ -1038,16 +1073,13 @@
       font-weight: 700;
       cursor: pointer;
       transition: var(--transition-fast);
+      pointer-events: auto;
 
       &:hover {
         background: var(--primary-gold-dark);
         transform: scale(1.05);
       }
     }
-  }
-
-  &:hover img {
-    transform: scale(1.1);
   }
 
   .team-content {
@@ -1100,11 +1132,74 @@
   }
 }
 
+/* FLECHAS */
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid var(--primary-blue);
+  color: var(--primary-blue);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
+  &:hover:not(.disabled) {
+    background: var(--primary-blue);
+    color: white;
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  &.carousel-arrow-left {
+    left: 20px;
+  }
+
+  &.carousel-arrow-right {
+    right: 20px;
+  }
+}
+
+/* INDICADORES */
+.carousel-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(72, 127, 192, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(72, 127, 192, 0.6);
+    transform: scale(1.2);
+  }
+
+  &.active {
+    background: var(--primary-blue);
+    width: 30px;
+    border-radius: 5px;
+  }
+}
+
+/* INFO BOXES (sin cambios) */
 .team-info {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 30px;
-  margin-top: 60px;
+  margin-top: 40px;
 }
 
 .info-box {
@@ -1145,6 +1240,21 @@
 .team-cta {
   text-align: center;
   margin-top: 40px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .carousel-track-wrapper {
+    padding: 0 60px;
+  }
+
+  .team-card-carousel {
+    flex: 0 0 300px;
+  }
+
+  .team-info {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* CONTACTO CTA */
@@ -1284,7 +1394,7 @@
       font-weight: 400;
       text-transform: uppercase;
       letter-spacing: 2px;
-      color: var(--primary-blue);  /* Color azul en lugar de gold */
+      color: var(--primary-gold);  /* Color azul en lugar de gold */
       line-height: 1;
     }
   }

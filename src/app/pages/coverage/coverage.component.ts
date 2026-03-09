@@ -256,7 +256,7 @@ interface RegionalOffice {
 
       a {
         cursor: pointer;
-        &:hover { color: var(--primary-blue); }
+        &:hover { color: var(--primary-gold); }
       }
     }
 
@@ -327,7 +327,7 @@ interface RegionalOffice {
     .marker-pulse {
       width: 20px;
       height: 20px;
-      background: var(--primary-blue);
+      background: var(--primary-gold);
       border-radius: 50%;
       animation: pulse 2s infinite;
     }
@@ -386,7 +386,7 @@ interface RegionalOffice {
       gap: 20px;
 
       &.highlight {
-        background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+        background: linear-gradient(135deg, var(--primary-gold) 0%, var(--primary-gold-dark) 100%);
         color: white;
       }
     }
@@ -451,11 +451,11 @@ interface RegionalOffice {
       transition: all 0.3s ease;
 
       &:hover {
-        border-color: var(--primary-blue);
+        border-color: var(--primary-gold);
       }
 
       &.active {
-        background: var(--primary-blue);
+        background: var(--primary-gold);
         color: white;
       }
     }
@@ -489,7 +489,7 @@ interface RegionalOffice {
 
       .province-region {
         font-size: 13px;
-        color: var(--primary-blue);
+        color: var(--primary-gold);
       }
     }
 
@@ -536,7 +536,7 @@ interface RegionalOffice {
 
     .province-fill {
       height: 100%;
-      background: linear-gradient(90deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+      background: linear-gradient(90deg, var(--primary-gold) 0%, var(--primary-gold-dark) 100%);
       transition: width 0.5s ease;
     }
 
@@ -563,7 +563,7 @@ interface RegionalOffice {
       position: absolute;
       top: 20px;
       right: 20px;
-      background: var(--primary-blue);
+      background: var(--primary-gold);
       color: white;
       padding: 5px 15px;
       border-radius: 20px;

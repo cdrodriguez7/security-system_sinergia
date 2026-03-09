@@ -327,31 +327,71 @@
         75+ especialistas certificados con experiencia en Fuerzas Especiales, GIR, y protección ejecutiva internacional
       </p>
     </div>
-    
-    <div class="team-grid">
-      <div class="team-card" *ngFor="let member of teamMembers">
-        <div class="team-image">
-          <img [src]="member.image" [alt]="member.name">
-          <div class="team-overlay">
-            <button class="btn-view-profile" (click)="navigateTo('/equipo')">Ver Perfil</button>
+  </div>
+
+  <!-- CARRUSEL INFINITO SIN DUPLICADOS -->
+  <div class="carousel-wrapper">
+    <!-- FLECHAS DE NAVEGACIÓN -->
+    <button class="carousel-arrow carousel-arrow-left" 
+            (click)="scrollCarousel('left')"
+            [class.disabled]="isCarouselScrolling">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <button class="carousel-arrow carousel-arrow-right" 
+            (click)="scrollCarousel('right')"
+            [class.disabled]="isCarouselScrolling">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <!-- CONTENEDOR DEL CARRUSEL -->
+    <div class="carousel-track-wrapper"
+         #carouselWrapper
+         (mousedown)="onDragStart($event)"
+         (mousemove)="onDragMove($event)"
+         (mouseup)="onDragEnd($event)"
+         (mouseleave)="onDragEnd($event)"
+         (touchstart)="onDragStart($event)"
+         (touchmove)="onDragMove($event)"
+         (touchend)="onDragEnd($event)">
+      
+      <div class="carousel-track-single" 
+           #carouselTrack
+           [style.transform]="'translateX(' + currentOffset + 'px)'">
+        
+        <!-- SOLO UNA COPIA - Sin duplicados -->
+        <div class="team-card-carousel" 
+             *ngFor="let member of teamMembers; let i = index"
+             [attr.data-index]="i">
+          <div class="team-image">
+            <img [src]="member.image" [alt]="member.name" draggable="false">
+            <div class="team-overlay">
+              <button class="btn-view-profile" (click)="navigateTo('/equipo')">Ver Perfil</button>
+            </div>
           </div>
-        </div>
-        <div class="team-content">
-          <h3 class="team-name">{{ member.name }}</h3>
-          <p class="team-position">{{ member.position }}</p>
-          <p class="team-experience">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M8 2L10 6L14 6.5L11 10L12 14L8 12L4 14L5 10L2 6.5L6 6L8 2Z" fill="currentColor"/>
-            </svg>
-            {{ member.experience }}
-          </p>
-          <div class="team-certifications">
-            <span class="cert-tag" *ngFor="let cert of member.certifications">{{ cert }}</span>
+          <div class="team-content">
+            <h3 class="team-name">{{ member.name }}</h3>
+            <p class="team-position">{{ member.position }}</p>
+            <p class="team-experience">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M8 2L10 6L14 6.5L11 10L12 14L8 12L4 14L5 10L2 6.5L6 6L8 2Z" fill="currentColor"/>
+              </svg>
+              {{ member.experience }}
+            </p>
+            <div class="team-certifications">
+              <span class="cert-tag" *ngFor="let cert of member.certifications">{{ cert }}</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    
+  </div>  
+
+  <div class="container">
     <div class="team-info">
       <div class="info-box">
         <h4>Requisitos de Selección</h4>

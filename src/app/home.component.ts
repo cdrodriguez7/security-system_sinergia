@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -17,12 +17,62 @@ import { ServiceCardComponent } from './components/service-card/service-card.com
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent {
+export class HomeComponent implements AfterViewInit, OnDestroy {
+  @ViewChild('carouselTrack') carouselTrack!: ElementRef;
+  @ViewChild('carouselWrapper') carouselWrapper!: ElementRef;
+
   showCtaBand: boolean = true;
   isBandMinimized: boolean = false;
-  isFloatExpanded: boolean = false; // ← AGREGADO
+  isFloatExpanded: boolean = false;
 
-  
+  // PROPIEDADES DEL CARRUSEL
+  currentOffset: number = 0;
+  currentIndex: number = 0;
+  isDragging: boolean = false;
+  startX: number = 0;
+  startOffset: number = 0;
+  isCarouselScrolling: boolean = false;
+  autoScrollInterval: any;
+  cardWidth: number = 380;
+  animationFrameId: any;
+
+  // MIEMBROS ORIGINALES
+  teamMembersOriginal = [
+    {
+      name: 'Crnl. (r) Eduardo Mora',
+      position: 'Director General',
+      experience: '25 años en Fuerzas Especiales',
+      certifications: ['Close Protection International', 'Crisis Management', 'Tactical Operations'],
+      image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop'
+    },
+    {
+      name: 'Lcdo. Marco Vélez',
+      position: 'Director de Operaciones',
+      experience: '18 años en seguridad corporativa',
+      certifications: ['K&R Specialist', 'Risk Assessment', 'Executive Protection'],
+      image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=400&fit=crop'
+    },
+    {
+      name: 'Dra. Patricia Sánchez',
+      position: 'Coordinadora de Crisis',
+      experience: '15 años en gestión de riesgos',
+      certifications: ['Crisis Negotiation', 'Psychology', 'Emergency Management'],
+      image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop'
+    },
+    {
+      name: 'Sgto. (r) Luis Andrade',
+      position: 'Jefe de Operaciones Tácticas',
+      experience: '20 años en GIR',
+      certifications: ['Tactical Response', 'Firearms Instructor', 'Defense Tactics'],
+      image: 'https://images.unsplash.com/photo-1556157382-97eda2d62296?w=400&h=400&fit=crop'
+    }
+  ];
+
+  // ARRAY PARA RENDERIZAR (con suficientes copias)
+  teamMembers: any[] = [];
+
+  // ... (resto de propiedades: services, stats, etc.) ...
+
   services = [
     {
       title: 'Protección Ejecutiva',
@@ -143,41 +193,161 @@ export class HomeComponent {
     }
   ];
 
-  teamMembers = [
-    {
-      name: 'Crnl. (r) Eduardo Mora',
-      position: 'Director General',
-      experience: '25 años en Fuerzas Especiales',
-      certifications: ['Close Protection International', 'Crisis Management', 'Tactical Operations'],
-      image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop'
-    },
-    {
-      name: 'Lcdo. Marco Vélez',
-      position: 'Director de Operaciones',
-      experience: '18 años en seguridad corporativa',
-      certifications: ['K&R Specialist', 'Risk Assessment', 'Executive Protection'],
-      image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=400&fit=crop'
-    },
-    {
-      name: 'Dra. Patricia Sánchez',
-      position: 'Coordinadora de Crisis',
-      experience: '15 años en gestión de riesgos',
-      certifications: ['Crisis Negotiation', 'Psychology', 'Emergency Management'],
-      image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop'
-    },
-    {
-      name: 'Sgto. (r) Luis Andrade',
-      position: 'Jefe de Operaciones Tácticas',
-      experience: '20 años en GIR',
-      certifications: ['Tactical Response', 'Firearms Instructor', 'Defense Tactics'],
-      image: 'https://images.unsplash.com/photo-1556157382-97eda2d62296?w=400&h=400&fit=crop'
+  constructor(private router: Router) {
+    // Crear suficientes copias para llenar la pantalla + buffer
+    // Con 4 miembros, crear 5 copias = 20 tarjetas total
+    this.teamMembers = [];
+    for (let i = 0; i < 5; i++) {
+      this.teamMembers = [...this.teamMembers, ...this.teamMembersOriginal];
     }
-  ];
+  }
 
-  
-  constructor(private router: Router) {}
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.initializeCarousel();
+      this.startAutoScroll();
+    }, 500);
+  }
 
-  // Métodos para CTA Band
+  ngOnDestroy() {
+    this.stopAutoScroll();
+  }
+
+  // ========================================
+  // CARRUSEL INFINITO
+  // ========================================
+
+  initializeCarousel() {
+    // Posicionar en el medio del carrusel
+    const totalCards = this.teamMembers.length;
+    const middlePosition = Math.floor(totalCards / 2);
+    this.currentOffset = -(middlePosition * this.cardWidth);
+  }
+
+  startAutoScroll() {
+    this.autoScrollInterval = setInterval(() => {
+      if (!this.isDragging) {
+        this.autoScroll();
+      }
+    }, 30);
+  }
+
+  stopAutoScroll() {
+    if (this.autoScrollInterval) {
+      clearInterval(this.autoScrollInterval);
+    }
+    if (this.animationFrameId) {
+      cancelAnimationFrame(this.animationFrameId);
+    }
+  }
+
+  autoScroll() {
+    this.currentOffset -= 1;
+    this.normalizePosition();
+  }
+
+  normalizePosition() {
+    const originalSetWidth = this.cardWidth * this.teamMembersOriginal.length;
+    
+    // Calcular posición relativa al set original
+    const relativePosition = this.currentOffset % -originalSetWidth;
+    
+    // Si el offset es muy negativo, ajustar
+    if (this.currentOffset < -(originalSetWidth * 3)) {
+      this.currentOffset = relativePosition - originalSetWidth;
+    }
+    
+    // Si el offset es positivo, ajustar
+    if (this.currentOffset > 0) {
+      this.currentOffset = -originalSetWidth + relativePosition;
+    }
+
+    // Actualizar índice visual
+    const absoluteIndex = Math.abs(Math.round(this.currentOffset / this.cardWidth));
+    this.currentIndex = absoluteIndex % this.teamMembersOriginal.length;
+  }
+
+  scrollCarousel(direction: 'left' | 'right') {
+    if (this.isCarouselScrolling) return;
+
+    this.isCarouselScrolling = true;
+    const targetOffset = direction === 'left' 
+      ? this.currentOffset + this.cardWidth
+      : this.currentOffset - this.cardWidth;
+
+    this.animateToPosition(targetOffset, 300);
+
+    setTimeout(() => {
+      this.isCarouselScrolling = false;
+    }, 300);
+  }
+
+  animateToPosition(target: number, duration: number) {
+    const start = this.currentOffset;
+    const distance = target - start;
+    const startTime = performance.now();
+
+    const animate = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      const easeProgress = 1 - Math.pow(1 - progress, 3);
+      
+      this.currentOffset = start + (distance * easeProgress);
+      
+      if (progress < 1) {
+        this.animationFrameId = requestAnimationFrame(animate);
+      } else {
+        this.normalizePosition();
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }
+
+  onDragStart(event: MouseEvent | TouchEvent) {
+    this.isDragging = true;
+    this.startX = this.getPositionX(event);
+    this.startOffset = this.currentOffset;
+    event.preventDefault();
+  }
+
+  onDragMove(event: MouseEvent | TouchEvent) {
+    if (!this.isDragging) return;
+
+    const currentX = this.getPositionX(event);
+    const diff = currentX - this.startX;
+    this.currentOffset = this.startOffset + diff;
+  }
+
+  onDragEnd(event: MouseEvent | TouchEvent) {
+    if (!this.isDragging) return;
+
+    this.isDragging = false;
+    
+    const nearestIndex = Math.round(-this.currentOffset / this.cardWidth);
+    const targetOffset = -nearestIndex * this.cardWidth;
+    
+    this.animateToPosition(targetOffset, 200);
+  }
+
+  getPositionX(event: MouseEvent | TouchEvent): number {
+    return event instanceof MouseEvent 
+      ? event.clientX 
+      : event.touches[0].clientX;
+  }
+
+  goToSlide(index: number) {
+    // Ir al slide en el set original más cercano
+    const currentSetPosition = Math.floor(-this.currentOffset / (this.cardWidth * this.teamMembersOriginal.length));
+    const targetOffset = -((currentSetPosition * this.teamMembersOriginal.length) + index) * this.cardWidth;
+    this.animateToPosition(targetOffset, 300);
+  }
+
+  // ========================================
+  // MÉTODOS PARA CTA Y NAVEGACIÓN
+  // ========================================
+
   closeBand(): void {
     this.showCtaBand = false;
   }
@@ -186,7 +356,6 @@ export class HomeComponent {
     this.isBandMinimized = !this.isBandMinimized;
   }
 
-  // Métodos para CTA Float
   expandFloat(): void {
     this.isFloatExpanded = true;
   }
@@ -195,7 +364,6 @@ export class HomeComponent {
     this.isFloatExpanded = false;
   }
 
-  // Navegación
   navigateTo(route: string) {
     this.router.navigate([route]);
     window.scrollTo({ top: 0, behavior: 'smooth' });
