@@ -349,7 +349,7 @@
   }
 
   .stat-box {
-    background: rgba(229, 198, 67, 0.1);
+    background: rgba(163, 142, 49, 0.1);
     border: 2px solid rgba(229, 198, 67, 0.3);
     border-radius: 15px;
     padding: 25px;
@@ -357,7 +357,7 @@
     transition: var(--transition-fast);
 
     &:hover {
-      background: rgba(229, 198, 67, 0.15);
+      background: rgba(163, 142, 49, 0.15);
       transform: translateY(-5px);
     }
 
@@ -404,7 +404,7 @@
 
     .cert-badge {
       padding: 8px 16px;
-      background: rgba(229, 198, 67, 0.15);
+      background: rgba(163, 142, 49, 0.15);
       border: 1px solid rgba(229, 198, 67, 0.3);
       border-radius: 25px;
       font-size: 12px;
@@ -497,7 +497,7 @@
       border-radius: 50%;
       background: var(--primary-gold);
       border: 3px solid white;
-      box-shadow: 0 4px 12px rgba(229, 198, 67, 0.5);
+      box-shadow: 0 4px 12px var(--primary-gold-dark);
       animation: pulse-marker 2s infinite;
       z-index: 1;
     }
@@ -590,11 +590,11 @@
 @keyframes pulse-marker {
   0%, 100% {
     opacity: 1;
-    box-shadow: 0 4px 12px rgba(229, 198, 67, 0.5);
+    box-shadow: 0 4px 12px var(--primary-gold-dark);
   }
   50% {
     opacity: 0.7;
-    box-shadow: 0 4px 20px rgba(229, 198, 67, 0.8), 
+    box-shadow: 0 4px 20px var(--primary-gold-dark), 
                 0 0 0 10px rgba(229, 198, 67, 0.2);
   }
 }
@@ -603,11 +603,11 @@
 @keyframes pulse-marker-fast {
   0%, 100% {
     opacity: 1;
-    box-shadow: 0 4px 12px rgba(229, 198, 67, 0.5);
+    box-shadow: 0 4px 12px var(--primary-gold-dark);
   }
   50% {
     opacity: 0.8;
-    box-shadow: 0 4px 20px rgba(229, 198, 67, 1), 
+    box-shadow: 0 4px 20px var(--primary-gold-dark), 
                 0 0 0 15px rgba(229, 198, 67, 0.3);
   }
 }
@@ -652,7 +652,7 @@
 
   .coverage-bar {
     height: 12px;
-    background: rgba(229, 198, 67, 0.1);
+    background: rgba(163, 142, 49, 0.1);
     border-radius: 10px;
     overflow: hidden;
     margin-bottom: 5px;
@@ -732,13 +732,13 @@
 
 .response-card {
   padding: 25px;
-  background: rgba(229, 198, 67, 0.1);
+  background: rgba(163, 142, 49, 0.1);
   border: 2px solid rgba(229, 198, 67, 0.3);
   border-radius: 15px;
   transition: var(--transition-fast);
 
   &:hover {
-    background: rgba(229, 198, 67, 0.15);
+    background: rgba(163, 142, 49, 0.15);
     transform: translateY(-5px);
   }
 
@@ -819,7 +819,7 @@
 
 .response-card {
   padding: 25px;
-  background: rgba(229, 198, 67, 0.1);
+  background: rgba(163, 142, 49, 0.1);
   border: 2px solid rgba(229, 198, 67, 0.3);
   border-radius: 15px;
   transition: var(--transition-fast);
@@ -848,6 +848,10 @@
 .cases-section {
   background: var(--dark-primary);
   color: var(--text-light);
+    
+  h2 {
+    color: var(--text-light);
+  }
 }
 
 .testimonials-grid {
@@ -928,7 +932,7 @@
   .testimonial-badge {
     display: inline-block;
     padding: 6px 12px;
-    background: rgba(229, 198, 67, 0.15);
+    background: rgba(163, 142, 49, 0.15); //tono amarillo de fondo
     border: 1px solid rgba(229, 198, 67, 0.3);
     border-radius: 20px;
     font-size: 11px;
@@ -945,7 +949,7 @@
   gap: 30px;
   margin-top: 60px;
   padding: 40px;
-  background: rgba(229, 198, 67, 0.05);
+  background: rgba(163, 142, 49, 0.05);
   border-radius: 20px;
   border: 2px solid rgba(229, 198, 67, 0.2);
 }
@@ -987,7 +991,6 @@
 .carousel-wrapper {
   position: relative;
   width: 100%;
-  padding: 40px 0;
   margin-bottom: 60px;
 }
 
@@ -996,6 +999,7 @@
   overflow: hidden;
   cursor: grab;
   user-select: none;
+  height: 680px;
   padding: 0 100px;
 
   &:active {
@@ -1008,7 +1012,7 @@
   display: flex;
   gap: 30px;
   will-change: transform;
-  transition: none; /* Sin transición para movimiento suave manual */
+  transition: none; 
 }
 
 /* TARJETAS */
@@ -1017,11 +1021,9 @@
   background: white;
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   transition: all 0.4s ease;
 
   &:hover {
-    transform: translateY(-10px);
     box-shadow: 0 20px 50px rgba(72, 127, 192, 0.25);
 
     .team-overlay {
@@ -1199,7 +1201,6 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 30px;
-  margin-top: 40px;
 }
 
 .info-box {
@@ -1208,6 +1209,8 @@
   padding: 30px;
   border-left: 4px solid var(--primary-gold);
   box-shadow: var(--shadow-sm);
+  margin-bottom: 40px;
+
 
   h4 {
     color: var(--dark-primary);
@@ -1239,8 +1242,8 @@
 
 .team-cta {
   text-align: center;
-  margin-top: 40px;
-}
+  margin-top: 20px;  
+  }
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
@@ -1425,7 +1428,7 @@
 
   .footer-emergency {
     padding: 15px;
-    background: rgba(229, 198, 67, 0.1);
+    background: rgba(163, 142, 49, 0.1);
     border: 1px solid rgba(229, 198, 67, 0.3);
     border-radius: 10px;
 
@@ -1459,7 +1462,7 @@
 
   .footer-badge {
     padding: 6px 12px;
-    background: rgba(229, 198, 67, 0.1);
+    background: rgba(163, 142, 49, 0.1);
     border: 1px solid rgba(229, 198, 67, 0.3);
     border-radius: 15px;
     font-size: 11px;

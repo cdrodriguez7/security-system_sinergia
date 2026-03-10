@@ -179,7 +179,8 @@ a {
 .btn-primary:hover {
   background: var(--primary-gold-dark);
   transform: translateY(-3px);
-  box-shadow: 0 8px 30px rgba(229, 198, 67, 0.4);
+  color: var(--bg-section-light);
+  box-shadow: 0 8px 30px rgba(10, 10, 9, 0.4);
 }
 
 .btn-secondary {

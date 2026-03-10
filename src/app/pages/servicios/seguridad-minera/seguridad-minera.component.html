@@ -1,0 +1,253 @@
+<app-navbar></app-navbar>
+
+<!-- HERO SECTION -->
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb">
+      <a (click)="navigateTo('/')">Inicio</a>
+      <span>/</span>
+      <a (click)="navigateTo('/')">Servicios</a>
+      <span>/</span>
+      <span>Seguridad Minera</span>
+    </div>
+    <h1>Seguridad Especializada para Operaciones Mineras</h1>
+    <p class="hero-description">
+      Protección integral de instalaciones, personal y equipos en zonas mineras con más de 10 años 
+      de experiencia en el sector extractivo ecuatoriano
+    </p>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-number">45+</div>
+        <div class="stat-label">Operaciones Protegidas</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">3,200+</div>
+        <div class="stat-label">Servicios Ejecutados</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">Monitoreo Continuo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CARACTERÍSTICAS PRINCIPALES -->
+<section class="section features-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>¿Por Qué Elegir Nuestro Servicio?</h2>
+      <p class="section-subtitle">
+        Experiencia comprobada en protección de operaciones mineras en las zonas más desafiantes del Ecuador
+      </p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card" *ngFor="let feature of features">
+        <div class="feature-background" [style.background-image]="'url(' + feature.image + ')'"></div>
+        <div class="feature-content">
+          <div class="feature-icon">{{ feature.icon }}</div>
+          <h3>{{ feature.title }}</h3>
+          <p>{{ feature.description }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIPOS DE OPERACIONES MINERAS -->
+<section class="section operations-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Soluciones por Tipo de Operación</h2>
+      <p class="section-subtitle">
+        Protocolos especializados adaptados a cada tipo de actividad minera
+      </p>
+    </div>
+
+    <!-- TABS DE OPERACIONES -->
+    <div class="operations-tabs">
+      <button class="tab-btn" 
+              *ngFor="let operation of operationTypes"
+              [class.active]="selectedOperationType === operation.id"
+              (click)="selectOperationType(operation.id)">
+        {{ operation.name }}
+      </button>
+    </div>
+
+    <!-- CONTENIDO DE OPERACIÓN SELECCIONADA -->
+    <div class="operation-content">
+        <div class="operation-grid">
+            <div class="operation-info">
+                <h3>{{ getSelectedOperation().name }}</h3>
+                <p class="operation-description">{{ getSelectedOperation().description }}</p>
+
+                <div class="services-list">
+                    <h4>Servicios Incluidos:</h4>
+                    <ul>
+                    <li *ngFor="let service of getSelectedOperation().services">
+                        <span class="check-icon">✓</span>
+                        {{ service }}
+                    </li>
+                    </ul>
+                </div>
+
+                <div class="risks-list">
+                    <h4>Riesgos Mitigados:</h4>
+                    <div class="risk-tags">
+                    <span class="risk-tag" *ngFor="let risk of getSelectedOperation().risks">
+                        {{ risk }}
+                    </span>
+                    </div>
+                </div>
+                </div>
+
+                <!-- IMAGEN DINÁMICA POR OPERACIÓN -->
+                <div class="operation-image">
+                    <img [src]="getSelectedOperation().image" 
+                        [alt]="getSelectedOperation().name"
+                        class="placeholder-image">
+                </div>
+            </div>
+        </div>
+  </div>    
+
+<!-- EQUIPAMIENTO ESPECIALIZADO -->
+<section class="section equipment-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Equipamiento Especializado</h2>
+      <p class="section-subtitle">
+        Tecnología de punta y recursos especializados para operaciones mineras
+      </p>
+    </div>
+
+    <div class="equipment-grid">
+      <div class="equipment-card" *ngFor="let item of equipment">
+        <div class="equipment-icon-large">{{ item.icon }}</div>
+        <h3>{{ item.name }}</h3>
+        <p class="equipment-description">{{ item.description }}</p>
+        <div class="capabilities-list">
+          <span class="capability-badge" *ngFor="let capability of item.capabilities">
+            {{ capability }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESO DE IMPLEMENTACIÓN -->
+<section class="section process-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Proceso de Implementación</h2>
+      <p class="section-subtitle">
+        Metodología probada para garantizar una protección efectiva desde el primer día
+      </p>
+    </div>
+
+    <div class="process-timeline">
+      <div class="process-step" *ngFor="let step of processSteps">
+        <div class="step-number">{{ step.number }}</div>
+        <div class="step-content">
+          <h3>{{ step.title }}</h3>
+          <p>{{ step.description }}</p>
+          <span class="step-duration">⏱️ {{ step.duration }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ZONAS MINERAS CON COBERTURA -->
+<section class="section zones-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Zonas Mineras con Cobertura</h2>
+      <p class="section-subtitle">
+        Presencia activa en las principales provincias mineras del Ecuador
+      </p>
+    </div>
+
+    <div class="zones-grid">
+      <div class="zone-card" *ngFor="let zone of miningZones">
+        <div class="zone-header">
+          <h3>{{ zone.province }}</h3>
+          <span class="coverage-badge" 
+                [class.total]="zone.coverage === 'Cobertura Total'"
+                [class.parcial]="zone.coverage === 'Cobertura Parcial'"
+                [class.expansion]="zone.coverage === 'En Expansión'">
+            {{ zone.coverage }}
+          </span>
+        </div>
+        <div class="zone-stats">
+          <div class="zone-stat">
+            <span class="stat-icon">⛏️</span>
+            <span class="stat-text">{{ zone.operations }} operaciones</span>
+          </div>
+          <div class="zone-stat">
+            <span class="stat-icon">🏢</span>
+            <span class="stat-text">{{ zone.companies }} empresas</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="zones-note">
+      <p>
+        <strong>Nota:</strong> También brindamos cobertura en otras provincias bajo solicitud especial. 
+        Contáctenos para evaluar su zona de operación.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIOS -->
+<section class="section testimonials-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Lo Que Dicen Nuestros Clientes Mineros</h2>
+      <p class="section-subtitle">
+        Testimonios verificados de empresas mineras que confían en nosotros
+      </p>
+    </div>
+
+    <div class="testimonials-grid">
+      <div class="testimonial-card" *ngFor="let testimonial of testimonials">
+        <div class="testimonial-content">
+          <div class="quote-icon">"</div>
+          <p class="testimonial-text">{{ testimonial.text }}</p>
+        </div>
+        <div class="testimonial-author">
+          <img [src]="testimonial.image" [alt]="testimonial.author" class="author-image">
+          <div class="author-info">
+            <h4>{{ testimonial.author }}</h4>
+            <p class="author-position">{{ testimonial.position }}</p>
+            <p class="author-company">{{ testimonial.company }}</p>
+          </div>
+        </div>
+        <div class="verified-badge">✓ Testimonio Verificado</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="section cta-section">
+  <div class="container">
+    <h2>¿Necesita Protección para su Operación Minera?</h2>
+    <p>Solicite una evaluación de seguridad sin costo y reciba un plan personalizado en 48 horas</p>
+    <div class="cta-buttons">
+      <button class="btn btn-primary btn-lg" (click)="navigateTo('/contacto')">
+        Solicitar Evaluación Gratuita
+      </button>
+      <a href="tel:+593999999999" class="btn btn-secondary btn-lg">
+        📞 Llamar Ahora (24/7)
+      </a>
+    </div>
+    <p class="cta-note">
+      <strong>Respuesta garantizada en menos de 2 horas</strong> | Evaluación sin costo | Confidencialidad total
+    </p>
+  </div>
+</section>

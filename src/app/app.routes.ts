@@ -13,7 +13,7 @@ export const routes: Routes = [
   },
   {
     path: 'servicios/seguridad-minera',
-    loadComponent: () => import('./pages/servicios/seguridad-minera.component').then(m => m.SeguridadMineraComponent)
+    loadComponent: () => import('./pages/servicios/seguridad-minera/seguridad-minera.component').then(m => m.SeguridadMineraComponent)
   },
   {
     path: 'servicios/transporte-valores',
@@ -21,11 +21,11 @@ export const routes: Routes = [
   },
   {
     path: 'servicios/crisis-kr',
-    loadComponent: () => import('./pages/servicios/crisis-kr.component').then(m => m.CrisisKRComponent)
+    loadComponent: () => import('./pages/servicios/crisis-kr/crisis-kr.component').then(m => m.CrisisKRComponent)
   },
   {
     path: 'servicios/academy',
-    loadComponent: () => import('./pages/servicios/academy.component').then(m => m.AcademyComponent)
+    loadComponent: () => import('./pages/servicios/academy/academy.component').then(m => m.AcademyComponent)
   },
   {
     path: 'servicios/app',
