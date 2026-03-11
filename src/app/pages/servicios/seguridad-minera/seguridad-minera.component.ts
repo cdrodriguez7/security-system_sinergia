@@ -113,7 +113,7 @@ export class SeguridadMineraComponent {
         'Protocolos de emergencia especializados'
       ],
       risks: ['Acceso no autorizado', 'Robo de mineral', 'Sabotaje interno', 'Emergencias subterráneas'],
-      image: 'https://fatiguescience.com/hs-fs/hubfs/operator-Underground-female-Minerals-Mine-Nevada-2__1571344625_209.121.124.205%20(1).jpg?width=736&height=491&name=operator-Underground-female-Minerals-Mine-Nevada-2__1571344625_209.121.124.205%20(1).jpg'
+      image: 'https://irp.cdn-website.com/79330773/dms3rep/multi/Uso+de+aire+comprimido+en+la+industria+minera..jpeg'
     },
     {
       id: 'exploracion',
@@ -127,7 +127,7 @@ export class SeguridadMineraComponent {
         'Coordinación con autoridades locales'
       ],
       risks: ['Zonas remotas sin cobertura', 'Conflictos territoriales', 'Robo de equipos', 'Fauna peligrosa'],
-      image: 'https://tresor.jamirfrancia.com/wp-content/uploads/2024/12/fidel-sanchez-alayo-aparece-mineria-1024x543.jpg'
+      image: 'https://media.istockphoto.com/id/896157842/es/foto/minero-con-trozo-de-mineral.jpg?s=612x612&w=0&k=20&c=kAznHEchyVqaffNnSmtqGQZQG6hpX24i7r4YBLss-X8='
     }
   ];
 

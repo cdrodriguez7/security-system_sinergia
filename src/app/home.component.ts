@@ -99,18 +99,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       route: '/servicios/seguridad-minera'
     },
     {
-      title: 'Transporte de Valores',
-      description: 'Movilidad segura y transporte de carga valiosa con vehículos blindados, rastreo GPS satelital y comunicaciones encriptadas.',
-      features: [
-        'Vehículos blindados B6',
-        'Rastreo GPS en tiempo real',
-        'Convoy táctico especializado',
-        'Rutas seguras predefinidas'
-      ],
-      imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKT79t1bMQBNgU7jDnKWiHK2h5u9rl44mJ4w&s',
-      route: '/servicios/transporte-valores'
-    },
-    {
       title: 'Gestión Crisis K&R',
       description: 'Protocolo especializado para situaciones de secuestro y extorsión con cobertura aseguradora de hasta $3M USD y sala de crisis 24/7.',
       features: [
@@ -133,18 +121,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       ],
       imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQn2Zl8JD8YzEcYgetlKrtDTwn7kZfEpsKYBA&s',
       route: '/servicios/academy'
-    },
-    {
-      title: 'App Sinergia',
-      description: 'Plataforma digital para solicitar protección on-demand con rastreo GPS, comunicación directa 24/7 y gestión de servicios en tiempo real.',
-      features: [
-        'Solicitud inmediata de protección',
-        'Geolocalización en tiempo real',
-        'Comunicación directa con central',
-        'Historial completo de servicios'
-      ],
-      imageUrl: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=600&fit=crop',
-      route: '/servicios/app'
     }
   ];
 

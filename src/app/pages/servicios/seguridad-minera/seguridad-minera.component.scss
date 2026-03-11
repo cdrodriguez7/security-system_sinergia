@@ -316,19 +316,26 @@
 .operation-content {
   background: white;
   border-radius: 20px;
-  padding: 50px;
-  margin-bottom: 35px;
+  margin-bottom: 50px;
+  padding: 0;
   box-shadow: var(--shadow-lg);
+  overflow: hidden; 
 }
 
 .operation-grid {
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 50px;
-  align-items: start;
+  grid-template-columns: 1fr 1fr; 
+  gap: 0; // ⬅️ Sin gap
+  align-items: stretch; // ⬅️ Estirar verticalmente
+  min-height: 600px; // ⬅️ Altura mínima
 }
 
 .operation-info {
+  padding: 50px; // ⬅️ Padding solo al lado izquierdo
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
   h3 {
     font-size: 2rem;
     color: var(--dark-primary);
@@ -395,21 +402,28 @@
   }
 }
 
+/* IMAGEN - OCUPA TODO EL LADO DERECHO */
 .operation-image {
   position: relative;
-  border-radius: 15px;
   overflow: hidden;
-
+  height: 100%; // ⬅️ Altura completa del contenedor
+  
   .placeholder-image {
     width: 100%;
-    height: 400px;
+    height: 100%; // ⬅️ Altura completa
     object-fit: cover;
-    transition: opacity 0.3s ease; 
+    object-position: center; // ⬅️ Centrar la imagen
+    transition: transform 0.5s ease;
+  }
+
+  &:hover .placeholder-image {
+    transform: scale(1.02); // ⬅️ Efecto zoom al hover
   }
 
   .image-badge {
     position: absolute;
-    left: 20px;
+    bottom: 30px;
+    left: 30px;
     background: var(--primary-gold);
     color: var(--dark-primary);
     padding: 12px 20px;
@@ -418,6 +432,7 @@
     align-items: center;
     gap: 10px;
     font-weight: 700;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
 
     .badge-icon {
       font-size: 1.3rem;
@@ -670,6 +685,9 @@
   position: relative;
   transition: var(--transition-normal);
   border: 2px solid transparent;
+  display: flex;
+  flex-direction: column;
+  min-height: 400px; // ⬅️ Altura mínima para consistencia
 
   &:hover {
     transform: translateY(-8px);
@@ -678,6 +696,9 @@
   }
 
   .testimonial-content {
+    flex: 1; // ⬅️ Ocupa todo el espacio disponible
+    display: flex;
+    flex-direction: column;
     margin-bottom: 25px;
 
     .quote-icon {
@@ -693,6 +714,7 @@
       font-size: 1rem;
       line-height: 1.8;
       font-style: italic;
+      flex: 1; // ⬅️ Empuja el autor hacia abajo
     }
   }
 
@@ -702,6 +724,7 @@
     align-items: center;
     padding-top: 20px;
     border-top: 2px solid rgba(0, 0, 0, 0.05);
+    margin-top: auto; // ⬅️ CLAVE: Se mantiene en la parte inferior
 
     .author-image {
       width: 60px;
@@ -709,9 +732,12 @@
       border-radius: 50%;
       object-fit: cover;
       border: 3px solid var(--primary-gold);
+      flex-shrink: 0; // ⬅️ No se encoge
     }
 
     .author-info {
+      flex: 1;
+      
       h4 {
         font-size: 1.1rem;
         color: var(--dark-primary);
@@ -721,7 +747,7 @@
 
       .author-position {
         font-size: 0.9rem;
-        color: var(--primary-gold);
+        color: var(--primary-blue);
         margin: 0 0 3px;
         font-weight: 600;
       }
