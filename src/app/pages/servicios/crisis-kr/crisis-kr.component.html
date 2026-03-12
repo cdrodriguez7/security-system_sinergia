@@ -1,0 +1,303 @@
+<app-navbar></app-navbar>
+
+<!-- HERO SECTION -->
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb">
+      <a (click)="navigateTo('/')">Inicio</a>
+      <span>/</span>
+      <a (click)="navigateTo('/')">Servicios</a>
+      <span>/</span>
+      <span>Gestión de Crisis K&R</span>
+    </div>
+    <h1>Gestión de Crisis K&R</h1>
+    <p class="hero-description">
+      Prevención, respuesta y conducción estratégica del incidente, minimizando impacto 
+      humano, legal y reputacional
+    </p>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-number">$3,000,000</div>
+        <div class="stat-label">Cobertura Máxima USD</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">Sala de Crisis Activa</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Confidencialidad Garantizada</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CARACTERÍSTICAS PRINCIPALES -->
+<section class="section features-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Protección Integral en Situaciones Críticas</h2>
+      <p class="section-subtitle">
+        Respaldo profesional y financiero para la gestión de crisis de secuestro y extorsión
+      </p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card" *ngFor="let feature of features">
+        <div class="feature-background" [style.background-image]="'url(' + feature.image + ')'"></div>
+        <div class="feature-content">
+          <div class="feature-icon">{{ feature.icon }}</div>
+          <h3>{{ feature.title }}</h3>
+          <p>{{ feature.description }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS K&R -->
+<section class="section services-kr-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Servicios K&R</h2>
+      <p class="section-subtitle">
+        Protocolo integral de prevención y respuesta ante situaciones de secuestro y extorsión
+      </p>
+    </div>
+
+    <div class="kr-services-grid">
+      <div class="kr-service-card" *ngFor="let service of krServices">
+        <div class="service-icon-large">{{ service.icon }}</div>
+        <h3>{{ service.title }}</h3>
+        <p>{{ service.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLANES DE COBERTURA -->
+<section class="section coverage-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Planes de Cobertura</h2>
+      <p class="section-subtitle">
+        Para ciertos planes, Sinergia integra una cobertura de seguro por cliente de hasta USD 3.000.000 
+        para eventos asociados a secuestro (sujeto a términos y elegibilidad)
+      </p>
+    </div>
+
+    <!-- TABS DE PLANES -->
+    <div class="plans-tabs">
+      <button class="plan-tab" 
+              *ngFor="let plan of coveragePlans"
+              [class.active]="selectedPlan === plan.id"
+              [class.recommended]="plan.recommended"
+              (click)="selectPlan(plan.id)">
+        <span class="plan-name">{{ plan.name }}</span>
+        <span class="plan-amount">{{ plan.amount }}</span>
+        <span class="recommended-badge" *ngIf="plan.recommended">Recomendado</span>
+      </button>
+    </div>
+
+    <!-- CONTENIDO DEL PLAN SELECCIONADO -->
+    <div class="plan-content">
+      <div class="plan-details">
+        <div class="plan-header">
+          <h3>{{ getSelectedPlan().name }}</h3>
+          <div class="plan-price">{{ getSelectedPlan().amount }}</div>
+        </div>
+
+        <div class="plan-features">
+          <h4>Características Incluidas:</h4>
+          <ul>
+            <li *ngFor="let feature of getSelectedPlan().features">
+              <span class="check-icon">✓</span>
+              {{ feature }}
+            </li>
+          </ul>
+        </div>
+
+        <div class="plan-exclusions" *ngIf="getSelectedPlan().exclusions.length > 0">
+          <h4>Exclusiones:</h4>
+          <ul>
+            <li *ngFor="let exclusion of getSelectedPlan().exclusions">
+              <span class="warning-icon">⚠️</span>
+              {{ exclusion }}
+            </li>
+          </ul>
+        </div>
+
+        <div class="plan-actions">
+          <button class="btn btn-primary btn-lg" (click)="navigateTo('/contacto')">
+            Solicitar Propuesta K&R
+          </button>
+          <button class="btn btn-secondary btn-lg" (click)="navigateTo('/contacto')">
+            Entrenamiento Anti-Secuestro
+          </button>
+        </div>
+
+        <p class="plan-note">
+          <strong>Detalle de coberturas y exclusiones:</strong> bajo confidencialidad.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESO DE GESTIÓN DE CRISIS -->
+<section class="section process-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Proceso de Gestión de Crisis</h2>
+      <p class="section-subtitle">
+        Protocolo estructurado de 4 fases para la gestión profesional de incidentes K&R
+      </p>
+    </div>
+
+    <div class="process-timeline">
+      <div class="process-step" *ngFor="let step of processSteps">
+        <div class="step-header">
+          <div class="step-number">{{ step.number }}</div>
+          <div class="step-phase">{{ step.phase }}</div>
+        </div>
+        <div class="step-content">
+          <h3>{{ step.title }}</h3>
+          <p class="step-description">{{ step.description }}</p>
+          <div class="step-actions">
+            <h4>Acciones Clave:</h4>
+            <ul>
+              <li *ngFor="let action of step.actions">{{ action }}</li>
+            </ul>
+          </div>
+          <span class="step-duration">⏱️ Duración: {{ step.duration }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPO DE CRISIS -->
+<section class="section team-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Equipo Especializado en Crisis K&R</h2>
+      <p class="section-subtitle">
+        Profesionales certificados internacionalmente con experiencia comprobada en casos reales
+      </p>
+    </div>
+
+    <div class="crisis-team-grid">
+      <div class="team-member-card" *ngFor="let member of crisisTeam">
+        <div class="member-image">
+          <img [src]="member.image" [alt]="member.name">
+        </div>
+        <div class="member-info">
+          <h3>{{ member.name }}</h3>
+          <p class="member-role">{{ member.role }}</p>
+          <p class="member-specialization">
+            {{ member.specialization }}
+          </p>
+          <p class="member-experience">
+            {{ member.experience }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="team-certifications">
+      <h4>Certificaciones del Equipo:</h4>
+      <div class="cert-badges">
+        <span class="cert-badge">Crisis Negotiation Unit (FBI)</span>
+        <span class="cert-badge">Hostage Negotiation (Scotland Yard)</span>
+        <span class="cert-badge">K&R Response (Control Risks)</span>
+        <span class="cert-badge">Crisis Management Professional</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONFIDENCIALIDAD Y SEGURIDAD -->
+<section class="section security-section">
+  <div class="container">
+    <div class="security-content">
+      <div class="security-icon">🔒</div>
+      <h2>Confidencialidad Total Garantizada</h2>
+      <p>
+        Todos los casos K&R son manejados bajo estrictos protocolos de confidencialidad. 
+        La información del incidente, negociaciones y resolución permanece protegida bajo 
+        acuerdos de no divulgación (NDA) con todas las partes involucradas.
+      </p>
+      <div class="security-features">
+        <div class="security-item">
+          <span class="sec-icon">🔐</span>
+          <span>Comunicaciones encriptadas</span>
+        </div>
+        <div class="security-item">
+          <span class="sec-icon">📄</span>
+          <span>NDAs con todas las partes</span>
+        </div>
+        <div class="security-item">
+          <span class="sec-icon">🚫</span>
+          <span>Sin registro público de casos</span>
+        </div>
+        <div class="security-item">
+          <span class="sec-icon">👥</span>
+          <span>Acceso restringido al equipo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIOS CONFIDENCIALES -->
+<section class="section testimonials-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Casos Resueltos (Información Confidencial)</h2>
+      <p class="section-subtitle">
+        Testimonios de clientes con identidades protegidas por acuerdos de confidencialidad
+      </p>
+    </div>
+
+    <div class="testimonials-grid">
+      <div class="testimonial-card" *ngFor="let testimonial of testimonials">
+        <div class="testimonial-content">
+          <div class="quote-icon">"</div>
+          <p class="testimonial-text">{{ testimonial.text }}</p>
+        </div>
+        <div class="testimonial-author">
+          <img [src]="testimonial.image" [alt]="testimonial.author" class="author-image">
+          <div class="author-info">
+            <h4>{{ testimonial.author }}</h4>
+            <p class="author-position">{{ testimonial.position }}</p>
+            <p class="author-company">{{ testimonial.company }}</p>
+          </div>
+        </div>
+        <div class="incident-badge">{{ testimonial.incident }}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="section cta-section">
+  <div class="container">
+    <div class="cta-icon">🆘</div>
+    <h2>¿Necesita Activar el Protocolo K&R?</h2>
+    <p>
+      Línea de emergencia 24/7 para activación inmediata del protocolo de crisis
+    </p>
+    <div class="cta-buttons">
+      <a href="tel:+593999999999" class="btn btn-emergency btn-lg">
+        📞 LÍNEA DE EMERGENCIA 24/7
+      </a>
+      <button class="btn btn-secondary btn-lg" (click)="navigateTo('/contacto')">
+        Solicitar Información sobre Cobertura
+      </button>
+    </div>
+    <p class="cta-note">
+      <strong>Confidencialidad absoluta garantizada</strong> | Activación en menos de 2 horas | 
+      Cobertura internacional disponible
+    </p>
+  </div>
+</section>
