@@ -1,0 +1,258 @@
+<app-navbar></app-navbar>
+
+<!-- HERO SECTION -->
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb">
+      <a (click)="navigateTo('/')">Inicio</a>
+      <span>/</span>
+      <span>Contacto</span>
+    </div>
+    <h1>Contáctenos</h1>
+    <p class="hero-description">
+      Estamos disponibles 24/7 para atender sus consultas y solicitudes de servicio
+    </p>
+  </div>
+</section>
+
+<!-- FORMULARIO DE CONTACTO -->
+<section class="section contact-form-section">
+  <div class="container">
+    <div class="contact-grid">
+      
+      <!-- INFORMACIÓN DE CONTACTO -->
+      <div class="contact-info">
+        <h2>Información de Contacto</h2>
+        <p>Nuestro equipo está listo para atenderle</p>
+
+        <div class="info-item">
+          <div class="info-icon">📞</div>
+          <div class="info-content">
+            <h3>Teléfono</h3>
+            <p><a href="tel:+593999999999">+593 99 999 9999</a></p>
+            <p class="info-note">Disponible 24/7</p>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-icon">📧</div>
+          <div class="info-content">
+            <h3>Email</h3>
+            <p><a href="mailto:contacto@sinergiasecurity.com">contacto&#64;sinergiasecurity.com</a></p>
+            <p class="info-note">Respuesta en 24 horas</p>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-icon">📍</div>
+          <div class="info-content">
+            <h3>Oficina Principal</h3>
+            <p>Guayaquil, Ecuador</p>
+            <p class="info-note">Lun - Vie: 8:00 - 18:00</p>
+          </div>
+        </div>
+
+        <div class="info-item emergency">
+          <div class="info-icon">🆘</div>
+          <div class="info-content">
+            <h3>Línea de Emergencia</h3>
+            <p><a href="tel:+593911111111">+593 91 111 1111</a></p>
+            <p class="info-note">Solo para emergencias K&R</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FORMULARIO -->
+      <div class="contact-form">
+        <h2>Envíenos su Solicitud</h2>
+        <p class="form-subtitle">Complete el formulario y nos contactaremos en menos de 24 horas</p>
+
+        <!-- MENSAJE DE ÉXITO -->
+        <div class="success-message" *ngIf="showSuccessMessage">
+          <div class="success-icon">✓</div>
+          <h3>¡Solicitud Enviada Exitosamente!</h3>
+          <p>Hemos recibido su solicitud. Nuestro equipo se contactará con usted en las próximas 24 horas.</p>
+        </div>
+
+        <!-- MENSAJE DE ERROR -->
+        <div class="error-message" *ngIf="showErrorMessage">
+          <div class="error-icon">✕</div>
+          <h3>Error al Enviar</h3>
+          <p>{{ errorMessage }}</p>
+          <p>Puede llamarnos directamente al: <a href="tel:+593999999999">+593 99 999 9999</a></p>
+        </div>
+
+        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" *ngIf="!showSuccessMessage">
+          
+          <!-- TIPO DE SOLICITUD -->
+          <div class="form-group">
+            <label for="tipoSolicitud">Tipo de Solicitud *</label>
+            <select id="tipoSolicitud" 
+                    formControlName="tipoSolicitud"
+                    [class.invalid]="isFieldInvalid('tipoSolicitud')">
+              <option value="" disabled>Seleccione una opción</option>
+              <option [value]="tipo.id" *ngFor="let tipo of tiposSolicitud">
+                {{ tipo.nombre }}
+              </option>
+            </select>
+            <span class="error-text" *ngIf="isFieldInvalid('tipoSolicitud')">
+              {{ getFieldError('tipoSolicitud') }}
+            </span>
+          </div>
+
+          <!-- SERVICIO -->
+          <div class="form-group">
+            <label for="servicio">Servicio de Interés *</label>
+            <select id="servicio" 
+                    formControlName="servicio"
+                    [class.invalid]="isFieldInvalid('servicio')">
+              <option value="" disabled>Seleccione un servicio</option>
+              <option [value]="servicio.id" *ngFor="let servicio of servicios">
+                {{ servicio.nombre }}
+              </option>
+            </select>
+            <span class="error-text" *ngIf="isFieldInvalid('servicio')">
+              {{ getFieldError('servicio') }}
+            </span>
+          </div>
+
+          <!-- NOMBRE COMPLETO -->
+          <div class="form-group">
+            <label for="nombreCompleto">Nombre Completo *</label>
+            <input type="text" 
+                   id="nombreCompleto" 
+                   formControlName="nombreCompleto"
+                   placeholder="Juan Pérez"
+                   [class.invalid]="isFieldInvalid('nombreCompleto')">
+            <span class="error-text" *ngIf="isFieldInvalid('nombreCompleto')">
+              {{ getFieldError('nombreCompleto') }}
+            </span>
+          </div>
+
+          <!-- EMPRESA Y CARGO -->
+          <div class="form-row">
+            <div class="form-group">
+              <label for="empresa">Empresa</label>
+              <input type="text" 
+                     id="empresa" 
+                     formControlName="empresa"
+                     placeholder="Nombre de la empresa">
+            </div>
+
+            <div class="form-group">
+              <label for="cargo">Cargo</label>
+              <input type="text" 
+                     id="cargo" 
+                     formControlName="cargo"
+                     placeholder="CEO, Gerente, etc.">
+            </div>
+          </div>
+
+          <!-- EMAIL Y TELÉFONO -->
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">Email *</label>
+              <input type="email" 
+                     id="email" 
+                     formControlName="email"
+                     placeholder="correo@ejemplo.com"
+                     [class.invalid]="isFieldInvalid('email')">
+              <span class="error-text" *ngIf="isFieldInvalid('email')">
+                {{ getFieldError('email') }}
+              </span>
+            </div>
+
+            <div class="form-group">
+              <label for="telefono">Teléfono *</label>
+              <input type="tel" 
+                     id="telefono" 
+                     formControlName="telefono"
+                     placeholder="0999999999"
+                     [class.invalid]="isFieldInvalid('telefono')">
+              <span class="error-text" *ngIf="isFieldInvalid('telefono')">
+                {{ getFieldError('telefono') }}
+              </span>
+            </div>
+          </div>
+
+          <!-- ASUNTO -->
+          <div class="form-group">
+            <label for="asunto">Asunto *</label>
+            <input type="text" 
+                   id="asunto" 
+                   formControlName="asunto"
+                   placeholder="Breve descripción del motivo"
+                   [class.invalid]="isFieldInvalid('asunto')">
+            <span class="error-text" *ngIf="isFieldInvalid('asunto')">
+              {{ getFieldError('asunto') }}
+            </span>
+          </div>
+
+          <!-- MENSAJE -->
+          <div class="form-group">
+            <label for="mensaje">Mensaje *</label>
+            <textarea id="mensaje" 
+                      formControlName="mensaje"
+                      rows="6"
+                      placeholder="Describa detalladamente su solicitud..."
+                      [class.invalid]="isFieldInvalid('mensaje')"></textarea>
+            <span class="error-text" *ngIf="isFieldInvalid('mensaje')">
+              {{ getFieldError('mensaje') }}
+            </span>
+          </div>
+
+          <!-- CAMPOS ADICIONALES OPCIONALES -->
+          <div class="form-group-optional">
+            <h4>Información Adicional (Opcional)</h4>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fechaPreferida">Fecha Preferida de Contacto</label>
+                <input type="date" 
+                       id="fechaPreferida" 
+                       formControlName="fechaPreferida">
+              </div>
+
+              <div class="form-group">
+                <label for="horaPreferida">Hora Preferida</label>
+                <select id="horaPreferida" formControlName="horaPreferida">
+                  <option value="">Cualquier hora</option>
+                  <option value="manana">Mañana (8:00 - 12:00)</option>
+                  <option value="tarde">Tarde (12:00 - 18:00)</option>
+                  <option value="noche">Noche (18:00 - 20:00)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="urgencia">Nivel de Urgencia</label>
+              <select id="urgencia" formControlName="urgencia">
+                <option value="baja">Baja - Información general</option>
+                <option value="media">Media - Cotización</option>
+                <option value="alta">Alta - Necesito respuesta pronto</option>
+                <option value="urgente">Urgente - Emergencia</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- BOTÓN DE ENVÍO -->
+          <button type="submit" 
+                  class="btn btn-primary btn-lg btn-submit"
+                  [disabled]="isSubmitting">
+            <span *ngIf="!isSubmitting">Enviar Solicitud</span>
+            <span *ngIf="isSubmitting">
+              <span class="spinner"></span>
+              Enviando...
+            </span>
+          </button>
+
+          <p class="form-privacy">
+            Al enviar este formulario, acepta nuestra 
+            <a (click)="navigateTo('/privacidad')">Política de Privacidad</a> y 
+            el tratamiento de sus datos personales de acuerdo a la normativa vigente.
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

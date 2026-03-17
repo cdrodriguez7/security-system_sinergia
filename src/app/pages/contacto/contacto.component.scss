@@ -1,0 +1,471 @@
+/* ========================================
+   CONTACTO - ESTILOS
+   ======================================== */
+
+/* HERO SECTION */
+.page-hero {
+  background: linear-gradient(135deg, var(--dark-primary) 0%, var(--dark-secondary) 100%);
+  padding: 140px 0 80px;
+  color: var(--text-light);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=1920&h=1080&fit=crop') center/cover;
+    opacity: 0.1;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 25px;
+    font-size: 14px;
+
+    a {
+      color: var(--primary-gold);
+      text-decoration: none;
+      cursor: pointer;
+      transition: var(--transition-fast);
+
+      &:hover {
+        color: var(--primary-gold-dark);
+        text-decoration: underline;
+      }
+    }
+
+    span:not(:last-child) {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    span:last-child {
+      color: rgba(255, 255, 255, 0.8);
+    }
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 20px;
+    font-weight: 900;
+    line-height: 1.2;
+  }
+
+  .hero-description {
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
+    max-width: 700px;
+  }
+}
+
+/* SECCIÓN DE FORMULARIO */
+.contact-form-section {
+  padding: 80px 0;
+  background: var(--bg-section-light);
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 60px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* INFORMACIÓN DE CONTACTO */
+.contact-info {
+  h2 {
+    font-size: 2rem;
+    color: var(--dark-primary);
+    margin-bottom: 10px;
+    font-weight: 900;
+  }
+
+  > p {
+    color: var(--text-muted);
+    margin-bottom: 40px;
+    font-size: 1.1rem;
+  }
+}
+
+.info-item {
+  display: flex;
+  gap: 20px;
+  padding: 25px;
+  background: white;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-normal);
+
+  &:hover {
+    transform: translateX(10px);
+    box-shadow: var(--shadow-md);
+  }
+
+  &.emergency {
+    background: linear-gradient(135deg, #c53030 0%, #9b2c2c 100%);
+    color: white;
+
+    .info-icon {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    h3,
+    p {
+      color: white;
+    }
+
+    a {
+      color: var(--primary-gold);
+      font-weight: 900;
+
+      &:hover {
+        color: white;
+      }
+    }
+  }
+
+  .info-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(144, 194, 227, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    flex-shrink: 0;
+  }
+
+  .info-content {
+    flex: 1;
+
+    h3 {
+      font-size: 1.2rem;
+      color: var(--dark-primary);
+      margin-bottom: 8px;
+      font-weight: 800;
+    }
+
+    p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+
+      a {
+        color: var(--primary-blue);
+        text-decoration: none;
+        font-weight: 700;
+        transition: var(--transition-fast);
+
+        &:hover {
+          color: var(--primary-blue-dark);
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .info-note {
+      font-size: 0.85rem;
+      margin-top: 5px;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+  }
+}
+
+/* FORMULARIO */
+.contact-form {
+  background: white;
+  padding: 50px;
+  border-radius: 20px;
+  box-shadow: var(--shadow-lg);
+
+  h2 {
+    font-size: 2.2rem;
+    color: var(--dark-primary);
+    margin-bottom: 10px;
+    font-weight: 900;
+  }
+
+  .form-subtitle {
+    color: var(--text-muted);
+    margin-bottom: 40px;
+    font-size: 1.05rem;
+  }
+}
+
+/* MENSAJES DE ÉXITO Y ERROR */
+.success-message,
+.error-message {
+  padding: 30px;
+  border-radius: 15px;
+  margin-bottom: 30px;
+  text-align: center;
+
+  .success-icon,
+  .error-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: 900;
+  }
+
+  h3 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    font-weight: 800;
+  }
+
+  p {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+.success-message {
+  background: rgba(72, 187, 120, 0.1);
+  border: 2px solid #48bb78;
+
+  .success-icon {
+    background: #48bb78;
+    color: white;
+  }
+
+  h3 {
+    color: #2f855a;
+  }
+
+  p {
+    color: #2f855a;
+  }
+}
+
+.error-message {
+  background: rgba(197, 48, 48, 0.1);
+  border: 2px solid #c53030;
+
+  .error-icon {
+    background: #c53030;
+    color: white;
+  }
+
+  h3 {
+    color: #9b2c2c;
+  }
+
+  p {
+    color: #9b2c2c;
+
+    a {
+      color: var(--primary-blue);
+      text-decoration: underline;
+      font-weight: 700;
+    }
+  }
+}
+
+/* GRUPOS DEL FORMULARIO */
+.form-group {
+  margin-bottom: 25px;
+
+  label {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--dark-primary);
+    margin-bottom: 8px;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: var(--transition-fast);
+    background: white;
+
+    &:focus {
+      outline: none;
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 3px rgba(144, 194, 227, 0.1);
+    }
+
+    &::placeholder {
+      color: #999;
+    }
+
+    &.invalid {
+      border-color: #c53030;
+      background: rgba(197, 48, 48, 0.05);
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 150px;
+  }
+
+  .error-text {
+    display: block;
+    color: #c53030;
+    font-size: 0.85rem;
+    margin-top: 5px;
+    font-weight: 600;
+  }
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group-optional {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 2px solid rgba(0, 0, 0, 0.05);
+
+  h4 {
+    font-size: 1.3rem;
+    color: var(--dark-primary);
+    margin-bottom: 25px;
+    font-weight: 800;
+  }
+}
+
+/* BOTÓN DE ENVÍO */
+.btn-submit {
+  width: 100%;
+  padding: 18px;
+  font-size: 1.1rem;
+  margin-top: 10px;
+  position: relative;
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-right: 10px;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.form-privacy {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 20px;
+  line-height: 1.6;
+
+  a {
+    color: var(--primary-blue);
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 1024px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .contact-info {
+    order: 2;
+  }
+
+  .contact-form {
+    order: 1;
+  }
+
+  .info-item {
+    &:hover {
+      transform: translateY(-5px);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .page-hero {
+    padding: 120px 0 60px;
+  }
+
+  .contact-form-section {
+    padding: 60px 0;
+  }
+
+  .contact-form {
+    padding: 35px 25px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-form {
+    padding: 30px 20px;
+
+    h2 {
+      font-size: 1.8rem;
+    }
+  }
+
+  .info-item {
+    padding: 20px;
+    
+    .info-icon {
+      width: 50px;
+      height: 50px;
+      font-size: 1.5rem;
+    }
+  }
+}

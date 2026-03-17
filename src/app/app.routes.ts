@@ -49,7 +49,7 @@ export const routes: Routes = [
   },
   {
     path: 'contacto',
-    loadComponent: () => import('./pages/contact/contact.component').then(m => m.ContactComponent)
+    loadComponent: () => import('./pages/contacto/contacto.component').then(m => m.ContactoComponent)
   },
   {
     path: '**',
