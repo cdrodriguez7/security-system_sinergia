@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { NavbarComponent } from '../../../components/navbar/navbar.component';
+import { FooterComponent } from '../../../components/footer/footer';
+
 
 interface Feature {
   icon: string;
@@ -52,7 +54,7 @@ interface Testimonial {
 @Component({
   selector: 'app-seguridad-minera',
   standalone: true,
-  imports: [CommonModule, NavbarComponent],
+  imports: [CommonModule, NavbarComponent, FooterComponent],
   templateUrl: './seguridad-minera.component.html',
   styleUrls: ['./seguridad-minera.component.scss']
 })

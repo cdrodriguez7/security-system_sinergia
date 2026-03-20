@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 import { NavbarComponent } from '../../../components/navbar/navbar.component';
+import { FooterComponent } from '../../../components/footer/footer';
+
 
 interface VehicleType {
   id: string;
@@ -48,7 +51,7 @@ interface SelectedVehicle {
 @Component({
   selector: 'app-proteccion-ejecutiva',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, FormsModule],
+  imports: [CommonModule, NavbarComponent, FooterComponent, FormsModule, ReactiveFormsModule],
   templateUrl: './proteccion-ejecutiva.component.html',
   styleUrls: ['./proteccion-ejecutiva.component.scss']
 })
@@ -67,6 +70,14 @@ export class ProteccionEjecutivaComponent {
 
   vehicleTypes: VehicleType[] = [];
   uniformTypes: UniformType[] = [];
+
+  // ============================================
+  // PROPIEDADES PARA FORMULARIO DE COTIZACIÓN
+  // ============================================
+  cotizacionForm: FormGroup;
+  enviandoCotizacion: boolean = false;
+  cotizacionEnviada: boolean = false;
+  errorEnvio: string = '';
 
   equipment: Equipment[] = [
     {
@@ -169,9 +180,22 @@ export class ProteccionEjecutivaComponent {
     }
   ];
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private fb: FormBuilder,
+    private http: HttpClient
+  ) {
     this.initializeVehicles();
     this.initializeUniforms();
+    
+    // Inicializar formulario de cotización
+    this.cotizacionForm = this.fb.group({
+      nombreCompleto: ['', [Validators.required, Validators.minLength(3)]],
+      empresa: [''],
+      telefono: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      email: ['', [Validators.required, Validators.email]],
+      mensajeAdicional: ['']
+    });
   }
 
   initializeVehicles() {
@@ -745,31 +769,84 @@ export class ProteccionEjecutivaComponent {
     return this.previewedVehicle.images[availableAngles[0]];
   }
 
-  requestCustomQuote() {
-    const vehiclesSummary = this.selectedVehicles
-      .map(sv => `${sv.quantity}x ${sv.vehicle.name}`)
-      .join(', ');
-    const equipmentNames = this.selectedEquipment.map(eq => eq.name).join(', ');
-    
-    const uniformsSummary = this.selectedVehicles
-      .map(sv => {
-        const uniforms = sv.uniformAssignments.map(ua => {
-          const uniform = this.uniformTypes.find(u => u.id === ua.uniformId);
-          return uniform ? uniform.name : 'Sin especificar';
-        }).join(', ');
-        return `${sv.vehicle.name}: ${uniforms}`;
-      })
-      .join(' | ');
-    
-    this.router.navigate(['/contacto'], { 
-      queryParams: { 
-        service: 'proteccion-ejecutiva',
-        vehicles: vehiclesSummary,
-        total: this.getTotalVehicles(),
-        equipment: equipmentNames,
-        uniforms: uniformsSummary
-      } 
-    });
+  // ============================================
+  // MÉTODOS PARA COTIZACIÓN
+  // ============================================
+
+  enviarCotizacion(): void {
+    if (this.cotizacionForm.invalid) {
+      Object.keys(this.cotizacionForm.controls).forEach(key => {
+        this.cotizacionForm.get(key)?.markAsTouched();
+      });
+      return;
+    }
+
+    if (this.selectedVehicles.length === 0) {
+      this.errorEnvio = 'Debe seleccionar al menos un vehículo';
+      return;
+    }
+
+    this.enviandoCotizacion = true;
+    this.errorEnvio = '';
+
+    const cotizacionData = {
+      nombreCompleto: this.cotizacionForm.value.nombreCompleto,
+      empresa: this.cotizacionForm.value.empresa || 'No especificada',
+      telefono: this.cotizacionForm.value.telefono,
+      email: this.cotizacionForm.value.email,
+      mensajeAdicional: this.cotizacionForm.value.mensajeAdicional || '',
+      
+      servicio: 'Protección Ejecutiva',
+      totalVehiculos: this.getTotalVehicles(),
+      vehiculos: this.selectedVehicles.map(sv => ({
+        tipo: sv.vehicle.name,
+        cantidad: sv.quantity,
+        uniformes: sv.uniformAssignments.map(ua => 
+          this.getUniformNameById(ua.uniformId)
+        )
+      })),
+      equipamiento: this.selectedEquipment.map(eq => eq.name),
+      
+      fecha: new Date().toLocaleDateString('es-EC'),
+      hora: new Date().toLocaleTimeString('es-EC'),
+      origen: window.location.href
+    };
+
+    this.http.post('http://localhost:3000/api/cotizacion', cotizacionData)
+      .subscribe({
+        next: (response: any) => {
+          console.log('✅ Cotización enviada:', response);
+          this.enviandoCotizacion = false;
+          this.cotizacionEnviada = true;
+          
+          setTimeout(() => {
+            this.cotizacionForm.reset();
+            this.selectedVehicles = [];
+            this.selectedEquipment = [];
+            this.cotizacionEnviada = false;
+          }, 3000);
+        },
+        error: (error) => {
+          console.error('❌ Error al enviar cotización:', error);
+          this.enviandoCotizacion = false;
+          this.errorEnvio = 'Error al enviar la cotización. Por favor intente nuevamente.';
+        }
+      });
+  }
+
+  get nombreValido(): boolean {
+    const campo = this.cotizacionForm.get('nombreCompleto');
+    return !!(campo && campo.invalid && campo.touched);
+  }
+
+  get emailValido(): boolean {
+    const campo = this.cotizacionForm.get('email');
+    return !!(campo && campo.invalid && campo.touched);
+  }
+
+  get telefonoValido(): boolean {
+    const campo = this.cotizacionForm.get('telefono');
+    return !!(campo && campo.invalid && campo.touched);
   }
 
   navigateTo(route: string) {

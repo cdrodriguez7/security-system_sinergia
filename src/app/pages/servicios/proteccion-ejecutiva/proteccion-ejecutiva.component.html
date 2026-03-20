@@ -291,10 +291,11 @@
       </div>
     </div>
 
-    <!-- RESUMEN DE COTIZACIÓN -->
+<!-- RESUMEN DE COTIZACIÓN -->
     <div class="quote-summary" *ngIf="selectedVehicles.length > 0">
       <div class="summary-content">
         <h3>Resumen de Configuración</h3>
+        
         <div class="summary-items">
           <div class="summary-item">
             <span class="summary-label">Vehículos y Uniformes:</span>
@@ -336,23 +337,111 @@
             </div>
           </div>
         </div>
-        <button class="btn btn-primary btn-lg" (click)="requestCustomQuote()">
-          Solicitar Cotización Personalizada
+
+        <!-- ============================================ -->
+        <!-- FORMULARIO DE CONTACTO (NUEVO) -->
+        <!-- ============================================ -->
+        <div class="cotizacion-form-section">
+          <h4 class="form-title">Complete sus datos para recibir la cotización</h4>
+          
+          <form [formGroup]="cotizacionForm" class="cotizacion-form">
+            <!-- NOMBRE COMPLETO -->
+            <div class="form-group">
+              <label for="nombreCompleto">Nombre Completo *</label>
+              <input 
+                type="text" 
+                id="nombreCompleto"
+                formControlName="nombreCompleto"
+                placeholder="Ej: Juan Pérez"
+                [class.error]="nombreValido">
+              <span class="error-message" *ngIf="nombreValido">
+                El nombre debe tener al menos 3 caracteres
+              </span>
+            </div>
+
+            <!-- EMPRESA (OPCIONAL) -->
+            <div class="form-group">
+              <label for="empresa">Empresa</label>
+              <input 
+                type="text" 
+                id="empresa"
+                formControlName="empresa"
+                placeholder="Ej: Acme Corporation (Opcional)">
+            </div>
+
+            <!-- EMAIL -->
+            <div class="form-group">
+              <label for="email">Email *</label>
+              <input 
+                type="email" 
+                id="email"
+                formControlName="email"
+                placeholder="Ej: juan@empresa.com"
+                [class.error]="emailValido">
+              <span class="error-message" *ngIf="emailValido">
+                Ingrese un email válido
+              </span>
+            </div>
+
+            <!-- TELÉFONO -->
+            <div class="form-group">
+              <label for="telefono">Teléfono *</label>
+              <input 
+                type="tel" 
+                id="telefono"
+                formControlName="telefono"
+                placeholder="0987654321 (10 dígitos)"
+                [class.error]="telefonoValido"
+                maxlength="10">
+              <span class="error-message" *ngIf="telefonoValido">
+                Ingrese un teléfono válido de 10 dígitos
+              </span>
+            </div>
+
+            <!-- MENSAJE ADICIONAL (OPCIONAL) -->
+            <div class="form-group full-width">
+              <label for="mensajeAdicional">Mensaje o requisitos adicionales</label>
+              <textarea 
+                id="mensajeAdicional"
+                formControlName="mensajeAdicional"
+                rows="4"
+                placeholder="Ej: Necesito servicio para evento el 20 de mayo... (Opcional)"></textarea>
+            </div>
+          </form>
+        </div>
+
+        <!-- MENSAJE DE ÉXITO -->
+        <div class="success-message" *ngIf="cotizacionEnviada">
+          <span class="success-icon">✓</span>
+          <p>¡Cotización enviada exitosamente!</p>
+          <p class="success-subtitle">Nos pondremos en contacto en menos de 24 horas.</p>
+        </div>
+
+        <!-- MENSAJE DE ERROR -->
+        <div class="error-alert" *ngIf="errorEnvio">
+          <span class="error-icon">✕</span>
+          <p>{{ errorEnvio }}</p>
+        </div>
+
+        <!-- BOTÓN DE ENVÍO -->
+        <button 
+          class="btn btn-primary btn-lg" 
+          (click)="enviarCotizacion()"
+          [disabled]="enviandoCotizacion || cotizacionEnviada">
+          <span *ngIf="!enviandoCotizacion && !cotizacionEnviada">
+            Solicitar Cotización Personalizada
+          </span>
+          <span *ngIf="enviandoCotizacion">
+            Enviando...
+          </span>
+          <span *ngIf="cotizacionEnviada">
+            ✓ Enviado
+          </span>
         </button>
+        
         <p class="quote-note">
           * Un asesor de seguridad se pondrá en contacto en menos de 24 horas
         </p>
       </div>
     </div>
-  </div>
-</section>
 
-<section class="section cta-section">
-  <div class="container">
-    <h2>¿Listo para una Protección de Nivel Internacional?</h2>
-    <p>Solicite una evaluación de riesgo personalizada</p>
-    <button class="btn btn-primary btn-lg" (click)="navigateTo('/contacto')">
-      Agendar Reunión Confidencial
-    </button>
-  </div>
-</section>

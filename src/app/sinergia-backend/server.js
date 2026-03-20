@@ -24,7 +24,7 @@ const limiter = rateLimit({
 
 // CORS - Simplificado para debugging
 app.use(cors({
-  origin: '*',  // Permitir todos los orígenes temporalmente
+  origin: '*',
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: false
@@ -341,7 +341,9 @@ async function guardarEnGoogleSheets(data) {
   }
 }
 
-// ENDPOINT PRINCIPAL
+// ============================================
+// ENDPOINT PRINCIPAL - CONTACTO
+// ============================================
 app.post('/api/contact', async (req, res) => {
   try {
     console.log('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
@@ -461,7 +463,258 @@ app.post('/api/contact', async (req, res) => {
   }
 });
 
-// Health check
+// ============================================
+// ENDPOINT DE COTIZACIONES
+// ============================================
+app.post('/api/cotizacion', async (req, res) => {
+  try {
+    console.log('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('📊 Nueva cotización recibida');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
+    
+    const data = req.body;
+    
+    // Validar datos mínimos
+    if (!data.nombreCompleto || !data.email || !data.telefono) {
+      return res.status(400).json({
+        success: false,
+        message: 'Faltan datos requeridos'
+      });
+    }
+    
+    // Validar email
+    if (!isValidEmail(data.email)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email inválido'
+      });
+    }
+    
+    // Validar teléfono
+    if (!isValidPhone(data.telefono)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Teléfono inválido (debe tener 10 dígitos)'
+      });
+    }
+    
+    console.log(`👤 Cliente: ${data.nombreCompleto}`);
+    console.log(`📧 Email: ${data.email}`);
+    console.log(`📱 Teléfono: ${data.telefono}`);
+    console.log(`🚗 Total vehículos: ${data.totalVehiculos}`);
+    
+    // Generar ID único de cotización
+    const cotizacionId = `COT-${Date.now()}-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
+    
+    // Preparar datos para Google Sheets
+    const fecha = new Date();
+    const vehiculosDetalle = JSON.stringify(data.vehiculos);
+    const equipamientoDetalle = data.equipamiento.join(', ');
+    
+    const row = [
+      fecha.toISOString(),                     // A: Timestamp
+      data.fecha,                               // B: Fecha
+      data.hora,                                // C: Hora
+      cotizacionId,                            // D: ID Cotización
+      data.nombreCompleto,                     // E: Nombre
+      data.empresa,                            // F: Empresa
+      data.email,                              // G: Email
+      data.telefono,                           // H: Teléfono
+      data.servicio,                           // I: Servicio
+      data.totalVehiculos,                     // J: Total Vehículos
+      vehiculosDetalle,                        // K: Detalle Vehículos (JSON)
+      equipamientoDetalle,                     // L: Equipamiento
+      data.mensajeAdicional || '',             // M: Mensaje
+      'Pendiente',                             // N: Estado
+      '',                                      // O: Notas internas
+      data.origen || ''                        // P: Origen (URL)
+    ];
+    
+    // Guardar en Google Sheets
+    await sheets.spreadsheets.values.append({
+      spreadsheetId: SPREADSHEET_ID,
+      range: 'Cotizaciones!A:P',
+      valueInputOption: 'USER_ENTERED',
+      resource: { values: [row] }
+    });
+    
+    console.log('✅ Cotización guardada en Google Sheets');
+    
+    // Enviar email de notificación
+    try {
+      const accessToken = await oauth2Client.getAccessToken();
+      
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          type: 'OAuth2',
+          user: process.env.GMAIL_USER,
+          clientId: process.env.GOOGLE_CLIENT_ID,
+          clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+          refreshToken: process.env.GOOGLE_REFRESH_TOKEN,
+          accessToken: accessToken.token
+        }
+      });
+      
+      // Email al equipo
+      const mailOptionsTeam = {
+        from: `Sinergia Security <${process.env.GMAIL_USER}>`,
+        to: process.env.NOTIFICATION_EMAIL,
+        subject: `Nueva Cotización: ${data.servicio} - ${data.nombreCompleto}`,
+        html: `
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <style>
+              body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+              .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+              .header { background: linear-gradient(135deg, #1a1d23 0%, #2c3e50 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+              .content { background: #f5f7fa; padding: 30px; border-radius: 0 0 10px 10px; }
+              .info-row { margin-bottom: 15px; padding: 15px; background: white; border-radius: 8px; }
+              .label { font-weight: bold; color: #487FC0; }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <div class="header">
+                <h1>🛡️ Nueva Cotización de Protección Ejecutiva</h1>
+              </div>
+              <div class="content">
+                <div class="info-row">
+                  <span class="label">ID de Cotización:</span> ${cotizacionId}
+                </div>
+                
+                <h3>Datos del Cliente:</h3>
+                <div class="info-row">
+                  <span class="label">Nombre:</span> ${data.nombreCompleto}<br>
+                  <span class="label">Empresa:</span> ${data.empresa}<br>
+                  <span class="label">Email:</span> <a href="mailto:${data.email}">${data.email}</a><br>
+                  <span class="label">Teléfono:</span> <a href="tel:${data.telefono}">${data.telefono}</a>
+                </div>
+                
+                <h3>Configuración Solicitada:</h3>
+                <div class="info-row">
+                  <span class="label">Servicio:</span> ${data.servicio}<br>
+                  <span class="label">Total Vehículos:</span> ${data.totalVehiculos} unidades<br>
+                  <span class="label">Equipamiento:</span> ${equipamientoDetalle || 'Ninguno'}
+                </div>
+                
+                ${data.mensajeAdicional ? `
+                <h3>Mensaje Adicional:</h3>
+                <div class="info-row">
+                  ${data.mensajeAdicional}
+                </div>
+                ` : ''}
+                
+                <hr>
+                <p style="font-size: 12px; color: #999;">
+                  Fecha: ${data.fecha} ${data.hora}
+                </p>
+              </div>
+            </div>
+          </body>
+          </html>
+        `
+      };
+      
+      // Email al cliente
+      const mailOptionsClient = {
+        from: `Sinergia Security <${process.env.GMAIL_USER}>`,
+        to: data.email,
+        subject: 'Confirmación de Cotización - Sinergia Security',
+        html: `
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <style>
+              body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+              .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+              .header { background: linear-gradient(135deg, #1a1d23 0%, #2c3e50 100%); color: white; padding: 40px; text-align: center; border-radius: 10px 10px 0 0; }
+              .content { background: #f5f7fa; padding: 40px; border-radius: 0 0 10px 10px; }
+              .highlight { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #E5C643; }
+              .cta-button { display: inline-block; background: #487FC0; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; margin: 20px 0; }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <div class="header">
+                <h1>✓ Cotización Recibida</h1>
+                <p>Gracias por su interés en Sinergia Security</p>
+              </div>
+              <div class="content">
+                <p>Estimado/a <strong>${data.nombreCompleto}</strong>,</p>
+                
+                <p>Hemos recibido su solicitud de cotización para <strong>${data.servicio}</strong>.</p>
+                
+                <div class="highlight">
+                  <p style="margin: 0;"><strong>ID de Cotización:</strong></p>
+                  <p style="font-size: 24px; font-weight: 900; color: #487FC0; margin: 10px 0;">${cotizacionId}</p>
+                </div>
+                
+                <h3>Resumen de su Solicitud:</h3>
+                <ul>
+                  <li>Total de vehículos: ${data.totalVehiculos}</li>
+                  <li>Equipamiento: ${equipamientoDetalle || 'Ninguno'}</li>
+                </ul>
+                
+                <p><strong>¿Qué sigue?</strong></p>
+                <ul>
+                  <li>Nuestro equipo preparará una cotización detallada</li>
+                  <li>Nos pondremos en contacto en menos de 24 horas</li>
+                  <li>Recibirá un presupuesto personalizado</li>
+                </ul>
+                
+                <div style="text-align: center;">
+                  <a href="tel:+593999999999" class="cta-button">📞 Llamar Ahora: +593 99 999 9999</a>
+                </div>
+                
+                <p>Gracias por confiar en Sinergia Security Solutions.</p>
+                
+                <hr>
+                <p style="font-size: 12px; color: #999;">
+                  ID: ${cotizacionId} | Fecha: ${data.fecha}
+                </p>
+              </div>
+            </div>
+          </body>
+          </html>
+        `
+      };
+      
+      await transporter.sendMail(mailOptionsTeam);
+      console.log('✅ Email al equipo enviado');
+      
+      await transporter.sendMail(mailOptionsClient);
+      console.log('✅ Email al cliente enviado');
+      
+    } catch (emailError) {
+      console.error('⚠️  Error al enviar emails:', emailError.message);
+      // No fallar si los emails no se envían
+    }
+    
+    console.log('\n✅ Cotización procesada exitosamente');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
+    
+    // Responder al cliente
+    res.json({
+      success: true,
+      message: 'Cotización enviada exitosamente',
+      cotizacionId: cotizacionId
+    });
+    
+  } catch (error) {
+    console.error('\n❌ Error al procesar cotización:', error);
+    console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
+    res.status(500).json({
+      success: false,
+      message: 'Error al procesar cotización'
+    });
+  }
+});
+
+// ============================================
+// HEALTH CHECK
+// ============================================
 app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'OK', 
@@ -475,7 +728,11 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Manejo de errores 404
+// ============================================
+// MANEJO DE ERRORES
+// ============================================
+
+// 404 - Endpoint no encontrado
 app.use((req, res) => {
   res.status(404).json({ 
     success: false, 
@@ -483,7 +740,7 @@ app.use((req, res) => {
   });
 });
 
-// Manejo de errores global
+// Error global
 app.use((err, req, res, next) => {
   console.error('Error global:', err);
   res.status(500).json({ 
@@ -492,6 +749,9 @@ app.use((err, req, res, next) => {
   });
 });
 
+// ============================================
+// INICIAR SERVIDOR
+// ============================================
 app.listen(PORT, () => {
   console.log('\n╔════════════════════════════════════════════════════════════╗');
   console.log('║  🛡️  SINERGIA SECURITY BACKEND                             ║');
@@ -501,5 +761,6 @@ app.listen(PORT, () => {
   console.log(`📊 Google Sheets ID: ${SPREADSHEET_ID || 'NO CONFIGURADO'}`);
   console.log('\n📝 Endpoints disponibles:');
   console.log(`   POST http://localhost:${PORT}/api/contact`);
+  console.log(`   POST http://localhost:${PORT}/api/cotizacion`);
   console.log(`   GET  http://localhost:${PORT}/api/health\n`);
 });

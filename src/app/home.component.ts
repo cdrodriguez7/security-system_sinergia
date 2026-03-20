@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@ang
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { FooterComponent } from './components/footer/footer'; 
 import { HeroComponent } from './components/hero/hero.component';
 import { ServiceCardComponent } from './components/service-card/service-card.component';
 
@@ -11,6 +12,7 @@ import { ServiceCardComponent } from './components/service-card/service-card.com
   imports: [
     CommonModule,
     NavbarComponent,
+    FooterComponent,
     HeroComponent,
     ServiceCardComponent
   ],
@@ -352,3 +354,4 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
   }
 }
+

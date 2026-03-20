@@ -1113,6 +1113,176 @@ h1 {
   }
 }
 
+
+/* ============================================
+   FORMULARIO DE COTIZACIÓN
+   ============================================ */
+.cotizacion-form-section {
+  background: white;
+  border-radius: 15px;
+  padding: 30px;
+  margin: 30px 0;
+
+  .form-title {
+    font-size: 1.3rem;
+    color: var(--dark-primary);
+    margin-bottom: 25px;
+    text-align: center;
+    font-weight: 700;
+  }
+}
+
+.cotizacion-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    &.full-width {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-weight: 600;
+      color: var(--dark-primary);
+      font-size: 0.95rem;
+    }
+
+    input,
+    textarea {
+      padding: 12px 16px;
+      border: 2px solid var(--bg-section-light);
+      border-radius: 10px;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      font-family: inherit;
+
+      &:focus {
+        outline: none;
+        border-color: var(--primary-gold);
+        box-shadow: 0 0 0 3px rgba(229, 198, 67, 0.1);
+      }
+
+      &::placeholder {
+        color: var(--text-muted);
+        opacity: 0.6;
+      }
+
+      &.error {
+        border-color: #ef4444;
+      }
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .error-message {
+      color: #ef4444;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+  }
+}
+
+/* MENSAJES DE ESTADO */
+.success-message {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  padding: 25px;
+  border-radius: 15px;
+  text-align: center;
+  margin: 25px 0;
+  animation: slideIn 0.5s ease;
+
+  .success-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    font-size: 32px;
+    font-weight: 900;
+    margin-bottom: 15px;
+  }
+
+  p {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 10px 0 5px 0;
+  }
+
+  .success-subtitle {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    margin: 0;
+  }
+}
+
+.error-alert {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 20px;
+  border-radius: 12px;
+  border-left: 4px solid #ef4444;
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  .error-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background: #ef4444;
+    color: white;
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: 900;
+    flex-shrink: 0;
+  }
+
+  p {
+    margin: 0;
+    font-weight: 600;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .cotizacion-form {
+    grid-template-columns: 1fr;
+
+    .form-group.full-width {
+      grid-column: 1;
+    }
+  }
+
+  .cotizacion-form-section {
+    padding: 20px;
+  }
+}
+
 /* ========================================
    CTA SECTION
    ======================================== */
