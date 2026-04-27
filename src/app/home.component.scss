@@ -1294,6 +1294,10 @@
     gap: 40px;
   }
 
+  .about-image {
+    height: 400px;
+  }
+
   .team-info {
     grid-template-columns: 1fr;
   }
@@ -1366,6 +1370,114 @@
 
     .btn {
       width: 100%;
+    }
+  }
+
+  .about-image {
+    height: 280px;
+  }
+}
+
+/* ================================================
+   RESPONSIVE 430px — iPhone 16 Pro y similares
+   ================================================ */
+@media (max-width: 430px) {
+  /* EQUIPO — carousel fix crítico: tarjetas 300px con 60px padding cada lado = 420px mínimo en 393px */
+  .carousel-track-wrapper {
+    padding: 0 20px;
+    height: 560px;
+  }
+
+  .team-card-carousel {
+    flex: 0 0 268px;
+  }
+
+  .team-image {
+    height: 310px;
+  }
+
+  .team-section {
+    padding: 70px 0;
+  }
+
+  /* ABOUT */
+  .about-image {
+    height: 260px;
+  }
+
+  .about-content .about-stats {
+    gap: 12px;
+  }
+
+  .about-content .stat-box {
+    padding: 18px;
+
+    .stat-number {
+      font-size: 28px;
+    }
+  }
+
+  /* COVERAGE — response times */
+  .response-times {
+    padding: 25px 16px;
+    margin-top: 40px;
+
+    h3 {
+      font-size: 18px;
+    }
+  }
+
+  .response-card {
+    padding: 16px;
+
+    .response-time {
+      font-size: 26px !important;
+    }
+  }
+
+  /* CASOS */
+  .cases-stats {
+    padding: 25px 16px;
+    gap: 20px;
+  }
+
+  .case-stat .case-number {
+    font-size: 36px;
+  }
+
+  .testimonials-grid {
+    gap: 20px;
+  }
+
+  .testimonial-card {
+    padding: 22px;
+  }
+
+  /* CONTACT CTA */
+  .contact-cta-section {
+    padding: 60px 0;
+
+    .contact-cta-content {
+      h2 {
+        font-size: 1.6rem;
+      }
+
+      > p {
+        font-size: 1rem;
+      }
+    }
+  }
+
+  /* CTA FLOAT */
+  .cta-float {
+    bottom: 16px;
+    right: 16px;
+    width: 58px;
+    height: 58px;
+    padding: 12px;
+
+    &.expanded {
+      width: calc(100vw - 32px);
     }
   }
 }

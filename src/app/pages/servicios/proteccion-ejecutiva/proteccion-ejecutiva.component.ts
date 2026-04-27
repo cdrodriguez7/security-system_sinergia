@@ -6,7 +6,6 @@ import { HttpClient } from '@angular/common/http';
 import { NavbarComponent } from '../../../components/navbar/navbar.component';
 import { FooterComponent } from '../../../components/footer/footer';
 
-
 interface VehicleType {
   id: string;
   name: string;
@@ -37,15 +36,29 @@ interface UniformType {
   situations: string[];
 }
 
+interface ArmamentoType {
+  id: string;
+  tipo: string;
+  descripcion: string;
+  calibre: string;
+  imagen: string;
+}
+
 interface VehicleUniformAssignment {
   vehicleIndex: number;
   uniformId: string;
+}
+
+interface VehicleArmamentoAssignment {
+  vehicleIndex: number;
+  armamentoId: string;
 }
 
 interface SelectedVehicle {
   vehicle: VehicleType;
   quantity: number;
   uniformAssignments: VehicleUniformAssignment[];
+  armamentoAssignments: VehicleArmamentoAssignment[];
 }
 
 @Component({
@@ -61,19 +74,23 @@ export class ProteccionEjecutivaComponent {
   selectedEquipment: Equipment[] = [];
   currentRotation: number = 0;
 
-  uniformSelectionStep: 'vehicle' | 'uniform' = 'vehicle';
+  uniformSelectionStep: 'vehicle' | 'uniform' | 'armamento' = 'vehicle';
+  
   currentUniformRotation: number = 0;
   previewedUniform: UniformType | null = null;
   pendingVehicleForUniform: SelectedVehicle | null = null;
   assignSameUniformToAll: boolean = false;
   vehicleUniformPreferences: { [vehicleId: string]: string } = {};
 
+  previewedArmamento: ArmamentoType | null = null;
+  pendingVehicleForArmamento: SelectedVehicle | null = null;
+  assignSameArmamentoToAll: boolean = false;
+  vehicleArmamentoPreferences: { [vehicleId: string]: string } = {};
+
   vehicleTypes: VehicleType[] = [];
   uniformTypes: UniformType[] = [];
+  armamentoTypes: ArmamentoType[] = [];
 
-  // ============================================
-  // PROPIEDADES PARA FORMULARIO DE COTIZACIÓN
-  // ============================================
   cotizacionForm: FormGroup;
   enviandoCotizacion: boolean = false;
   cotizacionEnviada: boolean = false;
@@ -187,8 +204,8 @@ export class ProteccionEjecutivaComponent {
   ) {
     this.initializeVehicles();
     this.initializeUniforms();
+    this.initializeArmamento();
     
-    // Inicializar formulario de cotización
     this.cotizacionForm = this.fb.group({
       nombreCompleto: ['', [Validators.required, Validators.minLength(3)]],
       empresa: [''],
@@ -468,30 +485,67 @@ export class ProteccionEjecutivaComponent {
     ];
   }
 
+  initializeArmamento() {
+    this.armamentoTypes = [
+      {
+        id: 'arma-corta',
+        tipo: 'Arma Corta',
+        descripcion: 'Pistola semiautomática de alto calibre',
+        calibre: '9mm / .40 / .45',
+        imagen: 'assets/weapons/arma-corta.png' 
+      },
+      {
+        id: 'fusil',
+        tipo: 'Fusil',
+        descripcion: 'Fusil de asalto o carabina táctica',
+        calibre: '5.56mm / 7.62mm',
+        imagen: 'assets/weapons/fusil.png' 
+      }
+    ];
+  }
+
   getVehicleQuantity(vehicleId: string): number {
     const selected = this.selectedVehicles.find(sv => sv.vehicle.id === vehicleId);
     return selected ? selected.quantity : 0;
+  }
+
+  getCompositeImage(vehicleId: string, uniformId: string, armamentoId?: string): string {
+    const armaSuffix = armamentoId ? `_${armamentoId}` : '_sin-arma';
+    const fileName = `${vehicleId}_${uniformId}${armaSuffix}.png`;
+  
+    return 'assets/resumen/hash_camu_corta.png';
   }
 
   isVehicleSelected(vehicleId: string): boolean {
     return this.getVehicleQuantity(vehicleId) > 0;
   }
 
+  // ============================================
+  // LÓGICA MODIFICADA: increaseQuantity
+  // ============================================
   increaseQuantity(vehicle: VehicleType) {
     const existing = this.selectedVehicles.find(sv => sv.vehicle.id === vehicle.id);
     
     if (existing) {
+      // Ya existe este tipo de vehículo
       if (existing.quantity < 99) {
         existing.quantity++;
         
         const savedUniformId = this.vehicleUniformPreferences[vehicle.id];
+        const savedArmamentoId = this.vehicleArmamentoPreferences[vehicle.id];
         
-        if (savedUniformId) {
+        // Si ya hay preferencias guardadas, usarlas automáticamente
+        if (savedUniformId && savedArmamentoId) {
           existing.uniformAssignments.push({
             vehicleIndex: existing.uniformAssignments.length + 1,
             uniformId: savedUniformId
           });
+          existing.armamentoAssignments.push({
+            vehicleIndex: existing.armamentoAssignments.length + 1,
+            armamentoId: savedArmamentoId
+          });
         } else {
+          // No hay preferencias, abrir modal
           this.pendingVehicleForUniform = existing;
           this.uniformSelectionStep = 'uniform';
           this.previewedUniform = this.uniformTypes[0];
@@ -500,29 +554,23 @@ export class ProteccionEjecutivaComponent {
         }
       }
     } else {
+      // Es el PRIMER vehículo de este tipo
       const newSelection: SelectedVehicle = {
         vehicle,
         quantity: 1,
-        uniformAssignments: []
+        uniformAssignments: [],
+        armamentoAssignments: []
       };
       this.selectedVehicles.push(newSelection);
       this.previewedVehicle = vehicle;
       this.currentRotation = 0;
       
-      const savedUniformId = this.vehicleUniformPreferences[vehicle.id];
-      
-      if (savedUniformId) {
-        newSelection.uniformAssignments.push({
-          vehicleIndex: 1,
-          uniformId: savedUniformId
-        });
-      } else {
-        this.pendingVehicleForUniform = newSelection;
-        this.uniformSelectionStep = 'uniform';
-        this.previewedUniform = this.uniformTypes[0];
-        this.currentUniformRotation = 0;
-        this.assignSameUniformToAll = false;
-      }
+      // Abrir modal SIEMPRE para el primer vehículo
+      this.pendingVehicleForUniform = newSelection;
+      this.uniformSelectionStep = 'uniform';
+      this.previewedUniform = this.uniformTypes[0];
+      this.currentUniformRotation = 0;
+      this.assignSameUniformToAll = false; // ⬅️ Checkbox visible desde el inicio
     }
   }
 
@@ -535,9 +583,14 @@ export class ProteccionEjecutivaComponent {
       if (existing.uniformAssignments.length > existing.quantity) {
         existing.uniformAssignments.pop();
       }
+      if (existing.armamentoAssignments.length > existing.quantity) {
+        existing.armamentoAssignments.pop();
+      }
       
       if (existing.quantity === 0) {
+        // ⬅️ NUEVO: Limpiar preferencias al llegar a cero
         delete this.vehicleUniformPreferences[vehicle.id];
+        delete this.vehicleArmamentoPreferences[vehicle.id];
         
         this.selectedVehicles = this.selectedVehicles.filter(sv => sv.vehicle.id !== vehicle.id);
         if (this.previewedVehicle?.id === vehicle.id) {
@@ -557,7 +610,9 @@ export class ProteccionEjecutivaComponent {
     const existing = this.selectedVehicles.find(sv => sv.vehicle.id === vehicle.id);
     
     if (quantity === 0) {
+      // Limpiar preferencias
       delete this.vehicleUniformPreferences[vehicle.id];
+      delete this.vehicleArmamentoPreferences[vehicle.id];
       
       this.selectedVehicles = this.selectedVehicles.filter(sv => sv.vehicle.id !== vehicle.id);
       if (this.previewedVehicle?.id === vehicle.id) {
@@ -567,19 +622,29 @@ export class ProteccionEjecutivaComponent {
       const oldQuantity = existing.quantity;
       existing.quantity = quantity;
       
-      if (quantity < oldQuantity && existing.uniformAssignments.length > quantity) {
-        existing.uniformAssignments = existing.uniformAssignments.slice(0, quantity);
+      if (quantity < oldQuantity) {
+        if (existing.uniformAssignments.length > quantity) {
+          existing.uniformAssignments = existing.uniformAssignments.slice(0, quantity);
+        }
+        if (existing.armamentoAssignments.length > quantity) {
+          existing.armamentoAssignments = existing.armamentoAssignments.slice(0, quantity);
+        }
       }
       
       if (quantity > oldQuantity) {
         const savedUniformId = this.vehicleUniformPreferences[vehicle.id];
+        const savedArmamentoId = this.vehicleArmamentoPreferences[vehicle.id];
         
-        if (savedUniformId) {
+        if (savedUniformId && savedArmamentoId) {
           const missing = quantity - existing.uniformAssignments.length;
           for (let i = 0; i < missing; i++) {
             existing.uniformAssignments.push({
               vehicleIndex: existing.uniformAssignments.length + 1,
               uniformId: savedUniformId
+            });
+            existing.armamentoAssignments.push({
+              vehicleIndex: existing.armamentoAssignments.length + 1,
+              armamentoId: savedArmamentoId
             });
           }
         } else {
@@ -594,19 +659,25 @@ export class ProteccionEjecutivaComponent {
       const newSelection: SelectedVehicle = {
         vehicle,
         quantity,
-        uniformAssignments: []
+        uniformAssignments: [],
+        armamentoAssignments: []
       };
       this.selectedVehicles.push(newSelection);
       this.previewedVehicle = vehicle;
       this.currentRotation = 0;
       
       const savedUniformId = this.vehicleUniformPreferences[vehicle.id];
+      const savedArmamentoId = this.vehicleArmamentoPreferences[vehicle.id];
       
-      if (savedUniformId) {
+      if (savedUniformId && savedArmamentoId) {
         for (let i = 0; i < quantity; i++) {
           newSelection.uniformAssignments.push({
             vehicleIndex: i + 1,
             uniformId: savedUniformId
+          });
+          newSelection.armamentoAssignments.push({
+            vehicleIndex: i + 1,
+            armamentoId: savedArmamentoId
           });
         }
       } else {
@@ -630,6 +701,9 @@ export class ProteccionEjecutivaComponent {
     return this.selectedVehicles.reduce((total, sv) => total + sv.quantity, 0);
   }
 
+  // ============================================
+  // LÓGICA MODIFICADA: confirmUniformSelection
+  // ============================================
   confirmUniformSelection(uniform: UniformType) {
     if (!this.pendingVehicleForUniform) return;
     
@@ -638,6 +712,7 @@ export class ProteccionEjecutivaComponent {
     if (this.assignSameUniformToAll) {
       this.vehicleUniformPreferences[this.pendingVehicleForUniform.vehicle.id] = uniform.id;
       
+      // Asignar a todos los vehículos pendientes
       const remainingVehicles = this.pendingVehicleForUniform.quantity - this.pendingVehicleForUniform.uniformAssignments.length;
       for (let i = 0; i < remainingVehicles; i++) {
         this.pendingVehicleForUniform.uniformAssignments.push({
@@ -646,23 +721,75 @@ export class ProteccionEjecutivaComponent {
         });
       }
       
-      this.uniformSelectionStep = 'vehicle';
+      // Pasar a selección de armamento
+      this.uniformSelectionStep = 'armamento';
+      this.pendingVehicleForArmamento = this.pendingVehicleForUniform;
       this.pendingVehicleForUniform = null;
       this.previewedUniform = null;
+      this.previewedArmamento = this.armamentoTypes[0];
       this.assignSameUniformToAll = false;
+      this.assignSameArmamentoToAll = false;
     } else {
+      // Solo asignar a este vehículo
       this.pendingVehicleForUniform.uniformAssignments.push({
         vehicleIndex,
         uniformId: uniform.id
       });
       
       if (this.pendingVehicleForUniform.uniformAssignments.length === this.pendingVehicleForUniform.quantity) {
-        this.uniformSelectionStep = 'vehicle';
+        // Terminaron todos los uniformes, pasar a armamento
+        this.uniformSelectionStep = 'armamento';
+        this.pendingVehicleForArmamento = this.pendingVehicleForUniform;
         this.pendingVehicleForUniform = null;
         this.previewedUniform = null;
+        this.previewedArmamento = this.armamentoTypes[0];
       } else {
         this.previewedUniform = this.uniformTypes[0];
         this.currentUniformRotation = 0;
+      }
+    }
+  }
+
+  // ============================================
+  // LÓGICA MODIFICADA: confirmArmamentoSelection
+  // ============================================
+  confirmArmamentoSelection(armamento: ArmamentoType) {
+    if (!this.pendingVehicleForArmamento) return;
+    
+    const vehicleIndex = this.pendingVehicleForArmamento.armamentoAssignments.length + 1;
+    
+    if (this.assignSameArmamentoToAll) {
+      // ⬅️ Guardar preferencia para futuros vehículos del mismo tipo
+      this.vehicleArmamentoPreferences[this.pendingVehicleForArmamento.vehicle.id] = armamento.id;
+      
+      // Asignar a todos los vehículos pendientes
+      const remainingVehicles = this.pendingVehicleForArmamento.quantity - this.pendingVehicleForArmamento.armamentoAssignments.length;
+      for (let i = 0; i < remainingVehicles; i++) {
+        this.pendingVehicleForArmamento.armamentoAssignments.push({
+          vehicleIndex: vehicleIndex + i,
+          armamentoId: armamento.id
+        });
+      }
+      
+      // Finalizar
+      this.uniformSelectionStep = 'vehicle';
+      this.pendingVehicleForArmamento = null;
+      this.previewedArmamento = null;
+      this.assignSameArmamentoToAll = false;
+    } else {
+      // Solo asignar a este vehículo
+      this.pendingVehicleForArmamento.armamentoAssignments.push({
+        vehicleIndex,
+        armamentoId: armamento.id
+      });
+      
+      if (this.pendingVehicleForArmamento.armamentoAssignments.length === this.pendingVehicleForArmamento.quantity) {
+        // Finalizar
+        this.uniformSelectionStep = 'vehicle';
+        this.pendingVehicleForArmamento = null;
+        this.previewedArmamento = null;
+      } else {
+        this.previewedArmamento = this.armamentoTypes[0];
       }
     }
   }
@@ -675,6 +802,7 @@ export class ProteccionEjecutivaComponent {
         sv => sv.vehicle.id !== this.pendingVehicleForUniform!.vehicle.id
       );
       delete this.vehicleUniformPreferences[this.pendingVehicleForUniform.vehicle.id];
+      delete this.vehicleArmamentoPreferences[this.pendingVehicleForUniform.vehicle.id];
     } else {
       this.pendingVehicleForUniform.quantity = this.pendingVehicleForUniform.uniformAssignments.length;
     }
@@ -685,9 +813,32 @@ export class ProteccionEjecutivaComponent {
     this.assignSameUniformToAll = false;
   }
 
+  cancelArmamentoSelection() {
+    if (!this.pendingVehicleForArmamento) return;
+    
+    if (this.pendingVehicleForArmamento.armamentoAssignments.length === 0) {
+      this.selectedVehicles = this.selectedVehicles.filter(
+        sv => sv.vehicle.id !== this.pendingVehicleForArmamento!.vehicle.id
+      );
+      delete this.vehicleUniformPreferences[this.pendingVehicleForArmamento.vehicle.id];
+      delete this.vehicleArmamentoPreferences[this.pendingVehicleForArmamento.vehicle.id];
+    } else {
+      this.pendingVehicleForArmamento.quantity = this.pendingVehicleForArmamento.armamentoAssignments.length;
+    }
+    
+    this.uniformSelectionStep = 'vehicle';
+    this.pendingVehicleForArmamento = null;
+    this.previewedArmamento = null;
+    this.assignSameArmamentoToAll = false;
+  }
+
   previewUniform(uniform: UniformType) {
     this.previewedUniform = uniform;
     this.currentUniformRotation = 0;
+  }
+
+  previewArmamento(armamento: ArmamentoType) {
+    this.previewedArmamento = armamento;
   }
 
   rotateUniform(direction: 'left' | 'right') {
@@ -710,18 +861,39 @@ export class ProteccionEjecutivaComponent {
     return this.previewedUniform.images[this.currentUniformRotation];
   }
 
-  getUniformIcon(uniformId: string): string {
-    const icons: { [key: string]: string } = {
-      'camuflaje': '🪖',
-      'casual': '👔',
-      'formal': '🤵'
-    };
-    return icons[uniformId] || '👕';
-  }
+getUniformIcon(uniformId: string): string {
+  const icons: { [key: string]: string } = {
+    'camuflaje': 'assets/uniforms/camuflaje/icon.png',
+    'casual': 'assets/uniforms/casual/icon.png',
+    'formal': 'assets/uniforms/formal/icon.png'
+  };
+  return icons[uniformId] || 'assets/uniforms/default.png';
+}
+
+getArmamentoIcon(armamentoId: string): string {
+  const icons: { [key: string]: string } = {
+    'arma-corta': 'assets/weapons/arma-corta.png',
+    'fusil': 'assets/weapons/fusil.png'
+  };
+  return icons[armamentoId] || 'assets/weapons/default.png';
+}
+
+getArmamentoImage(armamentoId: string): string {
+  const images: { [key: string]: string } = {
+    'arma-corta': 'assets/weapons/arma-corta-large.png',
+    'fusil': 'assets/weapons/fusil-large.png'
+  };
+  return images[armamentoId] || 'assets/weapons/default-large.png';
+}
 
   getUniformNameById(uniformId: string): string {
     const uniform = this.uniformTypes.find(u => u.id === uniformId);
     return uniform ? uniform.name : 'Sin especificar';
+  }
+
+  getArmamentoNameById(armamentoId: string): string {
+    const armamento = this.armamentoTypes.find(a => a.id === armamentoId);
+    return armamento ? armamento.tipo : 'Sin especificar';
   }
 
   toggleEquipment(item: Equipment) {
@@ -769,10 +941,6 @@ export class ProteccionEjecutivaComponent {
     return this.previewedVehicle.images[availableAngles[0]];
   }
 
-  // ============================================
-  // MÉTODOS PARA COTIZACIÓN
-  // ============================================
-
   enviarCotizacion(): void {
     if (this.cotizacionForm.invalid) {
       Object.keys(this.cotizacionForm.controls).forEach(key => {
@@ -803,6 +971,9 @@ export class ProteccionEjecutivaComponent {
         cantidad: sv.quantity,
         uniformes: sv.uniformAssignments.map(ua => 
           this.getUniformNameById(ua.uniformId)
+        ),
+        armamento: sv.armamentoAssignments.map(aa => 
+          this.getArmamentoNameById(aa.armamentoId)
         )
       })),
       equipamiento: this.selectedEquipment.map(eq => eq.name),

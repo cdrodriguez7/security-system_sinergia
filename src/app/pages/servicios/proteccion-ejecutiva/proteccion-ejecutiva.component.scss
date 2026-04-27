@@ -494,7 +494,6 @@ h1 {
     box-shadow: 0 16px 20px rgba(144, 194, 227, 1.4);
   }
 
-
   h4 {
     font-size: 16px; 
     font-weight: 700;
@@ -683,6 +682,220 @@ h1 {
 
       &:hover {
         background: var(--primary-gold-dark);
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+/* ========================================
+   MODAL DE ARMAMENTO - ACTUALIZADO
+   ======================================== */
+.armamento-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10001;
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+.armamento-modal {
+  background: #1e293b;
+  border-radius: 25px;
+  max-width: 800px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+  animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.armamento-modal-header {
+  position: relative;
+  padding: 25px 35px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+  border-radius: 25px 25px 0 0;
+
+  h2 {
+    color: white;
+    font-size: 24px;
+    margin: 0 0 8px 0;
+  }
+
+  .armamento-modal-subtitle {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 14px;
+    margin: 0;
+    font-weight: 600;
+  }
+}
+
+.armamento-modal-body {
+  padding: 30px;
+}
+
+.armamento-selector-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.armamento-type-card {
+  background: #2d3748;
+  padding: 30px 20px;
+  border-radius: 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 3px solid transparent;
+  position: relative;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(96, 165, 250, 0.3);
+    background: #374151;
+  }
+
+  &.selected {
+    border-color: #60a5fa;
+    background: #2d3748;
+    box-shadow: 0 0 0 1px #60a5fa, 0 10px 30px rgba(96, 165, 250, 0.4);
+
+    .armamento-image {
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 20px rgba(96, 165, 250, 0.6));
+    }
+  }
+
+  h4 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 15px;
+    text-transform: capitalize;
+    letter-spacing: 0.5px;
+  }
+
+  .armamento-description {
+    font-size: 0.95rem;
+    color: #94a3b8;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  .armamento-calibre {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #3b82f6;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+
+    i {
+      font-size: 1rem;
+    }
+  }
+}
+
+/* Contenedor de imagen */
+.armamento-image-container {
+  width: 100%;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  background: transparent;
+  border-radius: 15px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.armamento-image {
+  max-width: 100%;
+  max-height: 140px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.3));
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.armamento-assignment-option {
+  background: #2d3748;
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 25px;
+
+  .checkbox-label {
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+  }
+}
+
+.armamento-modal-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+
+  .btn {
+    padding: 14px 32px;
+    font-size: 16px;
+    font-weight: 700;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+
+    &.btn-secondary {
+      background: #475569;
+      color: white;
+      border: 2px solid #475569;
+
+      &:hover {
+        background: #64748b;
+        border-color: #64748b;
+      }
+    }
+
+    &.btn-primary {
+      background: #60a5fa;
+      color: white;
+      border: 2px solid #60a5fa;
+
+      &:hover {
+        background: #3b82f6;
+        border-color: #3b82f6;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(96, 165, 250, 0.4);
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
       }
     }
   }
@@ -954,6 +1167,237 @@ h1 {
   }
 }
 
+/* ============================================
+   VISUALIZACIÓN COMPUESTA REALISTA - NUEVO
+   ============================================ */
+.visual-summary-compact {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.visual-vehicle-section {
+  margin-bottom: 40px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.vehicle-section-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 3px solid var(--primary-gold);
+}
+
+.vehicle-quantity-large {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, var(--primary-gold) 0%, #d4a843 100%);
+  color: white;
+  font-size: 2.5rem;
+  font-weight: 900;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(229, 198, 67, 0.4);
+}
+
+.vehicle-title-info {
+  flex: 1;
+
+  h4 {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--dark-primary);
+    margin: 0 0 8px 0;
+    letter-spacing: -0.5px;
+  }
+
+  .vehicle-category {
+    display: inline-block;
+    background: var(--primary-blue);
+    color: white;
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+/* GRID DE UNIDADES COMPUESTAS */
+.composite-units-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+}
+
+.composite-unit-card {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 20px;
+  padding: 25px;
+  border: 2px solid #e2e8f0;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-gold) 0%, var(--primary-blue) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    border-color: var(--primary-gold);
+
+    &::before {
+      opacity: 1;
+    }
+
+    .composite-full-image {
+      transform: scale(1.03);
+    }
+  }
+}
+
+.unit-label {
+  text-align: center;
+  margin-bottom: 20px;
+
+  span {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--dark-primary) 0%, var(--dark-secondary) 100%);
+    color: white;
+    padding: 10px 28px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* IMAGEN COMPUESTA REALISTA */
+.composite-scene-realistic {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  background: linear-gradient(180deg, #e0f2fe 0%, #bae6fd 100%);
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 25px;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.composite-full-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.4s ease;
+  border-radius: 20px;
+}
+
+/* DETALLES EN BADGES */
+.unit-details-compact {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.detail-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: 15px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+  i {
+    font-size: 1.2rem;
+    min-width: 24px;
+    text-align: center;
+  }
+
+  span {
+    flex: 1;
+    line-height: 1.4;
+  }
+
+  &:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.uniform-badge-compact {
+  background: linear-gradient(135deg, rgba(229, 198, 67, 0.2) 0%, rgba(229, 198, 67, 0.1) 100%);
+  border: 2px solid rgba(229, 198, 67, 0.4);
+  color: var(--dark-primary);
+
+  i {
+    color: var(--primary-gold);
+  }
+
+  &:hover {
+    background: linear-gradient(135deg, rgba(229, 198, 67, 0.3) 0%, rgba(229, 198, 67, 0.15) 100%);
+    border-color: var(--primary-gold);
+  }
+}
+
+.weapon-badge-compact {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(239, 68, 68, 0.1) 100%);
+  border: 2px solid rgba(239, 68, 68, 0.4);
+  color: var(--dark-primary);
+
+  i {
+    color: #ef4444;
+  }
+
+  &:hover {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.3) 0%, rgba(239, 68, 68, 0.15) 100%);
+    border-color: #ef4444;
+  }
+}
+
+.vehicle-badge-compact {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0.1) 100%);
+  border: 2px solid rgba(59, 130, 246, 0.4);
+  color: var(--dark-primary);
+
+  i {
+    color: #3b82f6;
+  }
+
+  &:hover {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0.15) 100%);
+    border-color: #3b82f6;
+  }
+}
+
 /* ========================================
    QUOTE SUMMARY
    ======================================== */
@@ -965,7 +1409,7 @@ h1 {
   box-shadow: var(--shadow-lg);
 
   .summary-content {
-    max-width: 800px;
+    max-width: 1200px;
     margin: 0 auto;
 
     h3 {
@@ -1017,80 +1461,6 @@ h1 {
   }
 }
 
-/* LISTA DE VEHÍCULOS SELECCIONADOS */
-.selected-vehicles-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  margin-top: 15px;
-}
-
-.vehicle-summary-item {
-  padding: 20px;
-  background: var(--bg-section-light);
-  border-radius: 15px;
-  border-left: 4px solid var(--primary-gold);
-}
-
-.vehicle-summary-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 15px;
-}
-
-.vehicle-quantity-badge {
-  background: var(--primary-gold);
-  color: white;
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 14px;
-  min-width: 50px;
-  text-align: center;
-}
-
-.vehicle-name {
-  font-weight: 700;
-  color: var(--dark-primary);
-  font-size: 18px;
-}
-
-.vehicle-type {
-  color: var(--text-muted);
-  font-size: 14px;
-}
-
-/* LISTA DE UNIFORMES ASIGNADOS */
-.uniform-assignments-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding-left: 20px;
-}
-
-.uniform-assignment-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 15px;
-  background: white;
-  border-radius: 10px;
-  border: 1px solid rgba(144, 194, 227, 0.3);
-}
-
-.uniform-badge {
-  font-size: 24px;
-  min-width: 30px;
-  text-align: center;
-}
-
-.assignment-text {
-  font-size: 14px;
-  color: var(--dark-primary);
-  font-weight: 600;
-}
-
 .total-vehicles {
   font-size: 24px !important;
   font-weight: 700 !important;
@@ -1112,7 +1482,6 @@ h1 {
     font-weight: 600;
   }
 }
-
 
 /* ============================================
    FORMULARIO DE COTIZACIÓN
@@ -1268,21 +1637,6 @@ h1 {
   }
 }
 
-/* RESPONSIVE */
-@media (max-width: 768px) {
-  .cotizacion-form {
-    grid-template-columns: 1fr;
-
-    .form-group.full-width {
-      grid-column: 1;
-    }
-  }
-
-  .cotizacion-form-section {
-    padding: 20px;
-  }
-}
-
 /* ========================================
    CTA SECTION
    ======================================== */
@@ -1305,8 +1659,18 @@ h1 {
 }
 
 /* ========================================
-   RESPONSIVE
+   RESPONSIVE - IMAGEN COMPUESTA
    ======================================== */
+@media (max-width: 1200px) {
+  .composite-units-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+
+  .composite-scene-realistic {
+    height: 350px;
+  }
+}
+
 @media (max-width: 1024px) {
   .vehicle-display {
     grid-template-columns: 1fr;
@@ -1324,6 +1688,10 @@ h1 {
 
   .uniform-selector-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .armamento-selector-grid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -1400,12 +1768,75 @@ h1 {
     grid-template-columns: 1fr;
   }
 
-  .uniform-modal-body {
+  .uniform-modal-body,
+  .armamento-modal-body {
     padding: 25px;
   }
 
   .uniform-view-large {
     height: 300px;
+  }
+
+  .cotizacion-form {
+    grid-template-columns: 1fr;
+
+    .form-group.full-width {
+      grid-column: 1;
+    }
+  }
+
+  .cotizacion-form-section {
+    padding: 20px;
+  }
+
+  .armamento-image-container {
+    height: 150px;
+  }
+
+  .armamento-image {
+    max-height: 110px;
+  }
+
+  .visual-summary-compact {
+    padding: 20px;
+  }
+
+  .vehicle-section-header {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .vehicle-quantity-large {
+    min-width: 70px;
+    height: 70px;
+    font-size: 2rem;
+  }
+
+  .vehicle-title-info {
+    text-align: center;
+    width: 100%;
+
+    h4 {
+      font-size: 1.6rem;
+    }
+
+    .vehicle-category {
+      font-size: 0.8rem;
+      padding: 5px 14px;
+    }
+  }
+
+  .composite-units-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .composite-scene-realistic {
+    height: 300px;
+  }
+
+  .composite-unit-card {
+    padding: 20px;
   }
 }
 
@@ -1437,14 +1868,16 @@ h1 {
     height: 280px;
   }
 
-  .uniform-modal-header {
+  .uniform-modal-header,
+  .armamento-modal-header {
     padding: 20px;
 
     h2 {
       font-size: 22px;
     }
 
-    .uniform-modal-subtitle {
+    .uniform-modal-subtitle,
+    .armamento-modal-subtitle {
       font-size: 14px;
     }
   }
@@ -1453,5 +1886,64 @@ h1 {
     width: 35px;
     height: 35px;
     font-size: 20px;
+  }
+
+  .armamento-type-card {
+    padding: 25px 15px;
+
+    h4 {
+      font-size: 1.2rem;
+    }
+
+    .armamento-calibre {
+      padding: 8px 16px;
+      font-size: 0.85rem;
+    }
+  }
+
+  .armamento-image-container {
+    height: 130px;
+    padding: 15px;
+  }
+
+  .armamento-image {
+    max-height: 90px;
+  }
+
+  .armamento-modal-actions {
+    flex-direction: column;
+
+    .btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  .vehicle-quantity-large {
+    min-width: 60px;
+    height: 60px;
+    font-size: 1.6rem;
+  }
+
+  .vehicle-title-info h4 {
+    font-size: 1.4rem;
+  }
+
+  .composite-scene-realistic {
+    height: 250px;
+  }
+
+  .unit-label span {
+    font-size: 0.85rem;
+    padding: 8px 20px;
+  }
+
+  .detail-badge {
+    padding: 12px 16px;
+    font-size: 0.85rem;
+
+    i {
+      font-size: 1rem;
+    }
   }
 }

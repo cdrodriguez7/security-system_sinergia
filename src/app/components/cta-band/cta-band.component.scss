@@ -1,0 +1,500 @@
+/* ================================================
+   CTA BAND COMPONENT — Floating widget
+   ================================================ */
+
+.cta-float {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: linear-gradient(135deg, var(--primary-gold) 25%, var(--primary-gold-dark) 100%);
+  border-radius: 60px;
+  box-shadow: 0 10px 40px rgba(72, 127, 192, 0.5);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 18px;
+  width: 72px;
+  height: 72px;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 15px 50px rgba(72, 127, 192, 0.7);
+
+    .float-pulse {
+      animation: pulse-float-fast 1s infinite;
+    }
+  }
+
+  &.expanded {
+    width: 340px;
+    height: auto;
+    padding: 25px 30px;
+    border-radius: 25px;
+    background: var(--dark-primary);
+
+    .float-content {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: all;
+    }
+  }
+}
+
+/* ── ÍCONO ──
+   Estado normal: visible, escala normal.
+   Estado .hidden (cuando expanded): fade + scale + desplazamiento suave.
+   La transición tiene un duration ligeramente más corto que el contenedor
+   (0.25s vs 0.4s) para que desaparezca antes de que el contenido llegue,
+   evitando solapamiento visual. */
+.float-icon {
+  position: relative;
+  min-width: 38px;
+  min-height: 33px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+
+  // Transición del estado visible → oculto
+  opacity: 1;
+  transform: scale(1) translateX(0);
+  transition:
+    opacity 0.2s ease,
+    transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    max-width 0.3s ease 0.05s;
+  max-width: 60px;
+
+  // Estado oculto: fade out + encoge hacia la izquierda
+  &.hidden {
+    opacity: 0;
+    transform: scale(0.5) translateX(-8px);
+    max-width: 0;
+    min-width: 0;
+    overflow: hidden;
+    // El delay de max-width es 0 para que el espacio se libere
+    // junto con el fade, sin salto
+    transition:
+      opacity 0.18s ease,
+      transform 0.22s cubic-bezier(0.4, 0, 0.6, 1),
+      max-width 0.28s ease,
+      min-width 0.28s ease;
+  }
+}
+
+.float-pulse {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: rgba(100, 166, 228, 0.795);
+  animation: pulse-float-slow 3s infinite;
+  z-index: 1;
+  // El pulso también se desvanece con el ícono
+  transition: opacity 0.18s ease;
+
+  .hidden & {
+    opacity: 0;
+  }
+}
+
+@keyframes pulse-float-slow {
+  0%, 100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.4); opacity: 0; }
+}
+
+@keyframes pulse-float-fast {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.6); opacity: 0; }
+}
+
+/* ── CONTENIDO EXPANDIDO ── */
+.float-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  opacity: 0;
+  transform: translateX(20px);
+  // Ligero delay para que el ícono termine de desaparecer antes
+  // de que el contenido empiece a aparecer
+  transition: opacity 0.28s ease 0.15s, transform 0.28s ease 0.15s;
+  pointer-events: none;
+  white-space: nowrap;
+  min-width: 220px;
+}
+
+.float-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 0.3px;
+}
+
+.float-phone {
+  font-size: 19px;
+  font-weight: 700;
+  color: white;
+  text-decoration: none;
+  padding: 8px 0;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: var(--primary-gold);
+    transform: translateX(3px);
+  }
+}
+
+/* ── BOTÓN EVALUACIÓN ── */
+.btn-float-action {
+  background: white;
+  color: var(--primary-gold-dark);
+  padding: 12px 24px;
+  border: none;
+  border-radius: 25px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+/* ── BOTÓN DISCORD ── */
+.btn-discord-float {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #5865F2;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  letter-spacing: 0.3px;
+
+  svg {
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover {
+    background: #4752c4;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(88, 101, 242, 0.5);
+
+    svg {
+      transform: scale(1.1) rotate(-5deg);
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .cta-float {
+    bottom: 20px;
+    right: 20px;
+    width: 64px;
+    height: 64px;
+    padding: 14px;
+
+    &.expanded {
+      width: calc(100vw - 40px);
+      max-width: 340px;
+      background: var(--dark-primary);
+    }
+  }
+
+  .float-content {
+    min-width: 200px;
+  }
+}
+
+
+/* ================================================
+   DISCORD MODAL
+   ================================================ */
+
+.discord-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 12, 18, 0.75);
+  backdrop-filter: blur(6px);
+  z-index: 99998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: discordOverlayIn 0.25s ease;
+}
+
+@keyframes discordOverlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.discord-modal {
+  background: #1e2124;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 460px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6),
+              0 0 0 1px rgba(255, 255, 255, 0.06);
+  animation: discordModalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
+}
+
+@keyframes discordModalIn {
+  from { opacity: 0; transform: scale(0.88) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.discord-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 26px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  background: linear-gradient(135deg, #23272a 0%, #1e2124 100%);
+}
+
+.discord-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  span {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.3px;
+  }
+}
+
+.discord-close-btn {
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    transform: rotate(90deg);
+  }
+}
+
+.discord-modal-body {
+  padding: 24px 26px 28px;
+}
+
+.discord-server-preview {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 20px;
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.discord-server-icon {
+  width: 62px;
+  height: 62px;
+  border-radius: 16px;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 2px solid rgba(88, 101, 242, 0.4);
+  box-shadow: 0 4px 15px rgba(88, 101, 242, 0.25);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.discord-server-info {
+  flex: 1;
+  min-width: 0;
+
+  h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 6px;
+  }
+}
+
+.discord-online-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 12px;
+
+  .online-dot {
+    width: 9px;
+    height: 9px;
+    background: #3ba55d;
+    border-radius: 50%;
+    flex-shrink: 0;
+    animation: onlinePulse 2s ease-in-out infinite;
+  }
+
+  span {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.55);
+    font-weight: 500;
+  }
+}
+
+@keyframes onlinePulse {
+  0%, 100% { box-shadow: 0 0 0 2px rgba(59, 165, 93, 0.3); }
+  50%       { box-shadow: 0 0 0 5px rgba(59, 165, 93, 0.1); }
+}
+
+.discord-channels {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.discord-channel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.45);
+  transition: color 0.2s ease;
+
+  &:hover { color: rgba(255, 255, 255, 0.7); }
+
+  &.emergency-channel { color: rgba(255, 80, 80, 0.8); }
+
+  .channel-hash {
+    font-size: 14px;
+    font-weight: 700;
+    opacity: 0.7;
+  }
+}
+
+.live-badge {
+  background: #ed4245;
+  color: white;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+  animation: liveBlink 2s ease-in-out infinite;
+}
+
+@keyframes liveBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.7; }
+}
+
+.discord-description {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.7;
+  margin-bottom: 22px;
+}
+
+.discord-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.btn-discord-join {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #5865F2;
+  color: white;
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(88, 101, 242, 0.35);
+
+  &:hover {
+    background: #4752c4;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(88, 101, 242, 0.5);
+  }
+}
+
+.btn-discord-secondary {
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.6);
+  padding: 12px 24px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.85);
+  }
+}
+
+.discord-note {
+  text-align: center;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.35);
+  margin: 0;
+
+  a {
+    color: var(--primary-gold);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+
+    &:hover { color: var(--primary-gold-dark); }
+  }
+}
+
+@media (max-width: 480px) {
+  .discord-modal { border-radius: 16px; }
+  .discord-modal-header { padding: 18px 20px 14px; }
+  .discord-modal-body { padding: 18px 20px 22px; }
+  .discord-server-preview { padding: 14px; }
+  .discord-server-icon { width: 52px; height: 52px; }
+}

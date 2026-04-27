@@ -1,5 +1,8 @@
 <app-navbar></app-navbar>
 
+<!-- ===============================================
+     HERO SECTION
+     =============================================== -->
 <section class="page-hero">
   <div class="container">
     <div class="breadcrumb">
@@ -17,6 +20,9 @@
   </div>
 </section>
 
+<!-- ===============================================
+     SECCIÓN DE SERVICIOS
+     =============================================== -->
 <section class="section services-features-section">
   <div class="container">
     <div class="service-intro">
@@ -79,6 +85,9 @@
   </div>
 </section>
 
+<!-- ===============================================
+     SECCIÓN DE CONFIGURACIÓN DE VEHÍCULOS
+     =============================================== -->
 <section class="section vehicles-section">
   <div class="container">
     <div class="section-header">
@@ -88,15 +97,16 @@
       </p>
     </div>
 
+    <!-- SELECTOR DE VEHÍCULOS -->
     <div class="vehicle-selector">
       <h3>1. Seleccione Vehículos y Cantidades</h3>
       <p class="selector-hint">Puede seleccionar múltiples tipos de vehículos</p>
       
       <div class="vehicle-types-grid">
         <div class="vehicle-type-card" 
-             *ngFor="let vehicle of vehicleTypes"
-             [class.selected]="isVehicleSelected(vehicle.id)"
-             (click)="previewVehicle(vehicle)">
+            *ngFor="let vehicle of vehicleTypes"
+            [class.selected]="isVehicleSelected(vehicle.id)"
+            (click)="previewVehicle(vehicle)">
           <div class="vehicle-icon-container">
             <img [src]="vehicle.images[90]" [alt]="vehicle.name" class="vehicle-image-thumb">
           </div>
@@ -111,113 +121,16 @@
               −
             </button>
             <input type="number" 
-                   class="quantity-input" 
-                   [value]="getVehicleQuantity(vehicle.id)"
-                   (input)="setQuantity(vehicle, $event)"
-                   min="0"
-                   max="99"
-                   (click)="$event.stopPropagation()">
+                  class="quantity-input" 
+                  [value]="getVehicleQuantity(vehicle.id)"
+                  (input)="setQuantity(vehicle, $event)"
+                  min="0"
+                  max="99"
+                  (click)="$event.stopPropagation()">
             <button class="quantity-btn plus" 
                     (click)="increaseQuantity(vehicle)"
                     [disabled]="getVehicleQuantity(vehicle.id) >= 99">
               +
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- MODAL DE SELECCIÓN DE UNIFORMES -->
-    <div class="uniform-modal-overlay" *ngIf="uniformSelectionStep === 'uniform'">
-      <div class="uniform-modal">
-        <div class="uniform-modal-header">
-          <h2>Asignar Uniforme a la Tripulación</h2>
-          <p class="uniform-modal-subtitle" *ngIf="pendingVehicleForUniform">
-            {{ pendingVehicleForUniform.vehicle.name }} {{ pendingVehicleForUniform.uniformAssignments.length + 1 }} 
-            de {{ pendingVehicleForUniform.quantity }}
-          </p>
-          <button class="modal-close-btn" (click)="cancelUniformSelection()">✕</button>
-        </div>
-
-        <div class="uniform-modal-body">
-          <!-- SELECTOR DE UNIFORMES -->
-          <div class="uniform-selector-grid">
-            <div class="uniform-type-card" 
-                *ngFor="let uniform of uniformTypes"
-                [class.selected]="previewedUniform?.id === uniform.id"
-                (click)="previewUniform(uniform)">
-                <!-- <div class="uniform-icon-large">{{ getUniformIcon(uniform.id) }}</div> -->
-                <h4>{{ uniform.name }}</h4>
-                <p class="uniform-category">{{ uniform.category }}</p>
-            </div>
-            </div>
-
-          <!-- VISTA PREVIA DEL UNIFORME -->
-          <div class="uniform-preview" *ngIf="previewedUniform">
-            <div class="uniform-display-grid">
-              <div class="uniform-360">
-                <div class="rotation-controls">
-                  <button class="rotation-btn" (click)="rotateUniform('left')">←</button>
-                  <span class="rotation-indicator"></span>
-                  <button class="rotation-btn" (click)="rotateUniform('right')">→</button>
-                </div>
-                
-                <div class="uniform-view-large">
-                  <img [src]="getRotatedUniformImage()" 
-                       [alt]="previewedUniform.name" 
-                       class="uniform-image-xlarge">
-                </div>
-                
-                <p class="rotation-hint">← Usa las flechas para rotar la vista →</p>
-              </div>
-
-              <div class="uniform-info">
-                <h3>{{ previewedUniform.name }}</h3>
-                <p class="uniform-description">{{ previewedUniform.description }}</p>
-                
-                <div class="uniform-features">
-                  <h4>Características:</h4>
-                  <ul>
-                    <li *ngFor="let feature of previewedUniform.features">
-                      <span class="check-icon">✓</span>
-                      {{ feature }}
-                    </li>
-                  </ul>
-                </div>
-
-                <div class="uniform-situations">
-                  <h4>Recomendado para:</h4>
-                  <div class="situation-tags">
-                    <span class="situation-tag" *ngFor="let situation of previewedUniform.situations">
-                      {{ situation }}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- OPCIÓN: MISMO UNIFORME PARA TODOS -->
-          <div class="uniform-assignment-option" *ngIf="pendingVehicleForUniform && pendingVehicleForUniform.quantity > 0">
-            <label class="checkbox-label">
-              <input type="checkbox" 
-                     [(ngModel)]="assignSameUniformToAll">
-              <span>
-                Asignar este uniforme automáticamente a todos los próximos vehículos {{ pendingVehicleForUniform.vehicle.name }} 
-              que agregues.
-              </span>
-            </label>
-          </div>
-
-          <!-- BOTONES DE ACCIÓN -->
-          <div class="uniform-modal-actions">
-            <button class="btn btn-secondary" (click)="cancelUniformSelection()">
-              Cancelar
-            </button>
-            <button class="btn btn-primary" 
-                    (click)="confirmUniformSelection(previewedUniform!)"
-                    [disabled]="!previewedUniform">
-              Confirmar Uniforme
             </button>
           </div>
         </div>
@@ -229,19 +142,15 @@
       <div class="vehicle-display">
         <div class="vehicle-360">
           <div class="rotation-controls">
-            <button class="rotation-btn" (click)="rotateVehicle('left')">
-              ←
-            </button>
+            <button class="rotation-btn" (click)="rotateVehicle('left')">←</button>
             <span class="rotation-indicator"></span>
-            <button class="rotation-btn" (click)="rotateVehicle('right')">
-              →
-            </button>
+            <button class="rotation-btn" (click)="rotateVehicle('right')">→</button>
           </div>
           
           <div class="vehicle-view-large">
             <img [src]="getRotatedImage()" 
-                 [alt]="previewedVehicle.name" 
-                 class="vehicle-image-xlarge">
+                [alt]="previewedVehicle.name" 
+                class="vehicle-image-xlarge">
           </div>
           
           <p class="rotation-hint">← Usa las flechas para rotar la vista →</p>
@@ -271,15 +180,188 @@
         </div>
       </div>
     </div>
+  </div>
+</section>
 
-    <!-- EQUIPAMIENTO -->
-    <div class="equipment-selector" *ngIf="selectedVehicles.length > 0">
-      <h3>2. Seleccione Equipamiento Adicional</h3>
+<!-- ===============================================
+     MODAL DE SELECCIÓN DE UNIFORMES
+     =============================================== -->
+<div class="uniform-modal-overlay" *ngIf="uniformSelectionStep === 'uniform'">
+  <div class="uniform-modal">
+    <div class="uniform-modal-header">
+      <h2>Asignar Uniforme a la Tripulación</h2>
+      <p class="uniform-modal-subtitle" *ngIf="pendingVehicleForUniform">
+        {{ pendingVehicleForUniform.vehicle.name }} - Unidad {{ pendingVehicleForUniform.uniformAssignments.length + 1 }} 
+        de {{ pendingVehicleForUniform.quantity }}
+      </p>
+      <button class="modal-close-btn" (click)="cancelUniformSelection()">✕</button>
+    </div>
+
+    <div class="uniform-modal-body">
+      <!-- SELECTOR DE UNIFORMES -->
+      <div class="uniform-selector-grid">
+        <div class="uniform-type-card" 
+            *ngFor="let uniform of uniformTypes"
+            [class.selected]="previewedUniform?.id === uniform.id"
+            (click)="previewUniform(uniform)">
+            <h4>{{ uniform.name }}</h4>
+            <p class="uniform-category">{{ uniform.category }}</p>
+        </div>
+      </div>
+
+      <!-- VISTA PREVIA DEL UNIFORME -->
+      <div class="uniform-preview" *ngIf="previewedUniform">
+        <div class="uniform-display-grid">
+          <div class="uniform-360">
+            <div class="rotation-controls">
+              <button class="rotation-btn" (click)="rotateUniform('left')">←</button>
+              <span class="rotation-indicator"></span>
+              <button class="rotation-btn" (click)="rotateUniform('right')">→</button>
+            </div>
+            
+            <div class="uniform-view-large">
+              <img [src]="getRotatedUniformImage()" 
+                  [alt]="previewedUniform.name" 
+                  class="uniform-image-xlarge">
+            </div>
+            
+            <p class="rotation-hint">← Usa las flechas para rotar la vista →</p>
+          </div>
+
+          <div class="uniform-info">
+            <h3>{{ previewedUniform.name }}</h3>
+            <p class="uniform-description">{{ previewedUniform.description }}</p>
+            
+            <div class="uniform-features">
+              <h4>Características:</h4>
+              <ul>
+                <li *ngFor="let feature of previewedUniform.features">
+                  <span class="check-icon">✓</span>
+                  {{ feature }}
+                </li>
+              </ul>
+            </div>
+
+            <div class="uniform-situations">
+              <h4>Recomendado para:</h4>
+              <div class="situation-tags">
+                <span class="situation-tag" *ngFor="let situation of previewedUniform.situations">
+                  {{ situation }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OPCIÓN: MISMO UNIFORME PARA TODOS -->
+      <div class="uniform-assignment-option" *ngIf="pendingVehicleForUniform">
+        <label class="checkbox-label">
+          <input type="checkbox" 
+                [(ngModel)]="assignSameUniformToAll">
+          <span>
+            Asignar este uniforme automáticamente a todos los próximos vehículos {{ pendingVehicleForUniform.vehicle.name }} 
+            que agregues.
+          </span>
+        </label>
+      </div>
+
+      <!-- BOTONES DE ACCIÓN -->
+      <div class="uniform-modal-actions">
+        <button class="btn btn-secondary" (click)="cancelUniformSelection()">
+          Cancelar
+        </button>
+        <button class="btn btn-primary" 
+                (click)="confirmUniformSelection(previewedUniform!)"
+                [disabled]="!previewedUniform">
+          Confirmar Uniforme
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===============================================
+     MODAL DE SELECCIÓN DE ARMAMENTO
+     =============================================== -->
+<div class="armamento-modal-overlay" *ngIf="uniformSelectionStep === 'armamento'">
+  <div class="armamento-modal">
+    <div class="armamento-modal-header">
+      <h2>Asignar Armamento a la Tripulación</h2>
+      <p class="armamento-modal-subtitle" *ngIf="pendingVehicleForArmamento">
+        {{ pendingVehicleForArmamento.vehicle.name }} - Unidad {{ pendingVehicleForArmamento.armamentoAssignments.length + 1 }} 
+        de {{ pendingVehicleForArmamento.quantity }}
+      </p>
+      <button class="modal-close-btn" (click)="cancelArmamentoSelection()">✕</button>
+    </div>
+
+    <div class="armamento-modal-body">
+      <!-- SELECTOR DE ARMAMENTO CON IMÁGENES -->
+      <div class="armamento-selector-grid">
+        <div class="armamento-type-card" 
+            *ngFor="let arma of armamentoTypes"
+            [class.selected]="previewedArmamento?.id === arma.id"
+            (click)="previewArmamento(arma)">
+            
+            <!-- IMAGEN DEL ARMA -->
+            <div class="armamento-image-container">
+              <img [src]="arma.imagen" 
+                   [alt]="arma.tipo" 
+                   class="armamento-image">
+            </div>
+            
+            <h4>{{ arma.tipo }}</h4>
+            <p class="armamento-description">{{ arma.descripcion }}</p>
+            <div class="armamento-calibre">
+              <i class="fas fa-bullseye"></i>
+              {{ arma.calibre }}
+            </div>
+        </div>
+      </div>
+
+      <!-- OPCIÓN: MISMO ARMAMENTO PARA TODOS -->
+      <div class="armamento-assignment-option" *ngIf="pendingVehicleForArmamento">
+        <label class="checkbox-label">
+          <input type="checkbox" 
+                [(ngModel)]="assignSameArmamentoToAll">
+          <span>
+            Asignar este armamento automáticamente a todos los próximos vehículos {{ pendingVehicleForArmamento.vehicle.name }} 
+            que agregues.
+          </span>
+        </label>
+      </div>
+
+      <!-- BOTONES DE ACCIÓN -->
+      <div class="armamento-modal-actions">
+        <button class="btn btn-secondary" (click)="cancelArmamentoSelection()">
+          Omitir Armamento
+        </button>
+        <button class="btn btn-primary" 
+                (click)="confirmArmamentoSelection(previewedArmamento!)"
+                [disabled]="!previewedArmamento">
+          Confirmar Armamento
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===============================================
+     SECCIÓN DE EQUIPAMIENTO
+     =============================================== -->
+<section class="section vehicles-section" *ngIf="selectedVehicles.length > 0">
+  <div class="container">
+    <div class="section-header">
+      <h2>2. Seleccione Equipamiento Adicional</h2>
+    </div>
+
+    <div class="equipment-selector">
+      <h3>Equipamiento Especializado</h3>
       <div class="equipment-grid">
         <div class="equipment-card" 
-             *ngFor="let item of equipment"
-             [class.selected]="isEquipmentSelected(item.id)"
-             (click)="toggleEquipment(item)">
+            *ngFor="let item of equipment"
+            [class.selected]="isEquipmentSelected(item.id)"
+            (click)="toggleEquipment(item)">
           <div class="equipment-checkbox">
             <span *ngIf="isEquipmentSelected(item.id)">✓</span>
           </div>
@@ -290,57 +372,86 @@
         </div>
       </div>
     </div>
+  </div>
+</section>
 
-<!-- RESUMEN DE COTIZACIÓN -->
-    <div class="quote-summary" *ngIf="selectedVehicles.length > 0">
+<!-- ===============================================
+     RESUMEN DE COTIZACIÓN CON VISUALIZACIÓN COMPUESTA
+     =============================================== -->
+<section class="section vehicles-section" *ngIf="selectedVehicles.length > 0">
+  <div class="container">
+    <div class="quote-summary">
       <div class="summary-content">
         <h3>Resumen de Configuración</h3>
         
-        <div class="summary-items">
-          <div class="summary-item">
-            <span class="summary-label">Vehículos y Uniformes:</span>
-            <div class="selected-vehicles-list">
-              <div class="vehicle-summary-item" *ngFor="let sv of selectedVehicles">
-                <div class="vehicle-summary-header">
-                  <span class="vehicle-quantity-badge">{{ sv.quantity }}x</span>
-                  <span class="vehicle-name">{{ sv.vehicle.name }}</span>
-                  <span class="vehicle-type">({{ sv.vehicle.type }})</span>
-                </div>
+        <!-- VISUALIZACIÓN COMPUESTA DE VEHÍCULOS -->
+        <div class="visual-summary-compact">
+          <div class="visual-vehicle-section" *ngFor="let sv of selectedVehicles">
+            
+            <!-- HEADER DEL TIPO DE VEHÍCULO -->
+            <div class="vehicle-section-header">
+              <div class="vehicle-quantity-large">{{ sv.quantity }}x</div>
+              <div class="vehicle-title-info">
+                <h4>{{ sv.vehicle.name }}</h4>
+                <span class="vehicle-category">{{ sv.vehicle.type }}</span>
+              </div>
+            </div>
+
+            <!-- GRID DE UNIDADES COMPUESTAS -->
+            <div class="composite-units-grid">
+              <div class="composite-unit-card" 
+                   *ngFor="let assignment of sv.uniformAssignments; let i = index">
                 
-                <!-- LISTA DE UNIFORMES ASIGNADOS -->
-                <div class="uniform-assignments-list" *ngIf="sv.uniformAssignments.length > 0">
-                  <div class="uniform-assignment-item" 
-                       *ngFor="let assignment of sv.uniformAssignments; let i = index">
-                    <span class="uniform-badge">
-                      {{ getUniformIcon(assignment.uniformId) }}
-                    </span>
-                    <span class="assignment-text">
-                      Unidad #{{ assignment.vehicleIndex }}: {{ getUniformNameById(assignment.uniformId) }}
-                    </span>
+                <!-- NÚMERO DE UNIDAD -->
+                <div class="unit-label">
+                  <span>Unidad #{{ assignment.vehicleIndex }}</span>
+                </div>
+
+                <!-- IMAGEN COMPUESTA ÚNICA -->
+                <div class="composite-scene-realistic">
+                  <img [src]="getCompositeImage(sv.vehicle.id, assignment.uniformId, sv.armamentoAssignments[i]?.armamentoId)" 
+                       [alt]="'Configuración ' + sv.vehicle.name"
+                       class="composite-full-image">
+                </div>
+
+                <!-- DETALLES EN BADGES -->
+                <div class="unit-details-compact">
+                  <div class="detail-badge uniform-badge-compact">
+                    <i class="fas fa-user-tie"></i>
+                    <span>{{ getUniformNameById(assignment.uniformId) }}</span>
+                  </div>
+                  <div class="detail-badge weapon-badge-compact" *ngIf="sv.armamentoAssignments[i]">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>{{ getArmamentoNameById(sv.armamentoAssignments[i].armamentoId) }}</span>
+                  </div>
+                  <div class="detail-badge vehicle-badge-compact">
+                    <i class="fas fa-car"></i>
+                    <span>{{ sv.vehicle.type }}</span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          
+        </div>
+
+        <!-- RESUMEN TEXTUAL COMPACTO -->
+        <div class="summary-items">
           <div class="summary-item">
             <span class="summary-label">Total de Vehículos:</span>
             <span class="summary-value total-vehicles">{{ getTotalVehicles() }} unidades</span>
           </div>
           
           <div class="summary-item" *ngIf="selectedEquipment.length > 0">
-            <span class="summary-label">Equipamiento Seleccionado:</span>
+            <span class="summary-label">Equipamiento Adicional:</span>
             <div class="selected-equipment-list">
               <span *ngFor="let eq of selectedEquipment" class="equipment-tag">
-                {{ eq.name }}
+                {{ eq.icon }} {{ eq.name }}
               </span>
             </div>
           </div>
         </div>
 
-        <!-- ============================================ -->
-        <!-- FORMULARIO DE CONTACTO (NUEVO) -->
-        <!-- ============================================ -->
+        <!-- FORMULARIO DE CONTACTO -->
         <div class="cotizacion-form-section">
           <h4 class="form-title">Complete sus datos para recibir la cotización</h4>
           
@@ -444,4 +555,7 @@
         </p>
       </div>
     </div>
+  </div>
+</section>
 
+<app-footer></app-footer>

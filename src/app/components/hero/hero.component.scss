@@ -329,11 +329,11 @@
 
 @media (max-width: 768px) {
   .hero-section {
-    padding-top: 70px;
+    padding-top: 80px; /* coincide con navbar height (logo 40px + padding 20px×2) */
   }
 
   .hero-slider {
-    height: calc(100vh - 70px);
+    height: calc(100svh - 80px);
   }
 
   .main-content {
@@ -391,6 +391,93 @@
 
     &.active {
       width: 50px;
+    }
+  }
+}
+
+@media (max-width: 430px) {
+  .hero-section {
+    padding-top: 64px; /* coincide con navbar reducido (36px + 14px×2) */
+  }
+
+  .hero-slider {
+    min-height: calc(100svh - 64px);
+    height: auto;
+  }
+
+  .hero-content {
+    padding: 20px 0;
+    align-items: flex-start;
+  }
+
+  .badge-group {
+    margin-bottom: 16px;
+    gap: 8px;
+
+    .badge {
+      font-size: 11px;
+      padding: 6px 12px;
+    }
+  }
+
+  .hero-title {
+    font-size: clamp(1.8rem, 7vw, 2.4rem);
+    margin-bottom: 14px;
+
+    .text-gold {
+      font-size: clamp(1rem, 4.5vw, 1.5rem);
+      margin-bottom: 6px;
+    }
+  }
+
+  .hero-description {
+    font-size: 0.92rem;
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+
+  .hero-actions {
+    margin-bottom: 20px;
+    gap: 10px;
+  }
+
+  .hero-stats {
+    gap: 10px;
+    padding-top: 16px;
+  }
+
+  .stat-item {
+    padding: 10px 8px;
+    gap: 8px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    .stat-icon {
+      font-size: 22px;
+    }
+
+    .stat-content {
+      .stat-number {
+        font-size: 20px;
+      }
+
+      .stat-label {
+        font-size: 9px;
+      }
+    }
+  }
+
+  .slider-indicators {
+    bottom: 12px;
+  }
+
+  .indicator {
+    width: 24px;
+    height: 3px;
+
+    &.active {
+      width: 40px;
     }
   }
 }

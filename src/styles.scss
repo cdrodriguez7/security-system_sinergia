@@ -406,6 +406,35 @@ a {
   }
 }
 
+/* RESPONSIVE 430px — iPhone 16 Pro y similares */
+@media (max-width: 430px) {
+  :root {
+    --section-padding: 50px 0;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  .section-title {
+    margin-bottom: 40px;
+
+    h2 {
+      font-size: 1.6rem;
+    }
+  }
+
+  .btn {
+    padding: 12px 24px;
+    font-size: 14px;
+  }
+
+  .btn-lg {
+    padding: 14px 28px;
+    font-size: 15px;
+  }
+}
+
 /* SCROLLBAR PERSONALIZADA */
 ::-webkit-scrollbar {
   width: 10px;
