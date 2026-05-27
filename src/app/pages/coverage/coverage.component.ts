@@ -586,6 +586,12 @@ interface RegionalOffice {
       .coverage-main-grid {
         grid-template-columns: 1fr;
       }
+
+      .coverage-stats-panel {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
     }
 
     @media (max-width: 768px) {
@@ -593,8 +599,18 @@ interface RegionalOffice {
         padding: 120px 0 60px;
       }
 
+      .coverage-map-large {
+        padding: 20px;
+      }
+
       .provinces-grid,
       .offices-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .coverage-stats-panel {
         grid-template-columns: 1fr;
       }
     }

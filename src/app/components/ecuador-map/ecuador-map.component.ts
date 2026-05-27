@@ -26,7 +26,13 @@ interface MapMarkerData {
            (leafletMapReady)="onMapReady($event)"
            [style.height]="mapHeight">
       </div>
-      <div class="map-legend" *ngIf="!compact">
+      
+      <!-- Botón flotante para leyenda en móvil -->
+      <button class="legend-mobile-toggle" *ngIf="!compact" (click)="toggleMobileLegend()">
+        <span>{{ showMobileLegend ? '✕ Cerrar Leyenda' : '📊 Ver Leyenda' }}</span>
+      </button>
+
+      <div class="map-legend" [class.active]="showMobileLegend" *ngIf="!compact">
         <h4>Leyenda</h4>
         <div class="legend-item" *ngFor="let marker of markers">
           <span class="legend-dot" [style.background]="marker.color"></span>
@@ -227,11 +233,79 @@ interface MapMarkerData {
         opacity: 0;
       }
     }
+
+    .legend-mobile-toggle {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .map-wrapper, .map-container-leaflet {
+        height: 380px !important;
+      }
+
+      .map-legend {
+        display: none;
+        position: absolute !important;
+        bottom: 75px !important;
+        left: 20px !important;
+        right: 20px !important;
+        min-width: 0 !important;
+        box-sizing: border-box;
+        z-index: 1010;
+        
+        &.active {
+          display: block;
+          animation: slideUp 0.25s ease-out;
+        }
+      }
+      
+      @keyframes slideUp {
+        from { transform: translateY(15px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+      
+      .legend-mobile-toggle {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        border-radius: 20px;
+        padding: 8px 16px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #0f172a;
+        cursor: pointer;
+        z-index: 1005;
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
+        transition: all 0.2s ease;
+        
+        &:hover {
+          background: #ffffff;
+          transform: scale(1.02);
+        }
+        
+        &:active {
+          transform: scale(0.98);
+        }
+      }
+    }
   `]
 })
 export class EcuadorMapComponent implements OnInit, AfterViewInit {
   @Input() mapHeight: string = '500px';
   @Input() compact: boolean = false;
+
+  showMobileLegend: boolean = false;
+
+  toggleMobileLegend(): void {
+    this.showMobileLegend = !this.showMobileLegend;
+  }
 
   private map!: L.Map;
 
