@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
+import { EcuadorMapComponent } from '../../components/ecuador-map/ecuador-map.component';
 
 interface Province {
   name: string;
@@ -24,7 +25,7 @@ interface RegionalOffice {
 @Component({
   selector: 'app-coverage',
   standalone: true,
-  imports: [CommonModule, NavbarComponent],
+  imports: [CommonModule, NavbarComponent, EcuadorMapComponent],
   template: `
     <app-navbar></app-navbar>
     
@@ -48,52 +49,7 @@ interface RegionalOffice {
         <div class="coverage-main-grid">
           <div class="coverage-map-large">
             <h2>Distribución de Operaciones 2024</h2>
-            <div class="map-container-large">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Ecuador_location_map.svg/600px-Ecuador_location_map.svg.png" 
-                   alt="Mapa Ecuador"
-                   class="ecuador-map-large">
-              <div class="map-markers">
-                <!-- GUAYAQUIL -->
-                <div class="marker marker-primary" style="top: 58%; left: 22%;">
-                  <div class="marker-pulse"></div>
-                  <span class="marker-label">Guayaquil</span>
-                  <div class="marker-info">
-                    <p><strong>4,500</strong> operaciones</p>
-                    <p><strong>35%</strong> del total</p>
-                  </div>
-                </div>
-
-                <!-- ZAMORA -->
-                <div class="marker marker-secondary" style="top: 88%; left: 40%;">
-                  <div class="marker-pulse"></div>
-                  <span class="marker-label">Zamora</span>
-                  <div class="marker-info">
-                    <p><strong>3,200</strong> operaciones</p>
-                    <p><strong>25%</strong> del total</p>
-                  </div>
-                </div>
-
-                <!-- QUITO -->
-                <div class="marker marker-tertiary" style="top: 26%; left: 46%;">
-                  <div class="marker-pulse"></div>
-                  <span class="marker-label">Quito</span>
-                  <div class="marker-info">
-                    <p><strong>2,800</strong> operaciones</p>
-                    <p><strong>22%</strong> del total</p>
-                  </div>
-                </div>
-
-                <!-- CUENCA -->
-                <div class="marker marker-quaternary" style="top: 67%; left: 37%;">
-                  <div class="marker-pulse"></div>
-                  <span class="marker-label">Cuenca</span>
-                  <div class="marker-info">
-                    <p><strong>1,200</strong> operaciones</p>
-                    <p><strong>9%</strong> del total</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <app-ecuador-map [mapHeight]="'550px'" [compact]="false"></app-ecuador-map>
           </div>
 
           <div class="coverage-stats-panel">

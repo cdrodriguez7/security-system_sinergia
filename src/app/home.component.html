@@ -130,60 +130,7 @@
     
     <div class="coverage-grid">
       <div class="coverage-map">
-        <div class="map-container">
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Ecuador_location_map.svg/600px-Ecuador_location_map.svg.png" 
-               alt="Mapa Ecuador"
-               class="ecuador-map">
-          <div class="map-markers">
-  <!-- QUITO - Capital, Sierra Norte -->
-  <div class="marker marker-tertiary" 
-       style="top: 26%; left: 46%;">
-    <div class="marker-pulse"></div>
-    <span class="marker-label">Quito</span>
-    <div class="marker-info">
-      <p><strong>2,800</strong> operaciones</p>
-      <p><strong>22%</strong> del total</p>
-      <p>Respuesta: <strong>&lt;1 hora</strong></p>
-    </div>
-  </div>
-
-  <!-- GUAYAQUIL - Costa, Guayas -->
-  <div class="marker marker-primary" 
-       style="top: 58%; left: 22%;">
-    <div class="marker-pulse"></div>
-    <span class="marker-label">Guayaquil</span>
-    <div class="marker-info">
-      <p><strong>4,500</strong> operaciones</p>
-      <p><strong>35%</strong> del total</p>
-      <p>Respuesta: <strong>&lt;1 hora</strong></p>
-    </div>
-  </div>
-
-  <!-- CUENCA - Sierra Sur, Azuay -->
-  <div class="marker marker-quaternary" 
-       style="top: 67%; left: 37%;">
-    <div class="marker-pulse"></div>
-    <span class="marker-label">Cuenca</span>
-    <div class="marker-info">
-      <p><strong>1,200</strong> operaciones</p>
-      <p><strong>9%</strong> del total</p>
-      <p>Respuesta: <strong>&lt;2 horas</strong></p>
-    </div>
-  </div>
-
-  <!-- ZAMORA - Oriente Sur, Zamora Chinchipe -->
-  <div class="marker marker-secondary" 
-       style="top: 88%; left: 40%;">
-    <div class="marker-pulse"></div>
-    <span class="marker-label">Zamora</span>
-    <div class="marker-info">
-      <p><strong>3,200</strong> operaciones</p>
-      <p><strong>25%</strong> del total</p>
-      <p>Respuesta: <strong>&lt;4 horas</strong></p>
-    </div>
-  </div>
-</div>
-        </div>
+        <app-ecuador-map [mapHeight]="'450px'" [compact]="true"></app-ecuador-map>
       </div>
       
       <div class="coverage-data">

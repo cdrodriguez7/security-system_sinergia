@@ -6,6 +6,7 @@
   import { FooterComponent } from './components/footer/footer'; 
   import { HeroComponent } from './components/hero/hero.component';
   import { ServiceCardComponent } from './components/service-card/service-card.component';
+  import { EcuadorMapComponent } from './components/ecuador-map/ecuador-map.component';
 
   @Component({
     selector: 'app-home',
@@ -16,7 +17,8 @@
       CtaBandComponent,
       FooterComponent,
       HeroComponent,
-      ServiceCardComponent
+      ServiceCardComponent,
+      EcuadorMapComponent
     ],
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']
