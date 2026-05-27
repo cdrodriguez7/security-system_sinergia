@@ -1,0 +1,34 @@
+# Gitignore for the GIAAT root workspace
+
+# Ignore Angular subproject node modules and build artifacts
+node_modules/
+dist/
+.angular/
+.vercel/
+tmp/
+out-tsc/
+
+# Ignore large media/portfolio assets if they are raw or processed locally
+# (Uncomment the line below if you don't want to track the ARCHIVOS folder in Git)
+# ARCHIVOS/
+
+# Ignore large PDF files (like compressed portfolios)
+*.pdf
+
+# IDEs and Editors
+/.idea/
+/.vscode/
+/*.sublime-project
+/*.sublime-workspace
+.history/
+
+# Local environment variables
+.env
+.env.local
+.env.*.local
+
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
+node_modules
